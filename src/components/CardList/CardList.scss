@@ -22,6 +22,8 @@ $add-card-btn-border-radius: 3px;
 $add-card-btn-space: 12px;
 $plus-icon-gap: 8px;
 
+$scrollbar-thumb-bg-color: #c1c6c9;
+
 .card-list {
   position: relative;
   width: $list-width;
@@ -51,6 +53,22 @@ $plus-icon-gap: 8px;
   .list-cards {
     overflow-y: auto;
     max-height: calc(100% - #{$list-header-height} - #{$list-footer-height});
+
+    &::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $scrollbar-thumb-bg-color;
+      border-right: 2px solid $list-bg-color;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-track{
+      background: rgba(9,30,66,.08);
+      border-right: 2px solid $list-bg-color;
+      border-radius: 5px;
+    }
 
     .list-card {
       margin-bottom: $list-card-gap;
