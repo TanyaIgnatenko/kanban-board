@@ -1,24 +1,12 @@
 import React from 'react';
-
-import Container from "./components/Container/Container";
-import ItemList from "./components/ItemList/ItemList";
-import Item from "./components/Item/Item";
+import BoardContainer from './components/Board/Board';
+import DragDropManager from './drag-drop/DragDropManager';
 
 function App() {
   return (
-    <>
-      <Container>
-        <ItemList>
-          <Item/>
-          <Item/>
-        </ItemList>
-        <ItemList>
-          <Item/>
-          <Item/>
-          <Item/>
-        </ItemList>
-      </Container>
-    </>
+    <DragDropManager>
+      <BoardContainer id={0} />
+    </DragDropManager>
   );
 }
 

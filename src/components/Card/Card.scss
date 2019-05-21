@@ -1,0 +1,40 @@
+$card-width: 248px;
+
+$card-top-space: 8px;
+$card-right-space: 8px;
+$card-bottom-space: 8px;
+$card-left-space: 12px;
+
+$card-color: black;
+$card-bg-color: white;
+$card-hover-bg-color: #F4F5F7;
+$card-font-size: 1.3rem;
+$card-border-radius: 3px;
+
+.card {
+  width: $card-width;
+  padding: $card-top-space $card-right-space $card-bottom-space $card-left-space;
+
+  background-color: $card-bg-color;
+  border-radius: $card-border-radius;
+  box-shadow: 0 1px 4px rgba(9, 45, 66, 0.25);
+
+  &:hover {
+    background: $card-hover-bg-color;
+    cursor: pointer;
+  }
+
+  &.dragged {
+    z-index: 1;
+
+    cursor: pointer;
+  }
+
+  .card-content {
+    color: $card-color;
+    font-family: Montserrat, 'sans-serif';
+    font-size: $card-font-size;
+    font-weight: normal;
+    line-height: 1.9rem;
+  }
+}

@@ -1,0 +1,99 @@
+$list-width: 272px;
+$list-bg-color: rgb(223, 227, 230);
+$list-border-radius: 3px;
+$list-space: 12px;
+
+$list-header-height: 19px;
+$list-header-top-space: 8px;
+$list-header-bottom-space: 12px;
+$list-header-color: black;
+$list-header-font-size: 1.3rem;
+
+$list-card-gap: 8px;
+
+$list-footer-height: 43px;
+$add-card-btn-color: rgb(107, 119, 140);
+$add-card-btn-bg-color: rgb(223, 227, 230);
+$add-card-btn-hover-bg-color: rgba(9, 30, 66, .13);
+$add-card-btn-active-bg-color: rgba(9,30,66,.25);
+$add-card-btn-hover-color: rgb(23, 43, 77);
+$add-card-btn-font-size: 1.3rem;
+$add-card-btn-border-radius: 3px;
+$add-card-btn-space: 12px;
+$plus-icon-gap: 8px;
+
+.card-list {
+  position: relative;
+  width: $list-width;
+
+  > * {
+    padding: 0 $list-space;
+
+    background-color: $list-bg-color;
+  }
+
+  header {
+    border-top-left-radius: $list-border-radius;
+    border-top-right-radius: $list-border-radius;
+
+    .list-title {
+      padding-top: $list-header-top-space;
+      padding-bottom: $list-header-bottom-space;
+
+      color: $list-header-color;
+      font-family: Montserrat, 'sans-serif';
+      font-size: $list-header-font-size;
+      font-weight: bold;
+      line-height: $list-header-height;
+    }
+  }
+
+  .list-cards {
+    overflow-y: auto;
+    max-height: calc(100% - #{$list-header-height} - #{$list-footer-height});
+
+    .list-card {
+      margin-bottom: $list-card-gap;
+    }
+  }
+
+  footer {
+    padding: 0;
+
+    border-bottom-left-radius: $list-border-radius;
+    border-bottom-right-radius: $list-border-radius;
+
+    .add-card-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: $list-footer-height;
+      padding: $add-card-btn-space;
+
+      cursor: pointer;
+      text-align: start;
+      color: $add-card-btn-color;
+      background: $add-card-btn-bg-color;
+      font-size: $add-card-btn-font-size;
+      border-radius: $add-card-btn-border-radius;
+      border: none;
+
+      &:before {
+        margin-right: $plus-icon-gap;
+
+        content: url('../../assets/images/plus-icon.svg');
+      }
+
+      &:hover {
+        color: $add-card-btn-color;
+        background-color: $add-card-btn-hover-bg-color;
+        text-decoration: underline;
+      }
+
+      &:active {
+        background-color: $add-card-btn-active-bg-color;
+        outline: none;
+      }
+    }
+  }
+}

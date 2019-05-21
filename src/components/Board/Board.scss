@@ -1,0 +1,31 @@
+$board-top-space: 21px;
+$board-right-space: 8px;
+$board-bottom-space: 20px;
+$board-left-space: 8px;
+
+$list-gap: 6px;
+
+$scrollbar-thickness: 10px;
+
+.board {
+  display: flex;
+  overflow-x: auto;
+  width: 100vw;
+  height: 100vh;
+  padding: $board-top-space $board-right-space $board-bottom-space $board-left-space;
+
+  user-select: none;
+
+  .board-list {
+    height: calc(100% - #{$board-bottom-space} - #{$scrollbar-thickness});
+    margin: 0 $list-gap;
+
+    &:first-child {
+      margin-left: 2 * $list-gap;
+    }
+
+    &:last-child {
+      margin-right: 2 * $list-gap;
+    }
+  }
+}
