@@ -3,7 +3,7 @@ $board-right-space: 8px;
 $board-bottom-space: 20px;
 $board-left-space: 8px;
 
-$list-gap: 6px;
+$list-gap: 12px;
 
 $scrollbar-thickness: 10px;
 
@@ -17,15 +17,13 @@ $scrollbar-thickness: 10px;
   user-select: none;
 
   .board-list {
+    flex: 0 0 auto;
     height: calc(100% - #{$board-bottom-space} - #{$scrollbar-thickness});
-    margin: 0 $list-gap;
+    margin-left: $list-gap;
+  }
 
-    &:first-child {
-      margin-left: 2 * $list-gap;
-    }
-
-    &:last-child {
-      margin-right: 2 * $list-gap;
-    }
+  &::after {
+    content: '';
+    flex: 0 0 $list-gap;
   }
 }
