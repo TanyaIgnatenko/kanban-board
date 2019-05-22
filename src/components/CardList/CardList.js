@@ -18,7 +18,7 @@ function CardList({ id, name, cards, className }) {
   const [cardToIgnoreContext] = useDroppable({
     context: {
       id,
-      index: 1,
+      index: placeholderPosition,
     },
     node: list,
     acceptTypes: DRAGGABLE_TYPE.CARD,

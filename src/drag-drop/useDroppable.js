@@ -1,16 +1,18 @@
-import {useEffect, useContext, useCallback} from 'react';
+import { useEffect, useContext, useCallback } from 'react';
 
 import DragDropContext from './internal/DragDropContext';
 
 function useDroppable({
-                        context,
-                        node,
-                        acceptTypes,
-                        onDraggableEnter,
-                        onDraggableHover,
-                        onDraggableLeave,
-                      }) {
-  const {draggedObject, onDraggableEnterDroppable} = useContext(DragDropContext);
+  context,
+  node,
+  acceptTypes,
+  onDraggableEnter,
+  onDraggableHover,
+  onDraggableLeave,
+}) {
+  const { draggedObject, onDraggableEnterDroppable } = useContext(
+    DragDropContext,
+  );
 
   const onMouseOver = useCallback(() => {
     onDraggableHover(draggedObject);
@@ -22,11 +24,12 @@ function useDroppable({
       onDraggableEnter(draggedObject);
     }
   }, [
-    draggedObject,
     acceptTypes,
+    draggedObject,
     onDraggableEnterDroppable,
+    context,
+    onDraggableLeave,
     onDraggableEnter,
-    onDraggableLeave
   ]);
 
   useEffect(() => {
@@ -39,9 +42,9 @@ function useDroppable({
       node.current.removeEventListener('mouseenter', onMouseEnter);
       node.current.removeEventListener('mouseover', onMouseOver);
     };
-  }, [draggedObject, onMouseOver, onMouseEnter]);
+  }, [draggedObject, onMouseOver, onMouseEnter, node]);
 
   return [draggedObject ? draggedObject.context : null];
 }
 
-export {useDroppable};
+export { useDroppable };
