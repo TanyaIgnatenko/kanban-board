@@ -2,10 +2,7 @@ import React from 'react';
 import DragDropContext from './internal/DragDropContext';
 
 class DragDropManager extends React.Component {
-  grabDraggable = (
-    grabPosition,
-    { context, type, onRelease, node, renderElement },
-  ) => {
+  grabDraggable = (grabPosition, context, type, node, renderElement, onRelease) => {
     if (this.draggedObject !== null) {
       console.error('Grabbing object while object already grabbed');
       return;
@@ -48,15 +45,15 @@ class DragDropManager extends React.Component {
   };
 
   moveDraggable = event => {
-    const { clientX, clientY } = event;
-    const { position } = this.state;
+    const {clientX, clientY} = event;
+    const {position} = this.state;
 
     if (position === null) {
       console.warn('Position is null in moveDraggable');
       return;
     }
 
-    const { geometry } = this.draggedObject;
+    const {geometry} = this.draggedObject;
 
     const newPosition = {
       x: clientX + geometry.grabShift.x,
@@ -126,16 +123,16 @@ class DragDropManager extends React.Component {
   };
 
   render() {
-    const { children } = this.props;
-    const { draggedObjectPosition } = this.state;
-    const { draggedObject } = this;
+    const {children} = this.props;
+    const {draggedObjectPosition} = this.state;
+    const {draggedObject} = this;
 
     return (
       <>
         {draggedObject &&
-          draggedObject.renderElement({
-            clientPosition: draggedObjectPosition,
-          })}
+        draggedObject.renderElement({
+          clientPosition: draggedObjectPosition,
+        })}
         <DragDropContext.Provider value={this.dndContext}>
           {children}
         </DragDropContext.Provider>

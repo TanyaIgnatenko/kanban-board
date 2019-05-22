@@ -6,21 +6,20 @@ function useDraggable({ context, type, node, renderElement, onRelease }) {
   const { grabDraggable } = useContext(DragDropContext);
 
   useEffect(() => {
-    node.current.addEventListener('mousedown', ({ clientX, clientY }) => {
+    const onMouseDown = ({ clientX, clientY }) => {
       const grabPosition = {
         x: clientX,
         y: clientY,
       };
-      const draggable = {
-        context,
-        type,
-        node,
-        renderElement,
-        onRelease,
-      };
-      grabDraggable(grabPosition, draggable);
-    });
-  }, [context, grabDraggable, node, onRelease, renderElement, type]);
+      grabDraggable(grabPosition, context, type, node, renderElement, onRelease);
+    };
+
+    node.current.addEventListener('mousedown', onMouseDown);
+
+    return () => {
+      node.current.removeEventListener('mousedown', onMouseDown);
+    };
+  }, [grabDraggable, context, type, node, renderElement, onRelease]);
 }
 
 export { useDraggable };

@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64e57eb9-edcd-4544-8c94-417cc22ec4fd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/CardList/CardList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CardList/CardList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CardList/CardList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CardList/CardList.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/drag-drop/DragDropManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/drag-drop/DragDropManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/drag-drop/useDraggable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/drag-drop/useDraggable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/drag-drop/useDroppable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/drag-drop/useDroppable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ducks/board/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ducks/board/services.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -16,7 +19,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/CardList/CardList.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
@@ -24,6 +27,15 @@
               <folding>
                 <element signature="e#0#70#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ducks/board/services.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-297">
+              <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -124,11 +136,11 @@
         <option value="$PROJECT_DIR$/src/index.css" />
         <option value="$PROJECT_DIR$/src/components/Card/Card.js" />
         <option value="$PROJECT_DIR$/src/components/Card/Card.scss" />
-        <option value="$PROJECT_DIR$/src/ducks/board/services.js" />
         <option value="$PROJECT_DIR$/src/components/Board/Board.js" />
         <option value="$PROJECT_DIR$/src/components/Board/Board.scss" />
         <option value="$PROJECT_DIR$/src/components/CardList/CardList.scss" />
         <option value="$PROJECT_DIR$/src/components/CardList/CardList.js" />
+        <option value="$PROJECT_DIR$/src/ducks/board/services.js" />
       </list>
     </option>
   </component>
@@ -249,12 +261,12 @@
       <workItem from="1558360684412" duration="2696000" />
       <workItem from="1558363650586" duration="11264000" />
       <workItem from="1558438921330" duration="10438000" />
-      <workItem from="1558520011767" duration="7626000" />
+      <workItem from="1558520011767" duration="8529000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32024000" />
+    <option name="totallyTimeSpent" value="32927000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
@@ -460,13 +472,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ducks/board/services.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1156">
-          <caret line="68" column="16" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Card/Card.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -535,6 +540,13 @@
           <folding>
             <element signature="e#0#70#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ducks/board/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-297">
+          <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="16" />
         </state>
       </provider>
     </entry>
