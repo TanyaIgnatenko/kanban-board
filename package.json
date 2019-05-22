@@ -10,7 +10,6 @@
     "lint": "eslint ./src --ext .js",
     "prettier": "prettier **/*.js",
     "format": "npm run prettier -- --write",
-    "validate": "lint-staged",
     "precommit": "lint-staged"
   },
   "dependencies": {
