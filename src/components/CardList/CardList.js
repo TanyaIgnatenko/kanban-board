@@ -61,23 +61,25 @@ function CardList({ id, name, cards, className }) {
       <header>
         <h2 className='list-title'>{name}</h2>
       </header>
-      <ul className='list-cards'>
-        {cards.map((card, idx) => (
-          <React.Fragment key={card.id}>
-            {placeholderPosition === idx && (
-              <li className='placeholder' style={placeholderStyle} />
-            )}
-            {card.id !== cardToIgnoreId && (
-              <Card
-                {...card}
-                idx={idx}
-                className='list-card'
-                cardRef={setItemRef}
-              />
-            )}
-          </React.Fragment>
-        ))}
-      </ul>
+      {(cards.length || placeholderPosition) && (
+        <ul className='list-cards'>
+          {cards.map((card, idx) => (
+            <React.Fragment key={card.id}>
+              {placeholderPosition === idx && (
+                <li className='placeholder' style={placeholderStyle} />
+              )}
+              {card.id !== cardToIgnoreId && (
+                <Card
+                  {...card}
+                  idx={idx}
+                  className='list-card'
+                  cardRef={setItemRef}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </ul>
+      )}
       <footer>
         <button className='add-card-btn'>
           <h4>Добавить еще одну карточку</h4>

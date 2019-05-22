@@ -3,13 +3,14 @@ $list-bg-color: rgb(223, 227, 230);
 $list-border-radius: 3px;
 $list-space: 12px;
 
-$list-header-height: 19px;
+$list-header-line-height: 19px;
 $list-header-top-space: 8px;
-$list-header-bottom-space: 12px;
 $list-header-color: black;
 $list-header-font-size: 1.3rem;
 
+$list-card-top-space: 12px;
 $list-card-gap: 8px;
+$last-list-card-gap: 6px;
 
 $list-footer-height: 43px;
 $add-card-btn-color: rgb(107, 119, 140);
@@ -20,6 +21,7 @@ $add-card-btn-hover-color: rgb(23, 43, 77);
 $add-card-btn-font-size: 1.3rem;
 $add-card-btn-border-radius: 3px;
 $add-card-btn-space: 12px;
+$add-card-btn-top-space: 6px;
 $plus-icon-gap: 8px;
 
 $scrollbar-thickness: 9px;
@@ -43,19 +45,19 @@ $scrollbar-thumb-bg-color: #c1c6c9;
 
     .list-title {
       padding-top: $list-header-top-space;
-      padding-bottom: $list-header-bottom-space;
 
       color: $list-header-color;
       font-family: Montserrat, 'sans-serif';
       font-size: $list-header-font-size;
       font-weight: bold;
-      line-height: $list-header-height;
+      line-height: $list-header-line-height;
     }
   }
 
   .list-cards {
     overflow-y: auto;
-    max-height: calc(100% - #{$list-header-height} - #{$list-footer-height});
+    max-height: calc(100% - #{$list-header-line-height} + #{$list-header-top-space} - #{$list-footer-height});
+    padding-top: $list-card-top-space;
 
     &::-webkit-scrollbar {
       width: $scrollbar-thickness;
@@ -73,8 +75,12 @@ $scrollbar-thumb-bg-color: #c1c6c9;
       border-radius: $scrollbar-border-radius;
     }
 
-    .list-card {
+    .list-card:not(:last-child) {
       margin-bottom: $list-card-gap;
+    }
+
+    .list-card:last-child {
+      margin-bottom: $last-list-card-gap;
     }
   }
 
@@ -90,6 +96,7 @@ $scrollbar-thumb-bg-color: #c1c6c9;
       width: 100%;
       height: $list-footer-height;
       padding: $add-card-btn-space;
+      padding-top: $add-card-btn-top-space;
 
       cursor: pointer;
       text-align: start;
