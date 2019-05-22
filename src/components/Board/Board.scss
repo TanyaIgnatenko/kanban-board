@@ -6,24 +6,48 @@ $board-left-space: 8px;
 $list-gap: 12px;
 
 $scrollbar-thickness: 10px;
+$scrollbar-padding: 5px;
+$scrolbar-border-radius: 9px;
+$scrollbar-track-bg-color: rgba(9, 30, 66, .08);
+$scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
 
 .board {
-  display: flex;
-  overflow-x: auto;
   width: 100vw;
   height: 100vh;
-  padding: $board-top-space $board-right-space $board-bottom-space $board-left-space;
+  padding-bottom: $scrollbar-padding;
 
-  user-select: none;
+  .board-lists {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    height: 100%;
+    padding: $board-top-space $board-right-space $scrollbar-padding $board-left-space;
 
-  .board-list {
-    flex: 0 0 auto;
-    height: calc(100% - #{$board-bottom-space} - #{$scrollbar-thickness});
-    margin-left: $list-gap;
-  }
+    user-select: none;
 
-  &::after {
-    content: '';
-    flex: 0 0 $list-gap;
+    &::-webkit-scrollbar {
+      height: $scrollbar-thickness;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $scrollbar-thumb-bg-color;
+      border-radius: $scrolbar-border-radius;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $scrollbar-track-bg-color;
+      border-radius: $scrolbar-border-radius;
+    }
+
+    .board-list {
+      flex: 0 0 auto;
+      height: calc(100% - 2 * #{$scrollbar-padding} - #{$scrollbar-thickness});
+      margin-left: $list-gap;
+    }
+
+    &::after {
+      content: '';
+      flex: 0 0 $list-gap;
+    }
   }
 }

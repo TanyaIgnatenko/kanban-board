@@ -23,11 +23,13 @@ function Board({ id, background, lists }) {
   );
 
   return (
-    <ul className='board' style={boardStyle}>
-      {lists.map(list => (
-        <CardList key={list.id} className='board-list' {...list} />
-      ))}
-    </ul>
+    <div className='board' style={boardStyle}>
+      <ul className='board-lists'>
+        {lists.map(list => (
+          <CardList key={list.id} className='board-list' {...list} />
+        ))}
+      </ul>
+    </div>
   );
 }
 
