@@ -12,9 +12,33 @@ import Card from '../Card/Card';
 function CardList({ id, name, cards, className }) {
   const list = useRef(null);
   const cardsRefs = useRef([]);
-  let placeholderHeight = useRef(null);
 
   const [placeholderPosition, setPlaceholderPosition] = useState(null);
+  const [placeholderHeight, setPlaceholderHeight] = useState(null);
+
+  const onDraggableEnter = useCallback(draggable => {
+    setPlaceholderHeight(draggable.geometry.height);
+  }, []);
+
+  const onDraggableHover = useCallback(draggable => {
+    const draggableCenterY =
+      draggable.geometry.y + draggable.geometry.height / 2;
+
+    let placeholderPosition = lowerBound(cardsRefs.current, card => {
+      const cardCenterY =
+        card.getBoundingClientRect().top + card.offsetHeight / 2;
+      return cardCenterY <= draggableCenterY;
+    });
+    placeholderPosition = placeholderPosition || cardsRefs.current.length;
+
+    setPlaceholderPosition(placeholderPosition);
+  }, []);
+
+  const onDraggableLeave = useCallback(() => {
+    setPlaceholderHeight(null);
+    setPlaceholderPosition(null);
+  }, []);
+
   const [cardToIgnoreContext] = useDroppable({
     context: {
       id,
@@ -22,26 +46,9 @@ function CardList({ id, name, cards, className }) {
     },
     node: list,
     acceptTypes: DRAGGABLE_TYPE.CARD,
-    onDraggableEnter: draggable => {
-      placeholderHeight = draggable.geometry.height;
-    },
-    onDraggableHover: draggable => {
-      const draggableCenterY =
-        draggable.geometry.y + draggable.geometry.height / 2;
-
-      let placeholderPosition = lowerBound(cardsRefs.current, card => {
-        const cardCenterY =
-          card.getBoundingClientRect().top + card.offsetHeight / 2;
-        return cardCenterY <= draggableCenterY;
-      });
-      placeholderPosition = placeholderPosition || cards.length;
-
-      setPlaceholderPosition(placeholderPosition);
-    },
-    onDraggableLeave: draggable => {
-      placeholderHeight = null;
-      setPlaceholderPosition(null);
-    },
+    onDraggableEnter,
+    onDraggableHover,
+    onDraggableLeave,
   });
 
   const cardToIgnoreId =
