@@ -27,6 +27,7 @@ $card-border-radius: 3px;
   &.dragged {
     z-index: 1;
 
+    transform: rotate(5deg);
     cursor: pointer;
   }
 
