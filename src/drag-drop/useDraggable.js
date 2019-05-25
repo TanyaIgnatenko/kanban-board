@@ -21,10 +21,12 @@ function useDraggable({ context, type, node, renderElement, onRelease }) {
       );
     };
 
-    node.current.addEventListener('mousedown', onMouseDown);
+    const draggedNode = node.current;
+
+    draggedNode.addEventListener('mousedown', onMouseDown);
 
     return () => {
-      node.current.removeEventListener('mousedown', onMouseDown);
+      draggedNode.removeEventListener('mousedown', onMouseDown);
     };
   }, [grabDraggable, context, type, node, renderElement, onRelease]);
 }
