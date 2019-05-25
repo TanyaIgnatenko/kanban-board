@@ -77,7 +77,7 @@ function CardList({ id, name, cards, className }) {
       <header>
         <h2 className='list-title'>{name}</h2>
       </header>
-      {(Boolean(cards.length) || Boolean(placeholderPosition)) && (
+      {(Boolean(cards.length) || placeholderPosition !== null) && (
         <ul className='list-cards'>
           {cards.map((card, idx) => (
             <React.Fragment key={card.id}>
