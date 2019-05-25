@@ -118,6 +118,10 @@ class DragDropManager extends React.Component {
       (currentDroppable && currentDroppable.id !== lastDroppable.id);
 
     if (droppableChanged) {
+      if (lastDroppable) {
+        lastDroppable.onDraggableLeave();
+      }
+
       this.hoveredDroppable = this.droppables[currentDroppable.id];
 
       this.hoveredDroppable.acceptDraggedObject = this.hoveredDroppable.acceptTypes.includes(
