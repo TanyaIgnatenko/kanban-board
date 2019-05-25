@@ -126,11 +126,10 @@ class DragDropManager extends React.Component {
     this.draggedObject.node.style.visibility = 'hidden';
     const element = document.elementFromPoint(position.x, position.y);
     this.draggedObject.node.style.visibility = 'visible';
-    console.log('element in findDroppable in DragDropManager: ', element);
-    console.log(
-      'element.closest() in findDroppable in DragDropManager: ',
-      element.closest('droppable'),
-    );
+
+    if (element == null) {
+      return null;
+    }
 
     return element.closest('.droppable');
   };
@@ -159,8 +158,6 @@ class DragDropManager extends React.Component {
     }
 
     currentHoveredDroppable.onDraggableLeave();
-    console.log('currentDraggedObject in releaseDraggable in DragDropManager: ', currentDraggedObject);
-    console.log('currentHoveredDroppable in releaseDraggable in DragDropManager: ', currentHoveredDroppable);
     currentDraggedObject.onRelease({
       draggableContext: currentDraggedObject.context,
       droppableContext: currentHoveredDroppable.context,
