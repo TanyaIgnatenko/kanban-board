@@ -42,6 +42,11 @@ class DragDropManager extends React.Component {
       return;
     }
 
+    const grabbedNode = node.current;
+    if (!grabbedNode) {
+      console.error('Null ref to grabbed node');
+      return;
+    }
     const boundingRect = node.current.getBoundingClientRect();
 
     this.draggedObject = {
