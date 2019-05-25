@@ -1,4 +1,5 @@
 @import '../../assets/scss/variables';
+@import '../../assets/scss/mixins';
 
 $add-component-wrapper-bg-color: #DFE3E6;
 $add-component-wrapper-border-radius: 3px;
@@ -31,6 +32,7 @@ $component-content-padding-bottom: 8px;
 $component-content-padding-left: 12px;
 
 $component-composer-controls-margin-top: 8px;
+$component-content-placeholder-bg-color: #B8B9BB;
 $close-icon-width: 15px;
 $close-icon-height: 15px;
 
@@ -104,6 +106,13 @@ $add-component-btn-padding-left: 8px;
       border: none;
       box-shadow: 0 1px 4px rgba(9, 45, 66, 0.25);
       resize: none;
+
+      @include placeholder {
+        font-family: $font-stack;
+        font-size: 1.3rem;
+        line-height: 19px;
+        color: $component-content-placeholder-bg-color;
+      }
     }
 
     .component-composer-controls {
