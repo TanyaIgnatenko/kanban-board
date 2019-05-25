@@ -16,6 +16,7 @@ function useDroppable({
   registerAsDroppable({
     id,
     node,
+    context,
     acceptTypes,
     onDraggableEnter,
     onDraggableHover,

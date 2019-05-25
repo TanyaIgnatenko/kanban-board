@@ -13,6 +13,7 @@ class DragDropManager extends React.Component {
   registerAsDroppable = ({
     id,
     node,
+    context,
     acceptTypes,
     onDraggableEnter,
     onDraggableHover,
@@ -20,6 +21,7 @@ class DragDropManager extends React.Component {
   }) => {
     this.droppables[id] = {
       node,
+      context,
       acceptTypes,
       onDraggableEnter,
       onDraggableHover,
@@ -156,22 +158,13 @@ class DragDropManager extends React.Component {
       return;
     }
 
-    currentHoveredDroppable.onDraggableLeaveCallback();
+    currentHoveredDroppable.onDraggableLeave();
+    console.log('currentDraggedObject in releaseDraggable in DragDropManager: ', currentDraggedObject);
+    console.log('currentHoveredDroppable in releaseDraggable in DragDropManager: ', currentHoveredDroppable);
     currentDraggedObject.onRelease({
       draggableContext: currentDraggedObject.context,
       droppableContext: currentHoveredDroppable.context,
     });
-  };
-
-  onDraggableEnterDroppable = (context, onDraggableLeaveCallback) => {
-    if (this.hoveredDroppable !== null) {
-      this.hoveredDroppable.onDraggableLeaveCallback();
-    }
-
-    this.hoveredDroppable = {
-      context,
-      onDraggableLeaveCallback,
-    };
   };
 
   setDraggedObjectRef = draggedObjectNode => {

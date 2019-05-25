@@ -42,6 +42,7 @@ function CardList({ id, name, cards, className }) {
   const [cardToIgnoreContext] = useDroppable({
     id,
     context: {
+      id,
       index: placeholderPosition,
     },
     node: list,
