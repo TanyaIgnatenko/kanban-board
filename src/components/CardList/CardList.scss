@@ -59,6 +59,8 @@ $scrollbar-thumb-bg-color: #c1c6c9;
     max-height: calc(100% - #{$list-header-line-height} + #{$list-header-top-space} - #{$list-footer-height});
     padding-top: $list-card-top-space;
 
+    scrollbar-width: thin; // for firefox
+
     &::-webkit-scrollbar {
       width: $scrollbar-thickness;
     }

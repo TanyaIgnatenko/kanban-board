@@ -24,6 +24,7 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
     padding: $board-top-space $board-right-space $scrollbar-padding $board-left-space;
 
     user-select: none;
+    scrollbar-width: thin; // for firefox
 
     &::-webkit-scrollbar {
       height: $scrollbar-thickness;

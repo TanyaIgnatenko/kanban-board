@@ -15,7 +15,5 @@ function* fetchBoard({ id }) {
 }
 
 export function* watchBoardRequests() {
-  yield all([
-    takeLatest(FETCH_BOARD.REQUEST, fetchBoard),
-  ]);
+  yield all([takeLatest(FETCH_BOARD.REQUEST, fetchBoard)]);
 }

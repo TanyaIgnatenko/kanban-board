@@ -1,4 +1,4 @@
-import {FETCH_BOARD, MOVE_CARD} from './action-types';
+import { FETCH_BOARD, MOVE_CARD } from './action-types';
 
 export const fetchBoardRequest = id => {
   return {
@@ -7,14 +7,14 @@ export const fetchBoardRequest = id => {
   };
 };
 
-export const fetchBoardSuccess = (board) => {
+export const fetchBoardSuccess = board => {
   return {
     type: FETCH_BOARD.SUCCESS,
     board,
   };
 };
 
-export const fetchBoardError = (error) => {
+export const fetchBoardError = error => {
   return {
     type: FETCH_BOARD.ERROR,
     error,

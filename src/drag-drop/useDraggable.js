@@ -11,7 +11,14 @@ function useDraggable({ context, type, node, renderElement, onRelease }) {
         x: clientX,
         y: clientY,
       };
-      grabDraggable(grabPosition, context, type, node, renderElement, onRelease);
+      grabDraggable(
+        grabPosition,
+        context,
+        type,
+        node,
+        renderElement,
+        onRelease,
+      );
     };
 
     node.current.addEventListener('mousedown', onMouseDown);

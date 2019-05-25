@@ -19,9 +19,10 @@ function Card({ id, content, cardRef, idx, moveCardToList, className }) {
     },
     type: DRAGGABLE_TYPE.CARD,
     node: item,
-    renderElement: ({ clientPosition }) => (
+    renderElement: ({ clientPosition, draggedObjectRef }) => (
       <div
-        className={classNames('card dragged', className)}
+        ref={draggedObjectRef}
+        className={classNames('card', 'dragged', className)}
         style={moveTo(clientPosition)}
       >
         {content}

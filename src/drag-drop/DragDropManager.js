@@ -2,7 +2,39 @@ import React from 'react';
 import DragDropContext from './internal/DragDropContext';
 
 class DragDropManager extends React.Component {
-  grabDraggable = (grabPosition, context, type, node, renderElement, onRelease) => {
+  state = {
+    draggedObjectPosition: null,
+  };
+
+  draggedObject = null;
+  hoveredDroppable = null;
+  droppables = {};
+
+  registerAsDroppable = ({
+    id,
+    node,
+    acceptTypes,
+    onDraggableEnter,
+    onDraggableHover,
+    onDraggableLeave,
+  }) => {
+    this.droppables[id] = {
+      node,
+      acceptTypes,
+      onDraggableEnter,
+      onDraggableHover,
+      onDraggableLeave,
+    };
+  };
+
+  grabDraggable = (
+    grabPosition,
+    context,
+    type,
+    node,
+    renderElement,
+    onRelease,
+  ) => {
     if (this.draggedObject !== null) {
       console.error('Grabbing object while object already grabbed');
       return;
@@ -44,27 +76,61 @@ class DragDropManager extends React.Component {
     );
   };
 
+  dndContext = {
+    draggedObject: null,
+    grabDraggable: this.grabDraggable,
+    registerAsDroppable: this.registerAsDroppable,
+  };
+
   moveDraggable = event => {
-    const {clientX, clientY} = event;
-    const {position} = this.state;
+    const { clientX, clientY } = event;
+    const { position } = this.state;
 
     if (position === null) {
       console.warn('Position is null in moveDraggable');
       return;
     }
 
-    const {geometry} = this.draggedObject;
+    const { geometry } = this.draggedObject;
 
     const newPosition = {
       x: clientX + geometry.grabShift.x,
       y: clientY + geometry.grabShift.y,
     };
+    this.setState({ draggedObjectPosition: newPosition });
 
-    this.setState({
-      draggedObjectPosition: newPosition,
-    });
+    const lastDroppable = this.hoveredDroppable;
+    const currentDroppable = this.findDroppable(newPosition);
+    const droppableChanged =
+      !lastDroppable ||
+      (currentDroppable && currentDroppable.id !== lastDroppable.id);
 
-    event.preventDefault();
+    if (droppableChanged) {
+      this.hoveredDroppable = this.droppables[currentDroppable.id];
+
+      this.hoveredDroppable.acceptDraggedObject = this.hoveredDroppable.acceptTypes.includes(
+        this.draggedObject.type,
+      );
+      if (this.hoveredDroppable.acceptDraggedObject) {
+        this.hoveredDroppable.onDraggableEnter(this.draggedObject);
+      }
+    }
+    if (this.hoveredDroppable.acceptDraggedObject) {
+      this.hoveredDroppable.onDraggableHover(this.draggedObject);
+    }
+  };
+
+  findDroppable = position => {
+    this.draggedObject.node.style.visibility = 'hidden';
+    const element = document.elementFromPoint(position.x, position.y);
+    this.draggedObject.node.style.visibility = 'visible';
+    console.log('element in findDroppable in DragDropManager: ', element);
+    console.log(
+      'element.closest() in findDroppable in DragDropManager: ',
+      element.closest('droppable'),
+    );
+
+    return element.closest('.droppable');
   };
 
   releaseDraggable = event => {
@@ -95,8 +161,6 @@ class DragDropManager extends React.Component {
       draggableContext: currentDraggedObject.context,
       droppableContext: currentHoveredDroppable.context,
     });
-
-    event.preventDefault();
   };
 
   onDraggableEnterDroppable = (context, onDraggableLeaveCallback) => {
@@ -110,30 +174,25 @@ class DragDropManager extends React.Component {
     };
   };
 
-  state = {
-    draggedObjectPosition: null,
-  };
-
-  draggedObject = null;
-  hoveredDroppable = null;
-  dndContext = {
-    draggedObject: null,
-    grabDraggable: this.grabDraggable,
-    onDraggableEnterDroppable: this.onDraggableEnterDroppable,
+  setDraggedObjectRef = draggedObjectNode => {
+    if (this.draggedObject) {
+      this.draggedObject.node = draggedObjectNode;
+    }
   };
 
   render() {
-    const {children} = this.props;
-    const {draggedObjectPosition} = this.state;
-    const {draggedObject} = this;
+    const { children } = this.props;
+    const { draggedObjectPosition } = this.state;
+    const { draggedObject, dndContext } = this;
 
     return (
       <>
         {draggedObject &&
-        draggedObject.renderElement({
-          clientPosition: draggedObjectPosition,
-        })}
-        <DragDropContext.Provider value={this.dndContext}>
+          draggedObject.renderElement({
+            clientPosition: draggedObjectPosition,
+            draggedObjectRef: this.setDraggedObjectRef,
+          })}
+        <DragDropContext.Provider value={dndContext}>
           {children}
         </DragDropContext.Provider>
       </>

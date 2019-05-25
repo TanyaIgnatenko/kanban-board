@@ -40,8 +40,8 @@ function CardList({ id, name, cards, className }) {
   }, []);
 
   const [cardToIgnoreContext] = useDroppable({
+    id,
     context: {
-      id,
       index: placeholderPosition,
     },
     node: list,
@@ -64,7 +64,11 @@ function CardList({ id, name, cards, className }) {
     placeholderHeight,
   ]);
   return (
-    <li ref={list} className={classNames('card-list', className)}>
+    <li
+      id={id}
+      ref={list}
+      className={classNames('card-list', 'droppable', className)}
+    >
       <header>
         <h2 className='list-title'>{name}</h2>
       </header>

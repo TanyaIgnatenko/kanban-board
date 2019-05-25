@@ -3,7 +3,7 @@ import React from 'react';
 const DragDropContext = React.createContext({
   draggedObject: null,
   grabDraggable: () => {},
-  onDraggableEnterDroppable: () => {},
+  registerAsDroppable: () => {},
 });
 
 export default DragDropContext;
