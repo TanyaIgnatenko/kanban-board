@@ -7,7 +7,7 @@ import { useDraggable } from '../../drag-drop/useDraggable';
 import { DRAGGABLE_TYPE } from '../../constants';
 
 import { moveCard } from '../../ducks/board/actions';
-import moveTo from '../../helpers/moveTo';
+import { moveTo } from '../../helpers/moveTo';
 
 import './Card.scss';
 
@@ -53,6 +53,13 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
 Card.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   content: PropTypes.any.isRequired,
+  setCardRef: PropTypes.func.isRequired,
+  moveCardToList: PropTypes.func.isRequired,
+  className: PropTypes.string,
+};
+
+Card.defaultProps = {
+  className: '',
 };
 
 const mapDispatchToProps = {

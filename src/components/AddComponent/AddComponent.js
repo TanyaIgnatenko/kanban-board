@@ -2,12 +2,19 @@ import React, { useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './AddComponent.scss';
 import { useUniqueId } from '../../hooks/uniqueId';
 import { useOnClickOutside } from '../../hooks/onClickOutside';
 
-function AddComponent({ componentName, onAdd, className }) {
-  const [composeMode, setComposeMode] = useState(false);
+import './AddComponent.scss';
+
+function AddComponent({
+  openCreationFormBtnText,
+  placeholderFormText,
+  submitFormBtnText,
+  onAdd,
+  className,
+}) {
+  const [creationMode, setCreationMode] = useState(false);
 
   const [content, setContent] = useState('');
   const handleContentChange = useCallback(event => {
@@ -17,7 +24,7 @@ function AddComponent({ componentName, onAdd, className }) {
 
   const handleClose = useCallback(() => {
     setContent('');
-    setComposeMode(false);
+    setCreationMode(false);
   }, []);
 
   const handleAdd = useCallback(() => {
@@ -26,14 +33,13 @@ function AddComponent({ componentName, onAdd, className }) {
   }, [content, handleClose, onAdd]);
 
   const textarea = useRef(null);
-  const handleOpen = useCallback(event => {
-    setComposeMode(true);
-    textarea.current.focus();
+  const handleOpen = useCallback(() => {
+    setCreationMode(true);
   }, []);
 
   const addComponentId = useUniqueId('add-component');
   const handleWasClickOutside = useCallback(() => {
-    setComposeMode(false);
+    setCreationMode(false);
   }, []);
   useOnClickOutside(addComponentId, handleWasClickOutside);
 
@@ -45,26 +51,25 @@ function AddComponent({ componentName, onAdd, className }) {
       <button
         className={classNames(
           'open-component-composer-btn',
-          composeMode && 'hidden',
+          creationMode && 'hidden',
         )}
         onClick={handleOpen}
       >
-        <h4>Добавить еще одну {componentName}</h4>
+        <h4>{openCreationFormBtnText}</h4>
       </button>
       <div
-        className={classNames('component-composer', !composeMode && 'hidden')}
+        className={classNames('component-composer', !creationMode && 'hidden')}
       >
         <textarea
           autoFocus
-          ref={textarea}
           className='component-content'
           value={content}
-          placeholder={`Введите название ${componentName}`}
+          placeholder={placeholderFormText}
           onChange={handleContentChange}
         />
         <div className='component-composer-controls'>
           <button className='add-component-btn' onClick={handleAdd}>
-            Добавить {componentName}
+            {submitFormBtnText}
           </button>
           <button className='close-btn' onClick={handleClose} />
         </div>
@@ -74,7 +79,9 @@ function AddComponent({ componentName, onAdd, className }) {
 }
 
 AddComponent.propTypes = {
-  componentName: PropTypes.string.isRequired,
+  openCreationFormBtnText: PropTypes.string.isRequired,
+  placeholderFormText: PropTypes.string.isRequired,
+  submitFormBtnText: PropTypes.string.isRequired,
   onAdd: PropTypes.func.isRequired,
   className: PropTypes.string,
 };

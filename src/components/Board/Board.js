@@ -2,14 +2,14 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import CardList from '../CardList/CardList';
+import { CardList } from '../CardList';
+import { AddComponent } from '../AddComponent';
 import { addListRequest, fetchBoardRequest } from '../../ducks/board/actions';
 import { selectBoard } from '../../ducks/board/selectors';
-
-import './Board.scss';
 import { ITEM_TYPE, useDroppableList } from '../../drag-drop/useDroppableList';
 import { DRAGGABLE_TYPE } from '../../constants';
-import { AddComponent } from '../AddComponent';
+
+import './Board.scss';
 
 function Board({ id, background, lists, addList }) {
   const backgroundStyle =
@@ -26,7 +26,7 @@ function Board({ id, background, lists, addList }) {
   );
 
   const isPositionLess = useCallback(
-    (draggablePos, cardPos) => draggablePos.x <= cardPos.x,
+    (draggableCenter, itemCenter) => draggableCenter.x <= itemCenter.x,
     [],
   );
 
@@ -80,7 +80,9 @@ function Board({ id, background, lists, addList }) {
         })}
         <AddComponent
           className='add-list-btn'
-          componentName='колонку'
+          openCreationFormBtnText='Добавить ещё одну колонку'
+          placeholderFormText='Введите название колонки'
+          submitFormBtnText='Добавить колонку'
           onAdd={addList.bind(null, id)}
         />
       </ul>

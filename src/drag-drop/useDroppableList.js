@@ -30,13 +30,13 @@ function useDroppableList({ id, acceptedType, items, isPositionLess }) {
         y: draggable.position.y + draggable.geometry.height / 2,
       };
 
-      let placeholderIndex = lowerBound(itemNodes.current, card => {
-        const cardRect = card.getBoundingClientRect();
-        const cardCenterPos = {
-          x: cardRect.left + cardRect.width / 2,
-          y: cardRect.top + cardRect.height / 2,
+      let placeholderIndex = lowerBound(itemNodes.current, item => {
+        const itemRect = item.getBoundingClientRect();
+        const itemCenterPos = {
+          x: itemRect.left + itemRect.width / 2,
+          y: itemRect.top + itemRect.height / 2,
         };
-        return isPositionLess(draggableCenterPos, cardCenterPos);
+        return isPositionLess(draggableCenterPos, itemCenterPos);
       });
 
       placeholderIndex =
@@ -64,16 +64,17 @@ function useDroppableList({ id, acceptedType, items, isPositionLess }) {
     onDraggableLeave,
   });
 
-  const setItemAt = useCallback((card, idx) => {
-    if (!card) return;
+  const setItemAt = useCallback((item, idx) => {
+    if (!item) return;
 
-    itemNodes.current[idx] = card;
+    itemNodes.current[idx] = item;
   }, []);
 
   const listItems = items.map(item => ({
     type: ITEM_TYPE.REGULAR_ITEM,
     data: item,
   }));
+
   if (placeholderIndex !== null) {
     listItems.splice(placeholderIndex, 0, {
       type: ITEM_TYPE.PLACEHOLDER,
@@ -81,6 +82,7 @@ function useDroppableList({ id, acceptedType, items, isPositionLess }) {
       geometry: placeholderGeometry,
     });
   }
+
   if (draggableContext !== null) {
     const itemToIgnoreIdx = listItems.findIndex(
       item =>

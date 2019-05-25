@@ -1,20 +1,27 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import classNames from 'classnames';
 
 import { Card } from '../Card';
 import { AddComponent } from '../AddComponent';
 import { addCardRequest, moveList } from '../../ducks/board/actions';
-import { DRAGGABLE_TYPE } from '../../constants';
-import './CardList.scss';
-
 import { ITEM_TYPE, useDroppableList } from '../../drag-drop/useDroppableList';
 import { useDraggable } from '../../drag-drop/useDraggable';
-import moveTo from '../../helpers/moveTo';
+import { DRAGGABLE_TYPE } from '../../constants';
+import { moveTo } from '../../helpers/moveTo';
 
-function CardList({ id, name, cards, addCard, setListRef, moveList, className }) {
+import './CardList.scss';
+
+function CardList({
+  id,
+  name,
+  cards,
+  addCard,
+  setListRef,
+  moveList,
+  className,
+}) {
   const isPositionLess = useCallback(
     (draggablePos, cardPos) => draggablePos.y <= cardPos.y,
     [],
@@ -129,7 +136,9 @@ function CardList({ id, name, cards, addCard, setListRef, moveList, className })
       <footer>
         <AddComponent
           className='add-card-btn'
-          componentName='карточку'
+          openCreationFormBtnText='Добавить ещё одну карточку'
+          placeholderFormText='Введите название карточки'
+          submitFormBtnText='Добавить карточку'
           onAdd={addCard.bind(null, id)}
         />
       </footer>
@@ -138,6 +147,12 @@ function CardList({ id, name, cards, addCard, setListRef, moveList, className })
 }
 
 CardList.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  addCard: PropTypes.func.isRequired,
+  moveList: PropTypes.func.isRequired,
+  setListRef: PropTypes.func.isRequired,
+  className: PropTypes.func.isRequired,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

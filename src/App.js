@@ -1,6 +1,7 @@
 import React from 'react';
-import BoardContainer from './components/Board/Board';
+
 import DragDropManager from './drag-drop/DragDropManager';
+import { BoardContainer } from './components/Board';
 
 function App() {
   return (
