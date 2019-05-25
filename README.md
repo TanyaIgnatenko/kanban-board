@@ -1,4 +1,4 @@
-# [ Kanban board ]
+# Kanban board
 
 Simplified Trello clone
 
