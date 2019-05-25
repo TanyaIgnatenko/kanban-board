@@ -79,14 +79,23 @@ function CardList({ id, name, cards, className }) {
       </header>
       {(Boolean(cards.length) || placeholderPosition !== null) && (
         <ul className='list-cards'>
-          {cards.map((card, idx) => (
+          {[...cards.slice(0, placeholderPosition)].map((card, idx) => (
             <React.Fragment key={card.id}>
-              {placeholderPosition === idx && (
-                <li
-                  className='placeholder list-card'
-                  style={placeholderStyle}
+              {card.id !== cardToIgnoreId && (
+                <Card
+                  {...card}
+                  idx={idx}
+                  className='list-card'
+                  cardRef={setItemRef}
                 />
               )}
+            </React.Fragment>
+          ))}
+          {placeholderPosition !== null && (
+            <li className='placeholder list-card' style={placeholderStyle} />
+          )}
+          {[...cards.slice(placeholderPosition)].map((card, idx) => (
+            <React.Fragment key={card.id}>
               {card.id !== cardToIgnoreId && (
                 <Card
                   {...card}
