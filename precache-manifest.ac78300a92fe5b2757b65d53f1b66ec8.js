@@ -1,18 +1,18 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3e98e538ac787364ffd58c4035a562ca",
+    "revision": "fa91ffe01e1442394def8dbd15be7ed6",
     "url": "/kanban-board/index.html"
   },
   {
-    "revision": "848414ea47c2ea2d5d5e",
-    "url": "/kanban-board/static/css/main.686217db.chunk.css"
+    "revision": "961490ae6c99520f5559",
+    "url": "/kanban-board/static/css/main.2a7a50c4.chunk.css"
   },
   {
     "revision": "b6078dedec87a8fd3464",
     "url": "/kanban-board/static/js/2.a23e2a76.chunk.js"
   },
   {
-    "revision": "848414ea47c2ea2d5d5e",
+    "revision": "961490ae6c99520f5559",
     "url": "/kanban-board/static/js/main.6e58828f.chunk.js"
   },
   {
