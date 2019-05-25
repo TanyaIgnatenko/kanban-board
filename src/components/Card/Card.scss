@@ -20,6 +20,7 @@ $card-border-radius: 3px;
   background-color: $card-bg-color;
   border-radius: $card-border-radius;
   box-shadow: 0 1px 4px rgba(9, 45, 66, 0.25);
+  user-select: none;
 
   &:hover {
     background: $card-hover-bg-color;
