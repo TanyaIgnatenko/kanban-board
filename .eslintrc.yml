@@ -76,6 +76,7 @@ rules:
   react/jsx-uses-vars: error
   react/jsx-uses-react: error
   react/no-did-mount-set-state: off
+  react/jsx-one-expression-per-line: off
 
   class-methods-use-this: off
   jsx-a11y/anchor-has-content: off

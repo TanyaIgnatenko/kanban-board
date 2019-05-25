@@ -1,5 +1,24 @@
+import _ from 'lodash';
+
 export function fetchBoardRequest(id) {
   return mockBoard;
+}
+
+export function addCardRequest(listId, content) {
+  const card = {
+    id: _.uniqueId('card'),
+    content,
+  };
+  return { listId, card };
+}
+
+export function addListRequest(boardId, content) {
+  const list = {
+    id: _.uniqueId('list'),
+    name: content,
+    cards: [],
+  };
+  return { boardId, list };
 }
 
 const mockBoard = {
@@ -93,38 +112,38 @@ const mockBoard = {
         },
       ],
     },
-    {
-      id: 2,
-      name: 'План на день',
-      cards: [
-        {
-          id: 12,
-          content: 'Записать на курс по React',
-        },
-        {
-          id: 13,
-          content: 'Забронировать тир на субботу',
-        },
-        {
-          id: 14,
-          content: 'Накидать тем для статей в блог',
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Итоги',
-      cards: [],
-    },
-    {
-      id: 4,
-      name: 'Итоги',
-      cards: [],
-    },
-    {
-      id: 5,
-      name: 'Итоги',
-      cards: [],
-    },
+    // {
+    //   id: 2,
+    //   name: 'План на день',
+    //   cards: [
+    //     {
+    //       id: 12,
+    //       content: 'Записать на курс по React',
+    //     },
+    //     {
+    //       id: 13,
+    //       content: 'Забронировать тир на субботу',
+    //     },
+    //     {
+    //       id: 14,
+    //       content: 'Накидать тем для статей в блог',
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Итоги',
+    //   cards: [],
+    // },
+    // {
+    //   id: 4,
+    //   name: 'Итоги',
+    //   cards: [],
+    // },
+    // {
+    //   id: 5,
+    //   name: 'Итоги',
+    //   cards: [],
+    // },
   ],
 };

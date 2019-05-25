@@ -17,16 +17,6 @@ $card-placeholder-width: 248px;
 $card-placeholder-border-radius: 3px;
 
 $list-footer-height: 43px;
-$add-card-btn-color: rgb(107, 119, 140);
-$add-card-btn-bg-color: rgb(223, 227, 230);
-$add-card-btn-hover-bg-color: rgba(9, 30, 66, .13);
-$add-card-btn-active-bg-color: rgba(9,30,66,.25);
-$add-card-btn-hover-color: rgb(23, 43, 77);
-$add-card-btn-font-size: 1.3rem;
-$add-card-btn-border-radius: 3px;
-$add-card-btn-space: 12px;
-$add-card-btn-top-space: 6px;
-$plus-icon-gap: 8px;
 
 $scrollbar-thickness: 9px;
 $scrollbar-padding-right: 2px;
@@ -101,39 +91,5 @@ $scrollbar-thumb-bg-color: #c1c6c9;
 
     border-bottom-left-radius: $list-border-radius;
     border-bottom-right-radius: $list-border-radius;
-
-    .add-card-btn {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      height: $list-footer-height;
-      padding: $add-card-btn-space;
-      padding-top: $add-card-btn-top-space;
-
-      cursor: pointer;
-      text-align: start;
-      color: $add-card-btn-color;
-      background: $add-card-btn-bg-color;
-      font-size: $add-card-btn-font-size;
-      border-radius: $add-card-btn-border-radius;
-      border: none;
-
-      &:before {
-        margin-right: $plus-icon-gap;
-
-        content: url('../../assets/images/plus-icon.svg');
-      }
-
-      &:hover {
-        color: $add-card-btn-color;
-        background-color: $add-card-btn-hover-bg-color;
-        text-decoration: underline;
-      }
-
-      &:active {
-        background-color: $add-card-btn-active-bg-color;
-        outline: none;
-      }
-    }
   }
 }

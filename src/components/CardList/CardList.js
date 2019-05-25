@@ -1,15 +1,18 @@
 import React, { useRef, useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import { Card } from '../Card';
+import { AddComponent } from '../AddComponent';
 import { useDroppable } from '../../drag-drop/useDroppable';
+import { addCardRequest } from '../../ducks/board/actions';
 import { lowerBound } from '../../helpers/lowerBound';
 import { DRAGGABLE_TYPE } from '../../constants';
 
 import './CardList.scss';
-import Card from '../Card/Card';
 
-function CardList({ id, name, cards, className }) {
+function CardList({ id, name, cards, addCard, className }) {
   const list = useRef(null);
   const cardsRefs = useRef([]);
 
@@ -109,9 +112,11 @@ function CardList({ id, name, cards, className }) {
         </ul>
       )}
       <footer>
-        <button className='add-card-btn'>
-          <h4>Добавить еще одну карточку</h4>
-        </button>
+        <AddComponent
+          className='add-card-btn'
+          componentName='карточку'
+          onAdd={addCard.bind(null, id)}
+        />
       </footer>
     </li>
   );
@@ -126,4 +131,11 @@ CardList.propTypes = {
   ).isRequired,
 };
 
-export default CardList;
+const mapDispatchToProps = {
+  addCard: addCardRequest,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CardList);

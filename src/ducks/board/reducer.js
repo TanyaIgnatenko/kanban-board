@@ -1,11 +1,4 @@
-import {
-  FETCH_BOARD,
-  FETCH_LISTS,
-  GRAB_CARD,
-  GRABBED_CARD_CHANGE_LIST,
-  MOVE_CARD,
-  RELEASE_CARD,
-} from './action-types';
+import { ADD_CARD, ADD_LIST, FETCH_BOARD, MOVE_CARD } from './action-types';
 
 const initialState = {
   board: null,
@@ -61,6 +54,36 @@ export const board = (state = initialState, action) => {
         },
       };
     }
+
+    case ADD_CARD.SUCCESS: {
+      const updatedLists = state.board.lists.map(list =>
+        list.id === action.listId
+          ? {
+              ...list,
+              cards: [...list.cards, action.card],
+            }
+          : list,
+      );
+
+      return {
+        ...state,
+        board: {
+          ...state.board,
+          lists: updatedLists,
+        },
+      };
+    }
+
+    case ADD_LIST.SUCCESS: {
+      return {
+        ...state,
+        board: {
+          ...state.board,
+          lists: [...state.board.lists, action.list],
+        },
+      };
+    }
+
     default:
       return state;
   }

@@ -1,0 +1,142 @@
+$add-component-wrapper-bg-color: #DFE3E6;
+$add-component-wrapper-border-radius: 3px;
+
+$open-component-composer-width: 272px;
+$open-component-composer-height: 43px;
+$open-component-composer-btn-space: 12px;
+$open-component-composer-btn-top-space: 6px;
+$plus-icon-gap: 8px;
+$open-component-composer-btn-color: rgb(107, 119, 140);
+$open-component-composer-btn-bg-color: rgb(223, 227, 230);
+$open-component-composer-btn-hover-bg-color: rgba(9, 30, 66, .13);
+$open-component-composer-btn-active-bg-color: rgba(9,30,66,.25);
+$open-component-composer-btn-hover-color: rgb(23, 43, 77);
+$open-component-composer-btn-font-size: 1.3rem;
+$open-component-composer-btn-border-radius: 3px;
+
+
+$text-area-width: 248px;
+$text-area-bg-color: white;
+$text-area-border-radius: 3px;
+
+$component-composer-padding-top: 2px;
+$component-composer-padding-right: 12px;
+$component-composer-padding-bottom: 16px;
+$component-composer-padding-left: 12px;
+
+$component-content-color: black;
+$component-content-padding-top: 8px;
+$component-content-padding-right: 6px;
+$component-content-padding-bottom: 8px;
+$component-content-padding-left: 12px;
+
+$component-composer-controls-margin-top: 8px;
+$close-icon-width: 15px;
+$close-icon-height: 15px;
+
+$add-component-btn-width: 152px;
+$add-component-btn-height: 30px;
+$add-component-btn-bg-color: #39C071;
+$add-component-btn-color: white;
+$add-component-btn-border-radius: 3px;
+$add-component-btn-padding-top: 7px;
+$add-component-btn-padding-right: 8px;
+$add-component-btn-padding-bottom: 4px;
+$add-component-btn-padding-left: 8px;
+
+.add-component-wrapper {
+  background: $add-component-wrapper-bg-color;
+  border-radius: $add-component-btn-border-radius;
+
+  .open-component-composer-btn {
+    display: flex;
+    align-items: center;
+    width: $open-component-composer-width;
+    height: $open-component-composer-height;
+    padding: $open-component-composer-btn-space;
+    padding-top: $open-component-composer-btn-top-space;
+
+    cursor: pointer;
+    text-align: start;
+    color: $open-component-composer-btn-color;
+    background: $open-component-composer-btn-bg-color;
+    font-size: $open-component-composer-btn-font-size;
+    border-radius: $open-component-composer-btn-border-radius;
+    border: none;
+
+    &:before {
+      margin-right: $plus-icon-gap;
+
+      content: url('../../assets/images/plus-icon.svg');
+    }
+
+    &:hover {
+      color: $open-component-composer-btn-color;
+      background-color: $open-component-composer-btn-hover-bg-color;
+      text-decoration: underline;
+    }
+
+    &:active {
+      background-color: $open-component-composer-btn-active-bg-color;
+      outline: none;
+    }
+  }
+
+  .component-composer {
+    padding: $component-composer-padding-top $component-composer-padding-right $component-composer-padding-bottom $component-composer-padding-left;
+
+    .component-content {
+      width: $text-area-width;
+      height: 54px;
+      padding: $component-content-padding-top $component-content-padding-right $component-content-padding-bottom $component-content-padding-left;
+
+      color: $component-content-color;
+      background: $text-area-bg-color;
+      font-family: Montserrat, 'sans-serif';
+      font-size: 1.3rem;
+      line-height: 1.9rem;
+      border-radius: $text-area-border-radius;
+      box-shadow: 0 1px 4px rgba(9, 45, 66, 0.25);
+      resize: none;
+    }
+
+    .component-composer-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: $component-composer-controls-margin-top;
+
+      .add-component-btn {
+        width: $add-component-btn-width;
+        height: $add-component-btn-height;
+        padding: $add-component-btn-padding-top $add-component-btn-padding-right $add-component-btn-padding-bottom $add-component-btn-padding-left;
+
+        color: $add-component-btn-color;
+        background: $add-component-btn-bg-color;
+        font-family: Montserrat, 'sans-serif';
+        font-weight: bold;
+        font-size: 1.3rem;
+        line-height: 1.9rem;
+        border-radius: $add-component-btn-border-radius;
+        border: none;
+        cursor: pointer;
+      }
+
+      .close-btn {
+        width: $close-icon-width;
+        height: $close-icon-height;
+
+        background: url('../../assets/images/cross-icon.svg') no-repeat;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
+}
+
+
+
