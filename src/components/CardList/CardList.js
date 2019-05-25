@@ -22,10 +22,6 @@ function CardList({
   moveList,
   className,
 }) {
-  const isPositionLess = useCallback(
-    (draggablePos, cardPos) => draggablePos.y <= cardPos.y,
-    [],
-  );
   const {
     listNode,
     setItemAt,
@@ -35,7 +31,10 @@ function CardList({
     id,
     acceptedType: DRAGGABLE_TYPE.CARD,
     items: cards,
-    isPositionLess,
+    isPositionLess: useCallback(
+      (draggableCenter, cardCenter) => draggableCenter.y <= cardCenter.y,
+      [],
+    ),
   });
 
   const dragHandleRef = useRef(null);

@@ -25,11 +25,6 @@ function Board({ id, background, lists, addList }) {
     [backgroundStyle],
   );
 
-  const isPositionLess = useCallback(
-    (draggableCenter, itemCenter) => draggableCenter.x <= itemCenter.x,
-    [],
-  );
-
   const {
     listNode,
     setItemAt,
@@ -39,7 +34,10 @@ function Board({ id, background, lists, addList }) {
     id,
     acceptedType: DRAGGABLE_TYPE.LIST,
     items: lists,
-    isPositionLess,
+    isPositionLess: useCallback(
+      (draggableCenter, itemCenter) => draggableCenter.x <= itemCenter.x,
+      [],
+    ),
   });
 
   return (

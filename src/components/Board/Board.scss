@@ -5,8 +5,6 @@ $board-padding-left: 8px;
 
 $list-gap: 12px;
 
-$list-placeholder-bg-color: rgba(0, 0, 0, 0.2);
-
 $add-list-form-top-margin: 12px;
 
 $scrollbar-thickness: 10px;
@@ -48,10 +46,6 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
     .board-list, .add-list-wrapper {
       flex: 0 0 auto;
       margin-left: $list-gap;
-    }
-
-    .placeholder {
-      background: $list-placeholder-bg-color;
     }
 
     .board-list {
