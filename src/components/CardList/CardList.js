@@ -25,8 +25,8 @@ function CardList({ id, name, cards, className }) {
       draggable.geometry.y + draggable.geometry.height / 2;
 
     let placeholderPosition = lowerBound(cardsRefs.current, card => {
-      const cardCenterY =
-        card.getBoundingClientRect().top + card.offsetHeight / 2;
+      const cardRect = card.getBoundingClientRect();
+      const cardCenterY = cardRect.top + cardRect.height / 2;
       return cardCenterY <= draggableCenterY;
     });
     placeholderPosition = placeholderPosition || cardsRefs.current.length;
