@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './AddComponent.scss';
+import { useUniqueId } from '../../hooks/uniqueId';
+import { useOnClickOutside } from '../../hooks/onClickOutside';
 
 function AddComponent({ componentName, onAdd, className }) {
   const [composeMode, setComposeMode] = useState(false);
@@ -29,8 +31,17 @@ function AddComponent({ componentName, onAdd, className }) {
     textarea.current.focus();
   }, []);
 
+  const addComponentId = useUniqueId('add-component');
+  const handleWasClickOutside = useCallback(() => {
+    setComposeMode(false);
+  }, []);
+  useOnClickOutside(addComponentId, handleWasClickOutside);
+
   return (
-    <div className={classNames('add-component-wrapper', className)}>
+    <div
+      id={addComponentId}
+      className={classNames('add-component-wrapper', className)}
+    >
       <button
         className={classNames(
           'open-component-composer-btn',
