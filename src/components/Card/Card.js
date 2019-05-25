@@ -25,7 +25,7 @@ function Card({ id, content, cardRef, idx, moveCardToList, className }) {
         className={classNames('card', 'dragged', className)}
         style={moveTo(clientPosition)}
       >
-        {content}
+        <h4 className='card-content'>{content}</h4>
       </div>
     ),
     onRelease: ({ draggableContext, droppableContext }) => {
