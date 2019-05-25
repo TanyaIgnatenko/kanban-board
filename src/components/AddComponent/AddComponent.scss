@@ -1,3 +1,5 @@
+@import '../../assets/scss/variables';
+
 $add-component-wrapper-bg-color: #DFE3E6;
 $add-component-wrapper-border-radius: 3px;
 
@@ -95,7 +97,7 @@ $add-component-btn-padding-left: 8px;
 
       color: $component-content-color;
       background: $text-area-bg-color;
-      font-family: Montserrat, 'sans-serif';
+      font-family: $font-stack;
       font-size: 1.3rem;
       line-height: 1.9rem;
       border-radius: $text-area-border-radius;
@@ -113,11 +115,14 @@ $add-component-btn-padding-left: 8px;
       .add-component-btn {
         width: $add-component-btn-width;
         height: $add-component-btn-height;
-        padding: $add-component-btn-padding-top $add-component-btn-padding-right $add-component-btn-padding-bottom $add-component-btn-padding-left;
+        padding: $add-component-btn-padding-top
+                 $add-component-btn-padding-right
+                 $add-component-btn-padding-bottom
+                 $add-component-btn-padding-left;
 
         color: $add-component-btn-color;
         background: $add-component-btn-bg-color;
-        font-family: Montserrat, 'sans-serif';
+        font-family: $font-stack;
         font-weight: bold;
         font-size: 1.3rem;
         line-height: 1.9rem;

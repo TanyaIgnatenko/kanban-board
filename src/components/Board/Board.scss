@@ -1,9 +1,13 @@
-$board-top-space: 21px;
-$board-right-space: 8px;
-$board-bottom-space: 20px;
-$board-left-space: 8px;
+$board-padding-top: 21px;
+$board-padding-right: 8px;
+$board-padding-bottom: 20px;
+$board-padding-left: 8px;
 
 $list-gap: 12px;
+
+$list-placeholder-bg-color: rgba(0, 0, 0, 0.2);
+
+$add-list-form-top-margin: 12px;
 
 $scrollbar-thickness: 10px;
 $scrollbar-padding: 5px;
@@ -22,7 +26,7 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
     overflow-x: auto;
     width: 100%;
     height: 100%;
-    padding: $board-top-space $board-right-space $scrollbar-padding $board-left-space;
+    padding: $board-padding-top $board-padding-right $scrollbar-padding $board-padding-left;
 
     user-select: none;
     scrollbar-width: thin; // for firefox
@@ -41,18 +45,22 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
       border-radius: $scrolbar-border-radius;
     }
 
-    .board-list, .add-list-btn {
+    .board-list, .add-list-wrapper {
       flex: 0 0 auto;
       margin-left: $list-gap;
+    }
+
+    .placeholder {
+      background: $list-placeholder-bg-color;
     }
 
     .board-list {
       height: calc(100% - 2 * #{$scrollbar-padding} - #{$scrollbar-thickness});
     }
 
-    .add-list-btn {
-      padding-top: 12px;
-    }
+      .add-list-form {
+        margin-top: $add-list-form-top-margin;
+      }
 
     &::after {
       content: '';

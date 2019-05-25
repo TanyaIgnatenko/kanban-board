@@ -13,6 +13,7 @@ function AddComponent({
   submitFormBtnText,
   onAdd,
   className,
+  formClassName,
 }) {
   const [creationMode, setCreationMode] = useState(false);
 
@@ -58,7 +59,11 @@ function AddComponent({
         <h4>{openCreationFormBtnText}</h4>
       </button>
       <div
-        className={classNames('component-composer', !creationMode && 'hidden')}
+        className={classNames(
+          'component-composer',
+          formClassName,
+          !creationMode && 'hidden',
+        )}
       >
         <textarea
           autoFocus
@@ -83,10 +88,12 @@ AddComponent.propTypes = {
   placeholderFormText: PropTypes.string.isRequired,
   submitFormBtnText: PropTypes.string.isRequired,
   onAdd: PropTypes.func.isRequired,
+  formClassName: PropTypes.string,
   className: PropTypes.string,
 };
 
 AddComponent.defaultProps = {
+  formClassName: '',
   className: '',
 };
 

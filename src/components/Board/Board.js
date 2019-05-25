@@ -79,7 +79,8 @@ function Board({ id, background, lists, addList }) {
           return null;
         })}
         <AddComponent
-          className='add-list-btn'
+          className='add-list-wrapper'
+          formClassName='add-list-form'
           openCreationFormBtnText='Добавить ещё одну колонку'
           placeholderFormText='Введите название колонки'
           submitFormBtnText='Добавить колонку'

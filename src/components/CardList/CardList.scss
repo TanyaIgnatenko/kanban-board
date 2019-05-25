@@ -1,3 +1,5 @@
+@import '../../assets/scss/variables';
+
 $list-width: 272px;
 $list-bg-color: rgb(223, 227, 230);
 $list-border-radius: 3px;
@@ -42,12 +44,13 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   header {
     border-top-left-radius: $list-border-radius;
     border-top-right-radius: $list-border-radius;
+    cursor: pointer;
 
     .list-title {
       padding-top: $list-header-top-space;
 
       color: $list-header-color;
-      font-family: Montserrat, 'sans-serif';
+      font-family: $font-stack;
       font-size: $list-header-font-size;
       font-weight: bold;
       line-height: $list-header-line-height;

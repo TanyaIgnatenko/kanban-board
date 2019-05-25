@@ -72,7 +72,9 @@ function CardList({
         <footer>
           <AddComponent
             className='add-card-btn'
-            componentName='карточку'
+            openCreationFormBtnText='Добавить ещё одну карточку'
+            placeholderFormText='Введите название карточки'
+            submitFormBtnText='Добавить карточку'
             onAdd={addCard.bind(null, id)}
           />
         </footer>
@@ -152,13 +154,17 @@ CardList.propTypes = {
   addCard: PropTypes.func.isRequired,
   moveList: PropTypes.func.isRequired,
   setListRef: PropTypes.func.isRequired,
-  className: PropTypes.func.isRequired,
+  className: PropTypes.string,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       content: PropTypes.string.isRequired,
     }),
   ).isRequired,
+};
+
+CardList.defaultProps = {
+  className: '',
 };
 
 const mapDispatchToProps = {

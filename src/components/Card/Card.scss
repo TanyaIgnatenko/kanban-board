@@ -1,3 +1,5 @@
+@import '../../assets/scss/variables';
+
 $card-width: 248px;
 
 $card-top-space: 8px;
@@ -33,7 +35,7 @@ $card-border-radius: 3px;
 
   .card-content {
     color: $card-color;
-    font-family: Montserrat, 'sans-serif';
+    font-family: $font-stack;
     font-size: $card-font-size;
     font-weight: normal;
     line-height: 1.9rem;
