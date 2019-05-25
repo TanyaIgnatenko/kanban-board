@@ -77,6 +77,10 @@ class DragDropManager extends React.Component {
         },
       },
       () => {
+        this.draggedObject.position = {
+          x: boundingRect.left,
+          y: boundingRect.top,
+        };
         document.addEventListener('mousemove', this.moveDraggable);
         document.addEventListener('mouseup', this.releaseDraggable);
       },
@@ -105,6 +109,7 @@ class DragDropManager extends React.Component {
       y: clientY + geometry.grabShift.y,
     };
     this.setState({ draggedObjectPosition: newPosition });
+    this.draggedObject.position = newPosition;
 
     const lastDroppable = this.hoveredDroppable;
     const currentDroppable = this.findDroppable(newPosition);

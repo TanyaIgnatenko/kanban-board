@@ -22,14 +22,18 @@ function CardList({ id, name, cards, className }) {
 
   const onDraggableHover = useCallback(draggable => {
     const draggableCenterY =
-      draggable.geometry.y + draggable.geometry.height / 2;
+      draggable.position.y + draggable.geometry.height / 2;
 
     let placeholderPosition = lowerBound(cardsRefs.current, card => {
       const cardRect = card.getBoundingClientRect();
       const cardCenterY = cardRect.top + cardRect.height / 2;
-      return cardCenterY <= draggableCenterY;
+      return draggableCenterY <= cardCenterY;
     });
-    placeholderPosition = placeholderPosition || cardsRefs.current.length;
+
+    placeholderPosition =
+      placeholderPosition !== null
+        ? placeholderPosition
+        : cardsRefs.current.length;
 
     setPlaceholderPosition(placeholderPosition);
   }, []);
