@@ -2,33 +2,50 @@ import { useContext, useEffect } from 'react';
 
 import DragDropContext from './internal/DragDropContext';
 
-function useDraggable({ context, type, node, renderElement, onRelease }) {
+function useDraggable({
+  context,
+  type,
+  node,
+  dragHandle,
+  renderElement,
+  onRelease,
+}) {
   const { grabDraggable } = useContext(DragDropContext);
 
   useEffect(() => {
-    const onMouseDown = ({ clientX, clientY }) => {
-      const grabPosition = {
-        x: clientX,
-        y: clientY,
-      };
+    const onMouseDown = event => {
+      const { clientX, clientY } = event;
       grabDraggable(
-        grabPosition,
+        {
+          x: clientX,
+          y: clientY,
+        },
         context,
         type,
         node,
         renderElement,
         onRelease,
       );
+
+      event.stopPropagation();
     };
 
-    const draggedNode = node.current;
+    const handle = dragHandle.current;
 
-    draggedNode.addEventListener('mousedown', onMouseDown);
+    handle.addEventListener('mousedown', onMouseDown);
 
     return () => {
-      draggedNode.removeEventListener('mousedown', onMouseDown);
+      handle.removeEventListener('mousedown', onMouseDown);
     };
-  }, [grabDraggable, context, type, node, renderElement, onRelease]);
+  }, [
+    grabDraggable,
+    context,
+    type,
+    node,
+    renderElement,
+    onRelease,
+    dragHandle,
+  ]);
 }
 
 export { useDraggable };

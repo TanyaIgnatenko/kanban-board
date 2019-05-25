@@ -1,114 +1,129 @@
-import React, { useRef, useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import classNames from 'classnames';
 
 import { Card } from '../Card';
 import { AddComponent } from '../AddComponent';
-import { useDroppable } from '../../drag-drop/useDroppable';
-import { addCardRequest } from '../../ducks/board/actions';
-import { lowerBound } from '../../helpers/lowerBound';
+import { addCardRequest, moveList } from '../../ducks/board/actions';
 import { DRAGGABLE_TYPE } from '../../constants';
-
 import './CardList.scss';
 
-function CardList({ id, name, cards, addCard, className }) {
-  const list = useRef(null);
-  const cardsRefs = useRef([]);
+import { ITEM_TYPE, useDroppableList } from '../../drag-drop/useDroppableList';
+import { useDraggable } from '../../drag-drop/useDraggable';
+import moveTo from '../../helpers/moveTo';
 
-  const [placeholderPosition, setPlaceholderPosition] = useState(null);
-  const [placeholderHeight, setPlaceholderHeight] = useState(null);
-
-  const onDraggableEnter = useCallback(draggable => {
-    setPlaceholderHeight(draggable.geometry.height);
-  }, []);
-
-  const onDraggableHover = useCallback(draggable => {
-    const draggableCenterY =
-      draggable.position.y + draggable.geometry.height / 2;
-
-    let placeholderPosition = lowerBound(cardsRefs.current, card => {
-      const cardRect = card.getBoundingClientRect();
-      const cardCenterY = cardRect.top + cardRect.height / 2;
-      return draggableCenterY <= cardCenterY;
-    });
-
-    placeholderPosition =
-      placeholderPosition !== null
-        ? placeholderPosition
-        : cardsRefs.current.length;
-
-    setPlaceholderPosition(placeholderPosition);
-  }, []);
-
-  const onDraggableLeave = useCallback(() => {
-    setPlaceholderHeight(null);
-    setPlaceholderPosition(null);
-  }, []);
-
-  const [cardToIgnoreContext] = useDroppable({
+function CardList({ id, name, cards, addCard, setListRef, moveList, className }) {
+  const isPositionLess = useCallback(
+    (draggablePos, cardPos) => draggablePos.y <= cardPos.y,
+    [],
+  );
+  const {
+    listNode,
+    setItemAt,
+    listItems,
+    droppableClassName,
+  } = useDroppableList({
     id,
-    context: {
-      id,
-      index: placeholderPosition,
-    },
-    node: list,
-    acceptTypes: DRAGGABLE_TYPE.CARD,
-    onDraggableEnter,
-    onDraggableHover,
-    onDraggableLeave,
+    acceptedType: DRAGGABLE_TYPE.CARD,
+    items: cards,
+    isPositionLess,
   });
 
-  const cardToIgnoreId =
-    cardToIgnoreContext !== null ? cardToIgnoreContext.id : null;
+  const dragHandleRef = useRef(null);
 
-  const setItemRef = useCallback((card, idx) => {
-    if (!card) return;
+  useDraggable({
+    context: {
+      id,
+    },
+    type: DRAGGABLE_TYPE.LIST,
+    node: listNode,
+    dragHandle: dragHandleRef,
+    renderElement: ({ clientPosition, draggedObjectRef }) => (
+      <div
+        id={id}
+        ref={draggedObjectRef}
+        className={classNames('card-list', 'dragged', className)}
+        style={moveTo(clientPosition)}
+      >
+        <header>
+          <h2 className='list-title'>{name}</h2>
+        </header>
+        {Boolean(listItems.length) && (
+          <ul className='list-cards'>
+            {listItems.map((item, idx) => (
+              <Card
+                key={item.data.id}
+                {...item.data}
+                className='list-card'
+                setCardRef={node => setItemAt(node, idx)}
+              />
+            ))}
+          </ul>
+        )}
+        <footer>
+          <AddComponent
+            className='add-card-btn'
+            componentName='карточку'
+            onAdd={addCard.bind(null, id)}
+          />
+        </footer>
+      </div>
+    ),
+    onRelease: ({ draggableContext, droppableContext }) => {
+      moveList(
+        draggableContext.id,
+        droppableContext.id,
+        droppableContext.index,
+      );
+    },
+  });
 
-    cardsRefs.current[idx] = card;
-  }, []);
+  const setRefs = node => {
+    setListRef(node);
+    listNode.current = node;
+  };
 
-  const placeholderStyle = useMemo(() => ({ height: placeholderHeight }), [
-    placeholderHeight,
-  ]);
   return (
     <li
       id={id}
-      ref={list}
-      className={classNames('card-list', 'droppable', className)}
+      ref={setRefs}
+      className={classNames('card-list', droppableClassName, className)}
     >
-      <header>
+      <header ref={dragHandleRef}>
         <h2 className='list-title'>{name}</h2>
       </header>
-      {(Boolean(cards.length) || placeholderPosition !== null) && (
+      {Boolean(listItems.length) && (
         <ul className='list-cards'>
-          {[...cards.slice(0, placeholderPosition)].map((card, idx) => (
-            <React.Fragment key={card.id}>
-              {card.id !== cardToIgnoreId && (
-                <Card
-                  {...card}
-                  idx={idx}
-                  className='list-card'
-                  cardRef={setItemRef}
-                />
-              )}
-            </React.Fragment>
-          ))}
-          {placeholderPosition !== null && (
-            <li className='placeholder list-card' style={placeholderStyle} />
-          )}
-          {[...cards.slice(placeholderPosition)].map((card, idx) => (
-            <React.Fragment key={card.id}>
-              {card.id !== cardToIgnoreId && (
-                <Card
-                  {...card}
-                  idx={idx}
-                  className='list-card'
-                  cardRef={setItemRef}
-                />
-              )}
-            </React.Fragment>
-          ))}
+          {listItems.map((item, idx) => {
+            switch (item.type) {
+              case ITEM_TYPE.REGULAR_ITEM:
+                return (
+                  <Card
+                    key={item.data.id}
+                    {...item.data}
+                    className='list-card'
+                    setCardRef={node => setItemAt(node, idx)}
+                  />
+                );
+              case ITEM_TYPE.PLACEHOLDER:
+                return (
+                  <li
+                    key={`placeholder_at_idx_${item.index}`}
+                    ref={node => setItemAt(node, idx)}
+                    className='placeholder list-card'
+                    style={{
+                      width: item.geometry && item.geometry.width,
+                      height: item.geometry && item.geometry.height,
+                    }}
+                  />
+                );
+              default:
+                console.error('Unknown item type', item.type);
+            }
+            return null;
+          })}
         </ul>
       )}
       <footer>
@@ -133,6 +148,7 @@ CardList.propTypes = {
 
 const mapDispatchToProps = {
   addCard: addCardRequest,
+  moveList,
 };
 
 export default connect(

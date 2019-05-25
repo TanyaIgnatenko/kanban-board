@@ -1,4 +1,4 @@
-import { ADD_CARD, ADD_LIST, FETCH_BOARD, MOVE_CARD } from './action-types';
+import { ADD_CARD, ADD_LIST, FETCH_BOARD, MOVE } from './action-types';
 
 const initialState = {
   board: null,
@@ -17,7 +17,7 @@ export const board = (state = initialState, action) => {
         },
       };
     }
-    case MOVE_CARD: {
+    case MOVE.CARD: {
       const { cardId, destinationListId, indexInList } = action;
 
       let cardToMove = null;
@@ -54,7 +54,33 @@ export const board = (state = initialState, action) => {
         },
       };
     }
+    case MOVE.LIST: {
+      const { listId, destinationBoardId, indexInBoard } = action;
+      if (state.board.id !== destinationBoardId) {
+        console.error('Board destination id does not match current board id');
+      }
 
+      const lastIdx = state.board.lists.findIndex(list => list.id === listId);
+      if (indexInBoard === lastIdx) {
+        return state;
+      }
+
+      const movedList = state.board.lists[lastIdx];
+      const idxToRemoveAt = lastIdx + (indexInBoard < lastIdx ? 1 : 0);
+
+      const modifiedLists = [...state.board.lists];
+
+      modifiedLists.splice(indexInBoard, 0, movedList);
+      modifiedLists.splice(idxToRemoveAt, 1);
+
+      return {
+        ...state,
+        board: {
+          ...state.board,
+          lists: modifiedLists,
+        },
+      };
+    }
     case ADD_CARD.SUCCESS: {
       const updatedLists = state.board.lists.map(list =>
         list.id === action.listId

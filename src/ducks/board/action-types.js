@@ -4,7 +4,10 @@ export const FETCH_BOARD = {
   ERROR: '@@board/FETCH_BOARD_ERROR',
 };
 
-export const MOVE_CARD = '@@board/MOVE_CARD';
+export const MOVE = {
+  CARD: '@@board/MOVE_CARD',
+  LIST: '@@board/MOVE_LIST',
+};
 
 export const ADD_CARD = {
   REQUEST: '@@board/ADD_CARD_REQUEST',

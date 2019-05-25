@@ -1,12 +1,14 @@
-import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import CardList from '../CardList/CardList';
 import { addListRequest, fetchBoardRequest } from '../../ducks/board/actions';
 import { selectBoard } from '../../ducks/board/selectors';
 
 import './Board.scss';
+import { ITEM_TYPE, useDroppableList } from '../../drag-drop/useDroppableList';
+import { DRAGGABLE_TYPE } from '../../constants';
 import { AddComponent } from '../AddComponent';
 
 function Board({ id, background, lists, addList }) {
@@ -23,12 +25,59 @@ function Board({ id, background, lists, addList }) {
     [backgroundStyle],
   );
 
+  const isPositionLess = useCallback(
+    (draggablePos, cardPos) => draggablePos.x <= cardPos.x,
+    [],
+  );
+
+  const {
+    listNode,
+    setItemAt,
+    listItems,
+    droppableClassName,
+  } = useDroppableList({
+    id,
+    acceptedType: DRAGGABLE_TYPE.LIST,
+    items: lists,
+    isPositionLess,
+  });
+
   return (
-    <div className='board' style={boardStyle}>
+    <div
+      id={id}
+      ref={listNode}
+      className={classNames('board', droppableClassName)}
+      style={boardStyle}
+    >
       <ul className='board-lists'>
-        {lists.map(list => (
-          <CardList key={list.id} className='board-list' {...list} />
-        ))}
+        {listItems.map((item, idx) => {
+          switch (item.type) {
+            case ITEM_TYPE.REGULAR_ITEM:
+              return (
+                <CardList
+                  key={item.data.id}
+                  className='board-list'
+                  {...item.data}
+                  setListRef={node => setItemAt(node, idx)}
+                />
+              );
+            case ITEM_TYPE.PLACEHOLDER:
+              return (
+                <div
+                  key={`placeholder_at_idx_${item.index}`}
+                  ref={node => setItemAt(node, idx)}
+                  className='placeholder board-list'
+                  style={{
+                    width: item.geometry && item.geometry.width,
+                    height: item.geometry && item.geometry.height,
+                  }}
+                />
+              );
+            default:
+              console.error('Unknown item type', item.type);
+          }
+          return null;
+        })}
         <AddComponent
           className='add-list-btn'
           componentName='колонку'

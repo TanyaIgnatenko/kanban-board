@@ -1,4 +1,4 @@
-import { ADD_CARD, ADD_LIST, FETCH_BOARD, MOVE_CARD } from './action-types';
+import { ADD_CARD, ADD_LIST, FETCH_BOARD, MOVE } from './action-types';
 
 export const fetchBoardRequest = id => {
   return {
@@ -23,10 +23,19 @@ export const fetchBoardError = error => {
 
 export const moveCard = (cardId, destinationListId, indexInList) => {
   return {
-    type: MOVE_CARD,
+    type: MOVE.CARD,
     cardId,
     destinationListId,
     indexInList,
+  };
+};
+
+export const moveList = (listId, destinationBoardId, indexInBoard) => {
+  return {
+    type: MOVE.LIST,
+    listId,
+    destinationBoardId,
+    indexInBoard,
   };
 };
 

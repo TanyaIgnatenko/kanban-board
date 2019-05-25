@@ -11,14 +11,15 @@ import moveTo from '../../helpers/moveTo';
 
 import './Card.scss';
 
-function Card({ id, content, cardRef, idx, moveCardToList, className }) {
-  const item = useRef(null);
+function Card({ id, content, setCardRef, moveCardToList, className }) {
+  const cardRef = useRef(null);
   useDraggable({
     context: {
       id,
     },
     type: DRAGGABLE_TYPE.CARD,
-    node: item,
+    node: cardRef,
+    dragHandle: cardRef,
     renderElement: ({ clientPosition, draggedObjectRef }) => (
       <div
         ref={draggedObjectRef}
@@ -37,14 +38,13 @@ function Card({ id, content, cardRef, idx, moveCardToList, className }) {
     },
   });
 
+  const setRefs = node => {
+    setCardRef(node);
+    cardRef.current = node;
+  };
+
   return (
-    <li
-      ref={el => {
-        cardRef(el, idx);
-        item.current = el;
-      }}
-      className={classNames('card', className)}
-    >
+    <li id={id} ref={setRefs} className={classNames('card', className)}>
       <h4 className='card-content'>{content}</h4>
     </li>
   );

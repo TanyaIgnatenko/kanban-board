@@ -6,7 +6,7 @@ function useDroppable({
   id,
   context,
   node,
-  acceptTypes,
+  acceptedType,
   onDraggableEnter,
   onDraggableHover,
   onDraggableLeave,
@@ -17,13 +17,15 @@ function useDroppable({
     id,
     node,
     context,
-    acceptTypes,
     onDraggableEnter,
     onDraggableHover,
     onDraggableLeave,
   });
 
-  return [draggedObject ? draggedObject.context : null];
+  return {
+    draggableContext: draggedObject && draggedObject.context,
+    droppableClassName: `droppable-${acceptedType}`,
+  };
 }
 
 export { useDroppable };
