@@ -29,9 +29,6 @@ function AddComponent({ componentName, onAdd, className }) {
   const handleOpen = useCallback(event => {
     setComposeMode(true);
     textarea.current.focus();
-
-    console.log('on click')
-    event.stopPropagation();
   }, []);
 
   const addComponentId = useUniqueId('add-component');

@@ -10,7 +10,6 @@ $list-header-font-size: 1.3rem;
 
 $list-card-top-space: 12px;
 $list-card-gap: 8px;
-$last-list-card-gap: 6px;
 
 $card-placeholder-bg-color: #C9D2D9;
 $card-placeholder-width: 248px;
@@ -80,10 +79,6 @@ $scrollbar-thumb-bg-color: #c1c6c9;
 
     .list-card:not(:last-child) {
       margin-bottom: $list-card-gap;
-    }
-
-    .list-card:last-child {
-      margin-bottom: $last-list-card-gap;
     }
 
     .placeholder {

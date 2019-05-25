@@ -4,7 +4,6 @@ $add-component-wrapper-border-radius: 3px;
 $open-component-composer-width: 272px;
 $open-component-composer-height: 43px;
 $open-component-composer-btn-space: 12px;
-$open-component-composer-btn-top-space: 6px;
 $plus-icon-gap: 8px;
 $open-component-composer-btn-color: rgb(107, 119, 140);
 $open-component-composer-btn-bg-color: rgb(223, 227, 230);
@@ -14,12 +13,11 @@ $open-component-composer-btn-hover-color: rgb(23, 43, 77);
 $open-component-composer-btn-font-size: 1.3rem;
 $open-component-composer-btn-border-radius: 3px;
 
-
 $text-area-width: 248px;
 $text-area-bg-color: white;
 $text-area-border-radius: 3px;
 
-$component-composer-padding-top: 2px;
+$component-composer-padding-top: 8px;
 $component-composer-padding-right: 12px;
 $component-composer-padding-bottom: 16px;
 $component-composer-padding-left: 12px;
@@ -54,7 +52,6 @@ $add-component-btn-padding-left: 8px;
     width: $open-component-composer-width;
     height: $open-component-composer-height;
     padding: $open-component-composer-btn-space;
-    padding-top: $open-component-composer-btn-top-space;
 
     cursor: pointer;
     text-align: start;
@@ -83,12 +80,18 @@ $add-component-btn-padding-left: 8px;
   }
 
   .component-composer {
-    padding: $component-composer-padding-top $component-composer-padding-right $component-composer-padding-bottom $component-composer-padding-left;
+    padding: $component-composer-padding-top
+             $component-composer-padding-right
+             $component-composer-padding-bottom
+             $component-composer-padding-left;
 
     .component-content {
       width: $text-area-width;
       height: 54px;
-      padding: $component-content-padding-top $component-content-padding-right $component-content-padding-bottom $component-content-padding-left;
+      padding: $component-content-padding-top
+               $component-content-padding-right
+               $component-content-padding-bottom
+               $component-content-padding-left;
 
       color: $component-content-color;
       background: $text-area-bg-color;

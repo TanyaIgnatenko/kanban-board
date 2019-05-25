@@ -50,6 +50,10 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
       height: calc(100% - 2 * #{$scrollbar-padding} - #{$scrollbar-thickness});
     }
 
+    .add-list-btn {
+      padding-top: 12px;
+    }
+
     &::after {
       content: '';
       flex: 0 0 $list-gap;
