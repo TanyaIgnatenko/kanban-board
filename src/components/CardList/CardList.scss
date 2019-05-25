@@ -12,6 +12,10 @@ $list-card-top-space: 12px;
 $list-card-gap: 8px;
 $last-list-card-gap: 6px;
 
+$card-placeholder-bg-color: #C9D2D9;
+$card-placeholder-width: 248px;
+$card-placeholder-border-radius: 3px;
+
 $list-footer-height: 43px;
 $add-card-btn-color: rgb(107, 119, 140);
 $add-card-btn-bg-color: rgb(223, 227, 230);
@@ -83,6 +87,12 @@ $scrollbar-thumb-bg-color: #c1c6c9;
 
     .list-card:last-child {
       margin-bottom: $last-list-card-gap;
+    }
+
+    .placeholder {
+      width: $card-placeholder-width;
+      border-radius: $card-placeholder-border-radius;
+      background: $card-placeholder-bg-color;
     }
   }
 

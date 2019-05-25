@@ -82,7 +82,10 @@ function CardList({ id, name, cards, className }) {
           {cards.map((card, idx) => (
             <React.Fragment key={card.id}>
               {placeholderPosition === idx && (
-                <li className='placeholder' style={placeholderStyle} />
+                <li
+                  className='placeholder list-card'
+                  style={placeholderStyle}
+                />
               )}
               {card.id !== cardToIgnoreId && (
                 <Card
