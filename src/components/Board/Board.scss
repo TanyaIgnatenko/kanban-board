@@ -52,13 +52,14 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
       height: calc(100% - 2 * #{$scrollbar-padding} - #{$scrollbar-thickness});
     }
 
-      .add-list-form {
-        margin-top: $add-list-form-top-margin;
-      }
+    .add-list-form {
+      margin-top: $add-list-form-top-margin;
+    }
 
     &::after {
       content: '';
       flex: 0 0 $list-gap;
+      height: 100%;
     }
   }
 }
