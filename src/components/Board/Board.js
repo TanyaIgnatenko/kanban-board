@@ -38,21 +38,20 @@ function Board({ id, background, lists, addList }) {
       style={boardStyle}
     >
       <ul className='board-lists'>
-        {listItems.map((item, idx) => {
-          switch (item.type) {
-            case ITEM_TYPE.REGULAR_ITEM:
-              return (
+        {listItems.map(
+          (item, idx) =>
+            ({
+              [ITEM_TYPE.REGULAR_ITEM]: (
                 <CardList
-                  key={item.data.id}
+                  key={item.data && item.data.id}
                   className='board-list'
                   setListRef={node => setItemAt(node, idx)}
                   {...item.data}
                 />
-              );
-            case ITEM_TYPE.PLACEHOLDER:
-              return (
+              ),
+              [ITEM_TYPE.PLACEHOLDER]: (
                 <div
-                  key={`placeholder_at_idx_${item.index}`}
+                  key='placeholder'
                   ref={node => setItemAt(node, idx)}
                   className='placeholder board-list'
                   style={{
@@ -60,12 +59,9 @@ function Board({ id, background, lists, addList }) {
                     height: item.geometry && item.geometry.height,
                   }}
                 />
-              );
-            default:
-              console.error('Unknown item type', item.type);
-          }
-          return null;
-        })}
+              ),
+            }[item.type]),
+        )}
         <AddComponent
           className='add-list-wrapper'
           formClassName='add-list-form'

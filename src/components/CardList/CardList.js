@@ -104,21 +104,20 @@ function CardList({
       </header>
       {Boolean(listItems.length) && (
         <ul className='list-cards'>
-          {listItems.map((item, idx) => {
-            switch (item.type) {
-              case ITEM_TYPE.REGULAR_ITEM:
-                return (
+          {listItems.map(
+            (item, idx) =>
+              ({
+                [ITEM_TYPE.REGULAR_ITEM]: (
                   <Card
-                    key={item.data.id}
+                    key={item.data && item.data.id}
                     {...item.data}
                     className='list-card'
                     setCardRef={node => setItemAt(node, idx)}
                   />
-                );
-              case ITEM_TYPE.PLACEHOLDER:
-                return (
+                ),
+                [ITEM_TYPE.PLACEHOLDER]: (
                   <li
-                    key={`placeholder_at_idx_${item.index}`}
+                    key='placeholder'
                     ref={node => setItemAt(node, idx)}
                     className='placeholder list-card'
                     style={{
@@ -126,12 +125,9 @@ function CardList({
                       height: item.geometry && item.geometry.height,
                     }}
                   />
-                );
-              default:
-                console.error('Unknown item type', item.type);
-            }
-            return null;
-          })}
+                ),
+              }[item.type]),
+          )}
         </ul>
       )}
       <footer>
