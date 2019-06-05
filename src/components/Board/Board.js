@@ -1,29 +1,19 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { CardList } from '../CardList';
 import { AddComponent } from '../AddComponent';
-import { addListRequest, fetchBoardRequest } from '../../ducks/board/actions';
+import { useBoardStyle } from './hooks/useBoardStyle';
 import { selectBoard } from '../../ducks/board/selectors';
+import { addListRequest, fetchBoardRequest } from '../../ducks/board/actions';
 import { ITEM_TYPE, useDroppableList } from '../../drag-drop/useDroppableList';
 import { DRAGGABLE_TYPE } from '../../constants';
 
 import './Board.scss';
 
 function Board({ id, background, lists, addList }) {
-  const backgroundStyle =
-    background.type === 'img'
-      ? `url(${background.url}) no-repeat`
-      : background.color;
-
-  const boardStyle = useMemo(
-    () => ({
-      background: backgroundStyle,
-      backgroundSize: 'cover',
-    }),
-    [backgroundStyle],
-  );
+  const boardStyle = useBoardStyle(background);
 
   const {
     listNode,
@@ -55,8 +45,8 @@ function Board({ id, background, lists, addList }) {
                 <CardList
                   key={item.data.id}
                   className='board-list'
-                  {...item.data}
                   setListRef={node => setItemAt(node, idx)}
+                  {...item.data}
                 />
               );
             case ITEM_TYPE.PLACEHOLDER:
