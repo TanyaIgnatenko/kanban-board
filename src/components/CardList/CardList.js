@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -6,10 +6,15 @@ import classNames from 'classnames';
 import { Card } from '../Card';
 import { AddComponent } from '../AddComponent';
 import { addCardRequest, moveList } from '../../ducks/board/actions';
-import { ITEM_TYPE, useDroppableList } from '../../drag-drop/useDroppableList';
 import { useDraggable } from '../../drag-drop/useDraggable';
 import { DRAGGABLE_TYPE } from '../../constants';
 import { moveTo } from '../../helpers/moveTo';
+
+import {
+  ITEM_TYPE,
+  LIST_TYPE,
+  useDroppableList,
+} from '../../drag-drop/useDroppableList';
 
 import './CardList.scss';
 
@@ -29,12 +34,9 @@ function CardList({
     droppableClassName,
   } = useDroppableList({
     id,
+    listType: LIST_TYPE.VERTICAL,
     acceptedType: DRAGGABLE_TYPE.CARD,
     items: cards,
-    isPositionLess: useCallback(
-      (draggableCenter, cardCenter) => draggableCenter.y <= cardCenter.y,
-      [],
-    ),
   });
 
   const dragHandleRef = useRef(null);

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
@@ -7,8 +7,13 @@ import { AddComponent } from '../AddComponent';
 import { useBoardStyle } from './hooks/useBoardStyle';
 import { selectBoard } from '../../ducks/board/selectors';
 import { addListRequest, fetchBoardRequest } from '../../ducks/board/actions';
-import { ITEM_TYPE, useDroppableList } from '../../drag-drop/useDroppableList';
 import { DRAGGABLE_TYPE } from '../../constants';
+
+import {
+  ITEM_TYPE,
+  LIST_TYPE,
+  useDroppableList,
+} from '../../drag-drop/useDroppableList';
 
 import './Board.scss';
 
@@ -22,12 +27,9 @@ function Board({ id, background, lists, addList }) {
     droppableClassName,
   } = useDroppableList({
     id,
+    listType: LIST_TYPE.HORIZONTAL,
     acceptedType: DRAGGABLE_TYPE.LIST,
     items: lists,
-    isPositionLess: useCallback(
-      (draggableCenter, itemCenter) => draggableCenter.x <= itemCenter.x,
-      [],
-    ),
   });
 
   return (

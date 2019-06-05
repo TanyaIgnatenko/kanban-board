@@ -8,7 +8,12 @@ const ITEM_TYPE = {
   REGULAR_ITEM: 'REGULAR_ITEM',
 };
 
-function useDroppableList({ id, acceptedType, items, isPositionLess }) {
+const LIST_TYPE = {
+  HORIZONTAL: 'HORIZONTAL',
+  VERTICAL: 'VERTICAL',
+};
+
+function useDroppableList({ id, acceptedType, listType, items }) {
   const listNode = useRef(null);
   const itemNodes = useRef([]);
   const context = useRef({ id, index: null });
@@ -25,18 +30,29 @@ function useDroppableList({ id, acceptedType, items, isPositionLess }) {
 
   const onDraggableHover = useCallback(
     draggable => {
-      const draggableCenterPos = {
+      const draggableCenter = {
         x: draggable.position.x + draggable.geometry.width / 2,
         y: draggable.position.y + draggable.geometry.height / 2,
       };
 
       let placeholderIndex = lowerBound(itemNodes.current, item => {
         const itemRect = item.getBoundingClientRect();
-        const itemCenterPos = {
+
+        const itemCenter = {
           x: itemRect.left + itemRect.width / 2,
           y: itemRect.top + itemRect.height / 2,
         };
-        return isPositionLess(draggableCenterPos, itemCenterPos);
+        switch (listType) {
+          case LIST_TYPE.HORIZONTAL: {
+            return draggableCenter.x <= itemCenter.x;
+          }
+          case LIST_TYPE.VERTICAL: {
+            return draggableCenter.y <= itemCenter.y;
+          }
+          default: {
+            console.error('Unknown list type:', listType);
+          }
+        }
       });
 
       placeholderIndex =
@@ -45,7 +61,7 @@ function useDroppableList({ id, acceptedType, items, isPositionLess }) {
       context.current.index = placeholderIndex;
       setPlaceholderIndex(placeholderIndex);
     },
-    [isPositionLess],
+    [listType],
   );
 
   const onDraggableLeave = useCallback(() => {
@@ -57,7 +73,6 @@ function useDroppableList({ id, acceptedType, items, isPositionLess }) {
   const { draggableContext, droppableClassName } = useDroppable({
     id,
     context: context.current,
-    node: listNode,
     acceptedType,
     onDraggableEnter,
     onDraggableHover,
@@ -102,4 +117,4 @@ function useDroppableList({ id, acceptedType, items, isPositionLess }) {
   };
 }
 
-export { ITEM_TYPE, useDroppableList };
+export { useDroppableList, ITEM_TYPE, LIST_TYPE };
