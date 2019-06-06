@@ -1,30 +1,27 @@
-import { useContext } from 'react';
+import { useEffect, useContext } from 'react';
 
 import DragDropContext from './internal/DragDropContext';
 
-function useDroppable({
-  id,
-  context,
-  node,
-  acceptedType,
-  onDraggableEnter,
-  onDraggableHover,
-  onDraggableLeave,
-}) {
-  const { draggedObject, registerAsDroppable } = useContext(DragDropContext);
+function useDroppable(droppable) {
+  const { draggedObject, registerDroppable } = useContext(DragDropContext);
 
-  registerAsDroppable({
-    id,
-    node,
-    context,
-    onDraggableEnter,
-    onDraggableHover,
-    onDraggableLeave,
-  });
+  useEffect(() => {
+    const unregisterDroppable = registerDroppable(droppable);
+
+    return unregisterDroppable;
+  }, [
+    droppable.id,
+    droppable.context,
+    droppable.node,
+    droppable.acceptedType,
+    droppable.onDraggableEnter,
+    droppable.onDraggableHover,
+    droppable.onDraggableLeave,
+  ]);
 
   return {
     draggableContext: draggedObject && draggedObject.context,
-    droppableClassName: `droppable-${acceptedType}`,
+    droppableClassName: `droppable-${droppable.acceptedType}`,
   };
 }
 

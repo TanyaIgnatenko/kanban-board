@@ -1,4 +1,5 @@
 import React from 'react';
+
 import DragDropContext from './internal/DragDropContext';
 
 class DragDropManager extends React.Component {
@@ -10,29 +11,42 @@ class DragDropManager extends React.Component {
   hoveredDroppable = null;
   droppables = {};
 
-  registerAsDroppable = droppable => {
+  registerDroppable = droppable => {
     this.droppables[droppable.id] = droppable;
+    return () => {};
   };
 
-  grabDraggable = (
+  registerDraggable = ({ dragHandle, ...draggable }) => {
+    const onMouseDown = event => {
+      const { clientX, clientY } = event;
+      this.grabDraggable({
+        grabPosition: {
+          x: clientX,
+          y: clientY,
+        },
+        ...draggable,
+      });
+
+      event.stopPropagation();
+    };
+
+    const handle = dragHandle.current;
+    handle.addEventListener('mousedown', onMouseDown);
+
+    return function unregisterDraggable() {
+      handle.removeEventListener('mousedown', onMouseDown);
+    };
+  };
+
+  grabDraggable = ({
     grabPosition,
     context,
     type,
     node,
     renderElement,
     onRelease,
-  ) => {
-    if (this.draggedObject !== null) {
-      console.error('Grabbing object while object already grabbed');
-      return;
-    }
-
-    const grabbedNode = node.current;
-    if (!grabbedNode) {
-      console.error('Null ref to grabbed node');
-      return;
-    }
-    const boundingRect = node.current.getBoundingClientRect();
+  }) => {
+    const draggedObjectRect = node.current.getBoundingClientRect();
 
     this.draggedObject = {
       context,
@@ -40,23 +54,20 @@ class DragDropManager extends React.Component {
       renderElement,
       onRelease,
       geometry: {
-        width: boundingRect.right - boundingRect.left,
-        height: boundingRect.bottom - boundingRect.top,
+        width: draggedObjectRect.width,
+        height: draggedObjectRect.height,
         grabShift: {
-          x: boundingRect.left - grabPosition.x,
-          y: boundingRect.top - grabPosition.y,
+          x: draggedObjectRect.left - grabPosition.x,
+          y: draggedObjectRect.top - grabPosition.y,
         },
       },
       position: {
-        x: boundingRect.left,
-        y: boundingRect.top,
+        x: draggedObjectRect.left,
+        y: draggedObjectRect.top,
       },
     };
 
-    this.dndContext = {
-      ...this.dndContext,
-      draggedObject: this.draggedObject,
-    };
+    this.dndContext.draggedObject = this.draggedObject;
 
     this.manageDroppables();
 
@@ -73,47 +84,12 @@ class DragDropManager extends React.Component {
 
   dndContext = {
     draggedObject: null,
-    grabDraggable: this.grabDraggable,
-    registerAsDroppable: this.registerAsDroppable,
+    registerDraggable: this.registerDraggable,
+    registerDroppable: this.registerDroppable,
   };
-
-  manageDroppables() {
-    const { position, geometry } = this.draggedObject;
-
-    const lastDroppable = this.hoveredDroppable;
-    const currentDroppable = this.findDroppable({
-      x: position.x + geometry.width / 2,
-      y: position.y + geometry.height / 2,
-    });
-
-    if (!currentDroppable) {
-      return;
-    }
-
-    const droppableChanged =
-      !lastDroppable || currentDroppable.id !== lastDroppable.id;
-
-    if (droppableChanged) {
-      if (lastDroppable) {
-        lastDroppable.onDraggableLeave();
-      }
-
-      this.hoveredDroppable = this.droppables[currentDroppable.id];
-
-      this.hoveredDroppable.onDraggableEnter(this.draggedObject);
-    }
-    this.hoveredDroppable.onDraggableHover(this.draggedObject);
-  }
 
   moveDraggable = event => {
     const { clientX, clientY } = event;
-    const { position } = this.state;
-
-    if (position === null) {
-      console.warn('Position is null in moveDraggable');
-      return;
-    }
-
     const { geometry } = this.draggedObject;
 
     const newPosition = {
@@ -125,23 +101,6 @@ class DragDropManager extends React.Component {
     this.manageDroppables();
 
     this.setState({ draggedObjectPosition: newPosition });
-  };
-
-  findDroppable = position => {
-    const draggedNode = this.draggedObject.node;
-    if (draggedNode) {
-      draggedNode.style.visibility = 'hidden';
-    }
-    const element = document.elementFromPoint(position.x, position.y);
-    if (draggedNode) {
-      draggedNode.style.visibility = 'visible';
-    }
-
-    if (element == null) {
-      return null;
-    }
-
-    return element.closest(`.droppable-${this.draggedObject.type}`);
   };
 
   releaseDraggable = () => {
@@ -158,20 +117,55 @@ class DragDropManager extends React.Component {
       draggedObjectPosition: null,
     });
 
-    if (currentDraggedObject === null) {
-      console.error('Releasing draggable while have not grabbed one yet');
-      return;
-    }
-    if (currentHoveredDroppable === null) {
-      console.error('Releasing draggable, which does not hover any droppable');
-      return;
-    }
-
     currentDraggedObject.onRelease({
       draggableContext: currentDraggedObject.context,
       droppableContext: currentHoveredDroppable.context,
     });
     currentHoveredDroppable.onDraggableLeave();
+  };
+
+  manageDroppables() {
+    const { position, geometry } = this.draggedObject;
+
+    const lastDroppable = this.hoveredDroppable;
+    const currentDroppable = this.findDroppable({
+      x: position.x + geometry.width / 2,
+      y: position.y + geometry.height / 2,
+    });
+
+    if (!currentDroppable) return;
+
+    const droppableChanged =
+      !lastDroppable || currentDroppable.id !== lastDroppable.id;
+
+    if (droppableChanged) {
+      if (lastDroppable) {
+        lastDroppable.onDraggableLeave();
+      }
+
+      this.hoveredDroppable = this.droppables[currentDroppable.id];
+
+      this.hoveredDroppable.onDraggableEnter(this.draggedObject);
+    }
+    this.hoveredDroppable.onDraggableHover(this.draggedObject);
+  }
+
+  findDroppable = position => {
+    const draggedNode = this.draggedObject.node;
+
+    if (draggedNode) {
+      draggedNode.style.visibility = 'hidden';
+    }
+    const element = document.elementFromPoint(position.x, position.y);
+    if (draggedNode) {
+      draggedNode.style.visibility = 'visible';
+    }
+
+    if (element == null) {
+      return null;
+    }
+
+    return element.closest(`.droppable-${this.draggedObject.type}`);
   };
 
   setDraggedObjectRef = draggedObjectNode => {
