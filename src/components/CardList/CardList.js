@@ -27,19 +27,15 @@ function CardList({
   moveList,
   className,
 }) {
-  const {
-    listNode,
-    setItemAt,
-    listItems,
-    droppableClassName,
-  } = useDroppableList({
+  const { setItemAt, listItems, droppableClassName } = useDroppableList({
     id,
     listType: LIST_TYPE.VERTICAL,
     acceptedType: DRAGGABLE_TYPE.CARD,
     items: cards,
   });
 
-  const dragHandleRef = useRef(null);
+  const dragHandleNode = useRef(null);
+  const listNode = useRef(null);
 
   useDraggable({
     context: {
@@ -47,7 +43,7 @@ function CardList({
     },
     type: DRAGGABLE_TYPE.LIST,
     node: listNode,
-    dragHandle: dragHandleRef,
+    dragHandle: dragHandleNode,
     renderElement: ({ clientPosition, draggedObjectRef }) => (
       <div
         id={id}
@@ -101,7 +97,7 @@ function CardList({
       ref={setRefs}
       className={classNames('card-list', droppableClassName, className)}
     >
-      <header ref={dragHandleRef}>
+      <header ref={dragHandleNode}>
         <h2 className='list-title'>{name}</h2>
       </header>
       {Boolean(listItems.length) && (

@@ -20,12 +20,7 @@ import './Board.scss';
 function Board({ id, background, lists, addList }) {
   const boardStyle = useBoardStyle(background);
 
-  const {
-    listNode,
-    setItemAt,
-    listItems,
-    droppableClassName,
-  } = useDroppableList({
+  const { setItemAt, listItems, droppableClassName } = useDroppableList({
     id,
     listType: LIST_TYPE.HORIZONTAL,
     acceptedType: DRAGGABLE_TYPE.LIST,
@@ -35,7 +30,6 @@ function Board({ id, background, lists, addList }) {
   return (
     <div
       id={id}
-      ref={listNode}
       className={classNames('board', droppableClassName)}
       style={boardStyle}
     >
