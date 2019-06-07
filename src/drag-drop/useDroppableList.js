@@ -13,13 +13,36 @@ const LIST_TYPE = {
   VERTICAL: 'VERTICAL',
 };
 
-function useDroppableList({ id, acceptedType, listType, items }) {
-  const listNode = useRef(null);
-  const itemNodes = useRef([]);
-  const context = useRef({ id, index: null });
+function enrichWithPlaceholder(items, placeholderIndex, placeholderGeometry) {
+  const listItems = items.map(item => ({
+    type: ITEM_TYPE.REGULAR_ITEM,
+    data: item,
+  }));
 
+  const shouldShowPlaceholder = placeholderIndex !== null;
+  if (shouldShowPlaceholder) {
+    listItems.splice(placeholderIndex, 0, {
+      type: ITEM_TYPE.PLACEHOLDER,
+      index: placeholderIndex,
+      geometry: placeholderGeometry,
+    });
+  }
+
+  return listItems;
+}
+
+function useDroppableList({ id, acceptedType, listType, items }) {
   const [placeholderIndex, setPlaceholderIndex] = useState(null);
   const [placeholderGeometry, setPlaceholderGeometry] = useState(null);
+
+  const context = useRef({ id, index: null });
+  const itemNodes = useRef([]);
+
+  const setItemAt = useCallback((item, idx) => {
+    if (!item) return;
+
+    itemNodes.current[idx] = item;
+  }, []);
 
   const onDraggableEnter = useCallback(draggable => {
     setPlaceholderGeometry({
@@ -42,17 +65,9 @@ function useDroppableList({ id, acceptedType, listType, items }) {
           x: itemRect.left + itemRect.width / 2,
           y: itemRect.top + itemRect.height / 2,
         };
-        switch (listType) {
-          case LIST_TYPE.HORIZONTAL: {
-            return draggableCenter.x <= itemCenter.x;
-          }
-          case LIST_TYPE.VERTICAL: {
-            return draggableCenter.y <= itemCenter.y;
-          }
-          default: {
-            console.error('Unknown list type:', listType);
-          }
-        }
+        return listType === LIST_TYPE.HORIZONTAL
+          ? draggableCenter.x <= itemCenter.x
+          : draggableCenter.y <= itemCenter.y;
       });
 
       placeholderIndex =
@@ -79,39 +94,21 @@ function useDroppableList({ id, acceptedType, listType, items }) {
     onDraggableLeave,
   });
 
-  const setItemAt = useCallback((item, idx) => {
-    if (!item) return;
+  let listItems = enrichWithPlaceholder(
+    items,
+    placeholderIndex,
+    placeholderGeometry,
+  );
 
-    itemNodes.current[idx] = item;
-  }, []);
-
-  const listItems = items.map(item => ({
-    type: ITEM_TYPE.REGULAR_ITEM,
-    data: item,
-  }));
-
-  if (placeholderIndex !== null) {
-    listItems.splice(placeholderIndex, 0, {
-      type: ITEM_TYPE.PLACEHOLDER,
-      index: placeholderIndex,
-      geometry: placeholderGeometry,
-    });
-  }
-
-  if (draggableContext !== null) {
-    const itemToIgnoreIdx = listItems.findIndex(
+  const itemToIgnoreId = draggableContext && draggableContext.id;
+  if (itemToIgnoreId) {
+    listItems = listItems.filter(
       item =>
-        item.type === ITEM_TYPE.REGULAR_ITEM &&
-        item.data.id === draggableContext.id,
+        item.type === ITEM_TYPE.PLACEHOLDER || item.data.id !== itemToIgnoreId,
     );
-    if (itemToIgnoreIdx !== -1) {
-      listItems.splice(itemToIgnoreIdx, 1);
-    }
   }
-
   return {
     listItems,
-    listNode,
     setItemAt,
     droppableClassName,
   };
