@@ -27,65 +27,28 @@ function CardList({
   moveList,
   className,
 }) {
-  const {
-    listNode,
-    setItemAt,
-    listItems,
-    droppableClassName,
-  } = useDroppableList({
+  const { setItemAt, listItems, droppableClassName } = useDroppableList({
     id,
     listType: LIST_TYPE.VERTICAL,
     acceptedType: DRAGGABLE_TYPE.CARD,
     items: cards,
   });
 
-  const dragHandleRef = useRef(null);
+  const dragHandleNode = useRef(null);
+  const listNode = useRef(null);
 
-  useDraggable({
+  const [isDragged, draggedPosition] = useDraggable({
     context: {
       id,
     },
     type: DRAGGABLE_TYPE.LIST,
     node: listNode,
-    dragHandle: dragHandleRef,
-    renderElement: ({ clientPosition, draggedObjectRef }) => (
-      <div
-        id={id}
-        ref={draggedObjectRef}
-        className={classNames('card-list', 'dragged', className)}
-        style={moveTo(clientPosition)}
-      >
-        <header>
-          <h2 className='list-title'>{name}</h2>
-        </header>
-        {Boolean(listItems.length) && (
-          <ul className='list-cards'>
-            {listItems.map((item, idx) => (
-              <Card
-                key={item.data.id}
-                {...item.data}
-                className='list-card'
-                setCardRef={node => setItemAt(node, idx)}
-              />
-            ))}
-          </ul>
-        )}
-        <footer>
-          <AddComponent
-            className='add-card-btn'
-            openCreationFormBtnText='Добавить ещё одну карточку'
-            placeholderFormText='Введите название карточки'
-            submitFormBtnText='Добавить карточку'
-            onAdd={addCard.bind(null, id)}
-          />
-        </footer>
-      </div>
-    ),
+    dragHandle: dragHandleNode,
     onRelease: ({ draggableContext, droppableContext }) => {
       moveList(
         draggableContext.id,
         droppableContext.id,
-        droppableContext.index,
+        droppableContext.placeholderIndex,
       );
     },
   });
@@ -99,9 +62,15 @@ function CardList({
     <li
       id={id}
       ref={setRefs}
-      className={classNames('card-list', droppableClassName, className)}
+      className={classNames(
+        'card-list',
+        isDragged && 'dragged',
+        droppableClassName,
+        className,
+      )}
+      style={draggedPosition && moveTo(draggedPosition)}
     >
-      <header ref={dragHandleRef}>
+      <header ref={dragHandleNode}>
         <h2 className='list-title'>{name}</h2>
       </header>
       {Boolean(listItems.length) && (

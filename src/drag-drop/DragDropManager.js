@@ -3,17 +3,16 @@ import React from 'react';
 import DragDropContext from './internal/DragDropContext';
 
 class DragDropManager extends React.Component {
-  state = {
-    draggedObjectPosition: null,
-  };
-
   draggedObject = null;
   hoveredDroppable = null;
   droppables = {};
 
   registerDroppable = droppable => {
     this.droppables[droppable.id] = droppable;
-    return () => {};
+
+    return function unregisterDroppable() {
+      delete this.droppables[droppable.id];
+    }.bind(this);
   };
 
   registerDraggable = ({ dragHandle, ...draggable }) => {
@@ -43,7 +42,8 @@ class DragDropManager extends React.Component {
     context,
     type,
     node,
-    renderElement,
+    onGrab,
+    onMove,
     onRelease,
   }) => {
     const draggedObjectRect = node.current.getBoundingClientRect();
@@ -51,7 +51,7 @@ class DragDropManager extends React.Component {
     this.draggedObject = {
       context,
       type,
-      renderElement,
+      onMove,
       onRelease,
       geometry: {
         width: draggedObjectRect.width,
@@ -65,21 +65,17 @@ class DragDropManager extends React.Component {
         x: draggedObjectRect.left,
         y: draggedObjectRect.top,
       },
+      node,
     };
 
     this.dndContext.draggedObject = this.draggedObject;
 
+    document.addEventListener('mousemove', this.moveDraggable);
+    document.addEventListener('mouseup', this.releaseDraggable);
+
     this.manageDroppables();
 
-    this.setState(
-      {
-        draggedObjectPosition: this.draggedObject.position,
-      },
-      () => {
-        document.addEventListener('mousemove', this.moveDraggable);
-        document.addEventListener('mouseup', this.releaseDraggable);
-      },
-    );
+    onGrab();
   };
 
   dndContext = {
@@ -100,7 +96,7 @@ class DragDropManager extends React.Component {
 
     this.manageDroppables();
 
-    this.setState({ draggedObjectPosition: newPosition });
+    this.draggedObject.onMove(newPosition);
   };
 
   releaseDraggable = () => {
@@ -113,9 +109,6 @@ class DragDropManager extends React.Component {
     this.draggedObject = null;
     this.hoveredDroppable = null;
     this.dndContext.draggedObject = null;
-    this.setState({
-      draggedObjectPosition: null,
-    });
 
     currentDraggedObject.onRelease({
       draggableContext: currentDraggedObject.context,
@@ -151,7 +144,7 @@ class DragDropManager extends React.Component {
   }
 
   findDroppable = position => {
-    const draggedNode = this.draggedObject.node;
+    const draggedNode = this.draggedObject.node.current;
 
     if (draggedNode) {
       draggedNode.style.visibility = 'hidden';
@@ -160,7 +153,6 @@ class DragDropManager extends React.Component {
     if (draggedNode) {
       draggedNode.style.visibility = 'visible';
     }
-
     if (element == null) {
       return null;
     }
@@ -168,28 +160,14 @@ class DragDropManager extends React.Component {
     return element.closest(`.droppable-${this.draggedObject.type}`);
   };
 
-  setDraggedObjectRef = draggedObjectNode => {
-    if (this.draggedObject) {
-      this.draggedObject.node = draggedObjectNode;
-    }
-  };
-
   render() {
     const { children } = this.props;
-    const { draggedObjectPosition } = this.state;
-    const { draggedObject, dndContext } = this;
+    const { dndContext } = this;
 
     return (
-      <>
-        {draggedObject &&
-          draggedObject.renderElement({
-            clientPosition: draggedObjectPosition,
-            draggedObjectRef: this.setDraggedObjectRef,
-          })}
-        <DragDropContext.Provider value={dndContext}>
-          {children}
-        </DragDropContext.Provider>
-      </>
+      <DragDropContext.Provider value={dndContext}>
+        {children}
+      </DragDropContext.Provider>
     );
   }
 }
