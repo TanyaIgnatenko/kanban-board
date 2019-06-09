@@ -38,6 +38,7 @@ function useDroppableList({ id, acceptedType, listType, items }) {
   const context = useRef({ id, placeholderIndex: null });
   const itemNodes = useRef([]);
 
+  const resetItems = useCallback(() => (itemNodes.current = []), []);
   const setItemAt = useCallback((item, idx) => {
     if (!item) return;
 
@@ -65,21 +66,15 @@ function useDroppableList({ id, acceptedType, listType, items }) {
           x: itemRect.left + itemRect.width / 2,
           y: itemRect.top + itemRect.height / 2,
         };
-        switch (listType) {
-          case LIST_TYPE.HORIZONTAL: {
-            return draggableCenter.x <= itemCenter.x;
-          }
-          case LIST_TYPE.VERTICAL: {
-            return draggableCenter.y <= itemCenter.y;
-          }
-          default: {
-            console.error('Unknown list type:', listType);
-          }
-        }
+        return LIST_TYPE.HORIZONTAL
+          ? draggableCenter.x <= itemCenter.x
+          : draggableCenter.y <= itemCenter.y;
       });
 
       placeholderIndex =
-        placeholderIndex !== null ? placeholderIndex : itemNodes.current.length;
+        placeholderIndex !== null
+          ? placeholderIndex
+          : itemNodes.current.length - 1;
 
       context.current.placeholderIndex = placeholderIndex;
       setPlaceholderIndex(placeholderIndex);
@@ -93,7 +88,7 @@ function useDroppableList({ id, acceptedType, listType, items }) {
     context.current.placeholderIndex = null;
   }, []);
 
-  const { droppableClassName } = useDroppable({
+  const { droppableClassName, draggedObjectId } = useDroppable({
     id,
     context: context.current,
     acceptedType,
@@ -102,15 +97,24 @@ function useDroppableList({ id, acceptedType, listType, items }) {
     onDraggableLeave,
   });
 
+  const draggedItem = draggedObjectId
+    ? items.find(item => item.id === draggedObjectId)
+    : null;
+  const unmovedItems = draggedObjectId
+    ? items.filter(item => item.id !== draggedObjectId)
+    : items;
+
   const listItems = enrichWithPlaceholder(
-    items,
+    unmovedItems,
     placeholderIndex,
     placeholderGeometry,
   );
 
   return {
+    draggedItem,
     listItems,
     setItemAt,
+    resetItems,
     droppableClassName,
   };
 }

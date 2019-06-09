@@ -3,7 +3,7 @@ import { useEffect, useContext } from 'react';
 import DragDropContext from './internal/DragDropContext';
 
 function useDroppable(droppable) {
-  const { registerDroppable } = useContext(DragDropContext);
+  const { registerDroppable, draggedObjectId } = useContext(DragDropContext);
 
   useEffect(() => {
     const unregisterDroppable = registerDroppable(droppable);
@@ -19,6 +19,7 @@ function useDroppable(droppable) {
   ]);
 
   return {
+    draggedObjectId,
     droppableClassName: `droppable-${droppable.acceptedType}`,
   };
 }

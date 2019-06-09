@@ -39,16 +39,19 @@ class DragDropManager extends React.Component {
 
   grabDraggable = ({
     grabPosition,
+    id,
     context,
     type,
     node,
-    onGrab,
-    onMove,
-    onRelease,
+    onGrab = () => {},
+    onMove = () => {},
+    onRelease = () => {},
   }) => {
+    onGrab();
     const draggedObjectRect = node.current.getBoundingClientRect();
 
     this.draggedObject = {
+      id,
       context,
       type,
       onMove,
@@ -68,20 +71,27 @@ class DragDropManager extends React.Component {
       node,
     };
 
-    this.dndContext.draggedObject = this.draggedObject;
+    this.setState(state => ({
+      dndContext: {
+        ...state.dndContext,
+        draggedObjectId: this.draggedObject.id,
+        draggedObjectPosition: this.draggedObject.position,
+      },
+    }));
 
     document.addEventListener('mousemove', this.moveDraggable);
     document.addEventListener('mouseup', this.releaseDraggable);
 
     this.manageDroppables();
-
-    onGrab();
   };
 
-  dndContext = {
-    draggedObject: null,
-    registerDraggable: this.registerDraggable,
-    registerDroppable: this.registerDroppable,
+  state = {
+    dndContext: {
+      draggedObjectId: null,
+      draggedObjectPosition: null,
+      registerDraggable: this.registerDraggable,
+      registerDroppable: this.registerDroppable,
+    },
   };
 
   moveDraggable = event => {
@@ -93,6 +103,9 @@ class DragDropManager extends React.Component {
       y: clientY + geometry.grabShift.y,
     };
     this.draggedObject.position = newPosition;
+    this.setState(state => ({
+      dndContext: { ...state.dndContext, draggedObjectPosition: newPosition },
+    }));
 
     this.manageDroppables();
 
@@ -108,7 +121,13 @@ class DragDropManager extends React.Component {
 
     this.draggedObject = null;
     this.hoveredDroppable = null;
-    this.dndContext.draggedObject = null;
+    this.setState(state => ({
+      dndContext: {
+        ...state.dndContext,
+        draggedObjectId: null,
+        draggedObjectPosition: null,
+      },
+    }));
 
     currentDraggedObject.onRelease({
       draggableContext: currentDraggedObject.context,
@@ -162,7 +181,7 @@ class DragDropManager extends React.Component {
 
   render() {
     const { children } = this.props;
-    const { dndContext } = this;
+    const { dndContext } = this.state;
 
     return (
       <DragDropContext.Provider value={dndContext}>

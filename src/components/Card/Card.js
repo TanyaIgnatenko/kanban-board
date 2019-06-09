@@ -13,7 +13,8 @@ import './Card.scss';
 function Card({ id, content, setCardRef, moveCardToList, className }) {
   const cardRef = useRef(null);
 
-  const [isDragged, draggedPosition] = useDraggable({
+  const { isDragged, draggedPosition } = useDraggable({
+    id,
     context: {
       id,
     },
@@ -33,11 +34,13 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
     <li
       id={id}
       ref={node => {
-        setCardRef(node);
         cardRef.current = node;
+        if (!isDragged) {
+          setCardRef(node);
+        }
       }}
       className={classNames('card', isDragged && 'dragged', className)}
-      style={draggedPosition && moveTo(draggedPosition)}
+      style={isDragged ? moveTo(draggedPosition) : {}}
     >
       <h4 className='card-content'>{content}</h4>
     </li>
@@ -47,13 +50,14 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
 Card.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   content: PropTypes.any.isRequired,
-  setCardRef: PropTypes.func.isRequired,
+  setCardRef: PropTypes.func,
   moveCardToList: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 
 Card.defaultProps = {
   className: '',
+  setCardRef: () => {},
 };
 
 const mapDispatchToProps = {

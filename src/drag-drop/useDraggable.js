@@ -1,22 +1,18 @@
-import { useState, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 import DragDropContext from './internal/DragDropContext';
 
 function useDraggable(draggable) {
-  const { registerDraggable } = useContext(DragDropContext);
-
-  const [isDragged, setIsDragged] = useState(false);
-  const [draggedPosition, setDraggedPosition] = useState(null);
+  const {
+    registerDraggable,
+    draggedObjectId,
+    draggedObjectPosition,
+  } = useContext(DragDropContext);
 
   useEffect(() => {
     const unregisterDraggable = registerDraggable({
       ...draggable,
-      onGrab: () => setIsDragged(true),
-      onMove: clientPosition => setDraggedPosition(clientPosition),
       onRelease: context => {
-        setIsDragged(false);
-        setDraggedPosition(null);
-
         draggable.onRelease(context);
       },
     });
@@ -32,7 +28,10 @@ function useDraggable(draggable) {
     draggable.onRelease,
   ]);
 
-  return [isDragged, draggedPosition];
+  return {
+    isDragged: draggable.id === draggedObjectId,
+    draggedPosition: draggedObjectPosition,
+  };
 }
 
 export { useDraggable };

@@ -20,12 +20,20 @@ import './Board.scss';
 function Board({ id, background, lists, addList }) {
   const boardStyle = useBoardStyle(background);
 
-  const { setItemAt, listItems, droppableClassName } = useDroppableList({
+  const {
+    resetItems,
+    setItemAt,
+    listItems,
+    draggedItem,
+    droppableClassName,
+  } = useDroppableList({
     id,
     listType: LIST_TYPE.HORIZONTAL,
     acceptedType: DRAGGABLE_TYPE.LIST,
     items: lists,
   });
+
+  resetItems();
 
   return (
     <div
@@ -51,6 +59,7 @@ function Board({ id, background, lists, addList }) {
                   ref={node => setItemAt(node, idx)}
                   className='placeholder board-list'
                   style={{
+                    background: 'rgba(41, 41, 41, 0.56)',
                     width: item.geometry && item.geometry.width,
                     height: item.geometry && item.geometry.height,
                   }}
@@ -66,6 +75,7 @@ function Board({ id, background, lists, addList }) {
           submitFormBtnText='Добавить колонку'
           onAdd={addList.bind(null, id)}
         />
+        {draggedItem && <CardList key={draggedItem.id} {...draggedItem} />}
       </ul>
     </div>
   );

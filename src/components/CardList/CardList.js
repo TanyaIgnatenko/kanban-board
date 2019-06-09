@@ -27,7 +27,13 @@ function CardList({
   moveList,
   className,
 }) {
-  const { setItemAt, listItems, droppableClassName } = useDroppableList({
+  const {
+    resetItems,
+    setItemAt,
+    draggedItem,
+    listItems,
+    droppableClassName,
+  } = useDroppableList({
     id,
     listType: LIST_TYPE.VERTICAL,
     acceptedType: DRAGGABLE_TYPE.CARD,
@@ -37,7 +43,8 @@ function CardList({
   const dragHandleNode = useRef(null);
   const listNode = useRef(null);
 
-  const [isDragged, draggedPosition] = useDraggable({
+  const { isDragged, draggedPosition } = useDraggable({
+    id,
     context: {
       id,
     },
@@ -54,9 +61,11 @@ function CardList({
   });
 
   const setRefs = node => {
-    setListRef(node);
     listNode.current = node;
+    setListRef(node);
   };
+
+  resetItems();
 
   return (
     <li
@@ -68,7 +77,7 @@ function CardList({
         droppableClassName,
         className,
       )}
-      style={draggedPosition && moveTo(draggedPosition)}
+      style={isDragged ? moveTo(draggedPosition) : {}}
     >
       <header ref={dragHandleNode}>
         <h2 className='list-title'>{name}</h2>
@@ -99,6 +108,7 @@ function CardList({
                 ),
               }[item.type]),
           )}
+          {draggedItem && <Card key={draggedItem.id} {...draggedItem} />}
         </ul>
       )}
       <footer>
@@ -119,7 +129,7 @@ CardList.propTypes = {
   name: PropTypes.string.isRequired,
   addCard: PropTypes.func.isRequired,
   moveList: PropTypes.func.isRequired,
-  setListRef: PropTypes.func.isRequired,
+  setListRef: PropTypes.func,
   className: PropTypes.string,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
@@ -131,6 +141,7 @@ CardList.propTypes = {
 
 CardList.defaultProps = {
   className: '',
+  setListRef: () => {},
 };
 
 const mapDispatchToProps = {
