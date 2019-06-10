@@ -54,7 +54,6 @@ function useDroppableList({
 
   useEffect(() => {
     if (!listHasScrollbar) return;
-    console.log('id in  in useDroppableList: ', id);
 
     const isHorizontal = listType === LIST_TYPE.HORIZONTAL;
     const listBodyRect =
@@ -68,7 +67,6 @@ function useDroppableList({
       : listBodyRect && listBodyRect.bottom - scrollOffset;
   }, [listHasScrollbar]);
 
-  console.log('listHasScrollbar in  useDroppableList: ', listHasScrollbar);
   const setItemRefAt = useCallback((item, idx) => {
     if (!item) return;
 
