@@ -29,6 +29,8 @@ function AddComponent({
   }, []);
 
   const handleAdd = useCallback(() => {
+    if (!content) return;
+
     onAdd(content);
     handleClose();
   }, [content, handleClose, onAdd]);
