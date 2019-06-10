@@ -20,11 +20,18 @@ import './Board.scss';
 function Board({ id, background, lists, addList }) {
   const boardStyle = useBoardStyle(background);
 
-  const { setItemAt, listItems, droppableClassName } = useDroppableList({
+  const {
+    listBodyRef,
+    setItemRefAt,
+    listItems,
+    droppableClassName,
+  } = useDroppableList({
     id,
     listType: LIST_TYPE.HORIZONTAL,
     acceptedType: DRAGGABLE_TYPE.LIST,
     items: lists,
+    scrollOffset: 100,
+    scrollStep: 50,
   });
 
   return (
@@ -33,7 +40,7 @@ function Board({ id, background, lists, addList }) {
       className={classNames('board', droppableClassName)}
       style={boardStyle}
     >
-      <ul className='board-lists'>
+      <ul ref={listBodyRef} className='board-lists'>
         {listItems.map(
           (item, idx) =>
             ({
@@ -41,14 +48,14 @@ function Board({ id, background, lists, addList }) {
                 <CardList
                   key={item.data && item.data.id}
                   className='board-list'
-                  setListRef={node => setItemAt(node, idx)}
+                  setListRef={node => setItemRefAt(node, idx)}
                   {...item.data}
                 />
               ),
               [ITEM_TYPE.PLACEHOLDER]: (
                 <div
                   key='placeholder'
-                  ref={node => setItemAt(node, idx)}
+                  ref={node => setItemRefAt(node, idx)}
                   className='placeholder board-list'
                   style={{
                     width: item.geometry && item.geometry.width,

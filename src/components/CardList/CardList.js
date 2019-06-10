@@ -27,11 +27,18 @@ function CardList({
   moveList,
   className,
 }) {
-  const { setItemAt, listItems, droppableClassName } = useDroppableList({
+  const {
+    listBodyRef,
+    setItemRefAt,
+    listItems,
+    droppableClassName,
+  } = useDroppableList({
     id,
     listType: LIST_TYPE.VERTICAL,
     acceptedType: DRAGGABLE_TYPE.CARD,
     items: cards,
+    scrollStep: 20,
+    scrollOffset: 30,
   });
 
   const dragHandleNode = useRef(null);
@@ -61,7 +68,7 @@ function CardList({
                 key={item.data.id}
                 {...item.data}
                 className='list-card'
-                setCardRef={node => setItemAt(node, idx)}
+                setCardRef={node => setItemRefAt(node, idx)}
               />
             ))}
           </ul>
@@ -101,7 +108,7 @@ function CardList({
         <h2 className='list-title'>{name}</h2>
       </header>
       {Boolean(listItems.length) && (
-        <ul className='list-cards'>
+        <ul className='list-cards' ref={listBodyRef}>
           {listItems.map(
             (item, idx) =>
               ({
@@ -110,13 +117,13 @@ function CardList({
                     key={item.data && item.data.id}
                     {...item.data}
                     className='list-card'
-                    setCardRef={node => setItemAt(node, idx)}
+                    setCardRef={node => setItemRefAt(node, idx)}
                   />
                 ),
                 [ITEM_TYPE.PLACEHOLDER]: (
                   <li
                     key='placeholder'
-                    ref={node => setItemAt(node, idx)}
+                    ref={node => setItemRefAt(node, idx)}
                     className='placeholder list-card'
                     style={{
                       width: item.geometry && item.geometry.width,

@@ -2,6 +2,8 @@ import { useRef, useCallback, useState } from 'react';
 
 import { useDroppable } from './useDroppable';
 import { lowerBound } from '../helpers/lowerBound';
+import { useMount } from '../hooks/mount';
+import { hasScrollbar } from '../helpers/scrollbar';
 
 const ITEM_TYPE = {
   PLACEHOLDER: 'PLACEHOLDER',
@@ -31,17 +33,34 @@ function enrichWithPlaceholder(items, placeholderIndex, placeholderGeometry) {
   return listItems;
 }
 
-function useDroppableList({ id, acceptedType, listType, items }) {
+function useDroppableList({ id, acceptedType, listType, items, scrollStep, scrollOffset }) {
   const [placeholderIndex, setPlaceholderIndex] = useState(null);
   const [placeholderGeometry, setPlaceholderGeometry] = useState(null);
 
   const context = useRef({ id, index: null });
-  const itemNodes = useRef([]);
+  const itemRefs = useRef([]);
+  const listBodyRef = useRef(null);
 
-  const setItemAt = useCallback((item, idx) => {
+  const scrollToStartPosition = useRef(null);
+  const scrollToEndPosition = useRef(null);
+
+  useMount(() => {
+    const isHorizontal = listType === LIST_TYPE.HORIZONTAL;
+    const listBodyRect =
+      listBodyRef.current && listBodyRef.current.getBoundingClientRect();
+
+    scrollToStartPosition.current = isHorizontal
+      ? listBodyRect && listBodyRect.left + scrollOffset
+      : listBodyRect && listBodyRect.top + scrollOffset;
+    scrollToEndPosition.current = isHorizontal
+      ? listBodyRect && listBodyRect.right - scrollOffset
+      : listBodyRect && listBodyRect.bottom - scrollOffset;
+  });
+
+  const setItemRefAt = useCallback((item, idx) => {
     if (!item) return;
 
-    itemNodes.current[idx] = item;
+    itemRefs.current[idx] = item;
   }, []);
 
   const onDraggableEnter = useCallback(draggable => {
@@ -58,7 +77,7 @@ function useDroppableList({ id, acceptedType, listType, items }) {
         y: draggable.position.y + draggable.geometry.height / 2,
       };
 
-      let placeholderIndex = lowerBound(itemNodes.current, item => {
+      let placeholderIndex = lowerBound(itemRefs.current, item => {
         const itemRect = item.getBoundingClientRect();
 
         const itemCenter = {
@@ -70,8 +89,12 @@ function useDroppableList({ id, acceptedType, listType, items }) {
           : draggableCenter.y <= itemCenter.y;
       });
 
+      if (listBodyRef.current && hasScrollbar(listBodyRef.current)) {
+        scrollListIfNeeded(draggableCenter);
+      }
+
       placeholderIndex =
-        placeholderIndex !== null ? placeholderIndex : itemNodes.current.length;
+        placeholderIndex !== null ? placeholderIndex : itemRefs.current.length;
 
       context.current.index = placeholderIndex;
       setPlaceholderIndex(placeholderIndex);
@@ -84,6 +107,30 @@ function useDroppableList({ id, acceptedType, listType, items }) {
     setPlaceholderIndex(null);
     context.current.index = null;
   }, []);
+
+  const scrollListIfNeeded = useCallback(
+    draggableCenter => {
+      switch (listType) {
+        case LIST_TYPE.HORIZONTAL: {
+          if (draggableCenter.x <= scrollToStartPosition.current) {
+            listBodyRef.current.scrollLeft -= scrollStep;
+          } else if (draggableCenter.x >= scrollToEndPosition.current) {
+            listBodyRef.current.scrollLeft += scrollStep;
+          }
+          break;
+        }
+        case LIST_TYPE.VERTICAL: {
+          if (draggableCenter.y <= scrollToStartPosition.current) {
+            listBodyRef.current.scrollTop -= scrollStep;
+          } else if (draggableCenter.y >= scrollToEndPosition.current) {
+            listBodyRef.current.scrollTop += scrollStep;
+          }
+          break;
+        }
+      }
+    },
+    [listType, listBodyRef, scrollStep],
+  );
 
   const { draggableContext, droppableClassName } = useDroppable({
     id,
@@ -109,7 +156,8 @@ function useDroppableList({ id, acceptedType, listType, items }) {
   }
   return {
     listItems,
-    setItemAt,
+    setItemRefAt,
+    listBodyRef,
     droppableClassName,
   };
 }
