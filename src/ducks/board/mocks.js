@@ -2,16 +2,16 @@ let id = 0;
 
 export const mockBoard = {
   id: (id++).toString(),
-  name: 'Моя доска',
+  name: 'Kanban-Board',
   background: {
     type: 'img',
     url:
-      'https://images.unsplash.com/photo-1508625935447-e0ebc2cdf6bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=100',
+      'https://images.unsplash.com/photo-1508625935447-e0ebc2cdf6bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
   },
   lists: [
     {
       id: (id++).toString(),
-      name: 'План на месяц',
+      name: 'TO DO',
       cards: [
         {
           id: (id++).toString(),
@@ -75,7 +75,7 @@ export const mockBoard = {
     },
     {
       id: (id++).toString(),
-      name: 'План на неделю',
+      name: 'IN PROGRESS',
       cards: [
         {
           id: (id++).toString(),
@@ -93,7 +93,7 @@ export const mockBoard = {
     },
     {
       id: (id++).toString(),
-      name: 'План на день',
+      name: 'DONE',
       cards: [
         {
           id: (id++).toString(),
@@ -111,7 +111,7 @@ export const mockBoard = {
     },
     {
       id: (id++).toString(),
-      name: 'Итоги',
+      name: 'RETROSPECTIVE',
       cards: [],
     },
   ],
