@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -15,7 +15,7 @@ function AddComponent({
   className,
   formClassName,
 }) {
-  const [creationMode, setCreationMode] = useState(false);
+  const [isCreationMode, setCreationMode] = useState(false);
 
   const [content, setContent] = useState('');
   const handleContentChange = useCallback(event => {
@@ -46,6 +46,13 @@ function AddComponent({
   }, []);
   useOnClickOutside(addComponentId, handleWasClickOutside);
 
+  const formRef = useRef(null);
+  useEffect(() => {
+    if (isCreationMode) {
+      formRef.current.scrollIntoView(false);
+    }
+  }, [isCreationMode]);
+
   return (
     <div
       id={addComponentId}
@@ -54,18 +61,15 @@ function AddComponent({
       <button
         className={classNames(
           'open-component-composer-btn',
-          creationMode && 'hidden',
+          isCreationMode&& 'hidden',
         )}
         onClick={handleOpen}
       >
         <h4>{openCreationFormBtnText}</h4>
       </button>
       <div
-        className={classNames(
-          'component-composer',
-          formClassName,
-          !creationMode && 'hidden',
-        )}
+        ref={node => (formRef.current = node)}
+        className={classNames('form', formClassName, !isCreationMode&& 'hidden')}
       >
         <textarea
           autoFocus
@@ -74,7 +78,7 @@ function AddComponent({
           placeholder={placeholderFormText}
           onChange={handleContentChange}
         />
-        <div className='component-composer-controls'>
+        <div className='form-controls'>
           <button className='add-component-btn' onClick={handleAdd}>
             {submitFormBtnText}
           </button>

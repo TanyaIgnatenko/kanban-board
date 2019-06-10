@@ -83,7 +83,7 @@ $add-component-btn-padding-left: 8px;
     }
   }
 
-  .component-composer {
+  .form {
     padding: $component-composer-padding-top
              $component-composer-padding-right
              $component-composer-padding-bottom
@@ -115,7 +115,7 @@ $add-component-btn-padding-left: 8px;
       }
     }
 
-    .component-composer-controls {
+    .form-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
