@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 
 import { useDroppable } from './useDroppable';
 import { lowerBound } from '../helpers/lowerBound';
-import { hasScrollbar } from '../helpers/scrollbar';
+import { hasScrollbar, SCROLLBAR_DIRECTION } from '../helpers/scrollbar';
 
 const ITEM_TYPE = {
   PLACEHOLDER: 'PLACEHOLDER',
@@ -47,8 +47,14 @@ function useDroppableList({
   const itemRefs = useRef([]);
   const listBodyRef = useRef(null);
 
+  const scrollbarDirection =
+    listType === LIST_TYPE.HORIZONTAL
+      ? SCROLLBAR_DIRECTION.HORIZONTAL
+      : SCROLLBAR_DIRECTION.VERTICAL;
+
   const listHasScrollbar =
-    listBodyRef.current && hasScrollbar(listBodyRef.current);
+    listBodyRef.current &&
+    hasScrollbar(listBodyRef.current, scrollbarDirection);
   const scrollToStartPosition = useRef(null);
   const scrollToEndPosition = useRef(null);
 

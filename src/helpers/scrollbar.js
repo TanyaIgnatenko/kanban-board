@@ -1,8 +1,12 @@
-function hasScrollbar(element) {
-  const hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
-  const hasVerticalScrollbar = element.scrollHeight > element.clientHeight;
+const SCROLLBAR_DIRECTION = {
+  HORIZONTAL: 0,
+  VERTICAL: 1,
+};
 
-  return hasHorizontalScrollbar || hasVerticalScrollbar;
+function hasScrollbar(element, scrollbarDirection) {
+  return scrollbarDirection === SCROLLBAR_DIRECTION.HORIZONTAL
+    ? element.scrollWidth > element.clientWidth
+    : element.scrollHeight > element.clientHeight;
 }
 
-export { hasScrollbar };
+export { hasScrollbar, SCROLLBAR_DIRECTION };
