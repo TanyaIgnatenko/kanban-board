@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 
 import { useDroppable } from './useDroppable';
-import { lowerBound } from '../helpers/lowerBound';
+import { binaryLastIndexOf } from '../helpers/lowerBound';
 import { hasScrollbar, SCROLLBAR_DIRECTION } from '../helpers/scrollbar';
 
 const ITEM_TYPE = {
@@ -14,21 +14,33 @@ const LIST_TYPE = {
   VERTICAL: 'VERTICAL',
 };
 
-function enrichWithPlaceholder(items, placeholderIndex, placeholderGeometry) {
-  const listItems = items.map(item => ({
-    type: ITEM_TYPE.REGULAR_ITEM,
-    data: item,
-  }));
+function formListItems(items, itemToIgnoreId, placeholder) {
+  let listItems = items
+    ? items.map(item => ({
+        type: ITEM_TYPE.REGULAR_ITEM,
+        data: item,
+      }))
+    : [];
 
-  const shouldShowPlaceholder = placeholderIndex !== null;
-  if (shouldShowPlaceholder) {
-    listItems.splice(placeholderIndex, 0, {
-      type: ITEM_TYPE.PLACEHOLDER,
-      index: placeholderIndex,
-      geometry: placeholderGeometry,
-    });
+  const shouldIgnoreItem = itemToIgnoreId !== null;
+  if (shouldIgnoreItem) {
+    listItems = listItems.filter(item => item.data.id !== itemToIgnoreId);
   }
 
+  const shouldShowPlaceholder = placeholder.index !== null;
+  if (shouldShowPlaceholder) {
+    listItems = enrichWithPlaceholder(listItems, placeholder);
+  }
+
+  return listItems;
+}
+
+function enrichWithPlaceholder(listItems, placeholder) {
+  listItems.splice(placeholder.index, 0, {
+    type: ITEM_TYPE.PLACEHOLDER,
+    index: placeholder.index,
+    geometry: placeholder.geometry,
+  });
   return listItems;
 }
 
@@ -96,7 +108,7 @@ function useDroppableList({
         y: draggable.position.y + draggable.geometry.height / 2,
       };
 
-      let placeholderIndex = lowerBound(itemRefs.current, item => {
+      let placeholderIndex = binaryLastIndexOf(itemRefs.current, item => {
         const itemRect = item.getBoundingClientRect();
 
         const itemCenter = {
@@ -104,16 +116,15 @@ function useDroppableList({
           y: itemRect.top + itemRect.height / 2,
         };
         return listType === LIST_TYPE.HORIZONTAL
-          ? draggableCenter.x <= itemCenter.x
-          : draggableCenter.y <= itemCenter.y;
+          ? itemCenter.x <= draggableCenter.x
+          : itemCenter.y <= draggableCenter.y;
       });
 
       if (listHasScrollbar.current) {
         scrollListIfNeeded(draggableCenter);
       }
 
-      placeholderIndex =
-        placeholderIndex !== null ? placeholderIndex : itemRefs.current.length;
+      placeholderIndex = placeholderIndex !== null ? placeholderIndex : 0;
 
       context.current.index = placeholderIndex;
       setPlaceholderIndex(placeholderIndex);
@@ -166,19 +177,13 @@ function useDroppableList({
     onDraggableLeave,
   });
 
-  let listItems = enrichWithPlaceholder(
-    items,
-    placeholderIndex,
-    placeholderGeometry,
-  );
-
+  const placeholder = {
+    index: placeholderIndex,
+    geometry: placeholderGeometry,
+  };
   const itemToIgnoreId = draggableContext && draggableContext.id;
-  if (itemToIgnoreId) {
-    listItems = listItems.filter(
-      item =>
-        item.type === ITEM_TYPE.PLACEHOLDER || item.data.id !== itemToIgnoreId,
-    );
-  }
+  const listItems = formListItems(items, itemToIgnoreId, placeholder);
+
   return {
     listItems,
     setItemRefAt,

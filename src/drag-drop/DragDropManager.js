@@ -34,10 +34,10 @@ class DragDropManager extends React.Component {
       event.stopPropagation();
     };
 
-    handle.addEventListener('pointerdown', onPointerDown);
+    handle.addEventListener('mousedown', onPointerDown);
 
     return function unregisterDraggable() {
-      handle.removeEventListener('pointerdown', onPointerDown);
+      handle.removeEventListener('mousedown', onPointerDown);
     };
   };
 
@@ -81,8 +81,8 @@ class DragDropManager extends React.Component {
         draggedObjectPosition: this.draggedObject.position,
       },
       () => {
-        document.addEventListener('pointermove', this.moveDraggable);
-        document.addEventListener('pointerup', this.releaseDraggable);
+        document.addEventListener('mousemove', this.moveDraggable);
+        document.addEventListener('mouseup', this.releaseDraggable);
       },
     );
   };
@@ -136,8 +136,8 @@ class DragDropManager extends React.Component {
     const currentDraggedObject = this.draggedObject;
     const currentHoveredDroppable = this.hoveredDroppable;
 
-    document.removeEventListener('pointermove', this.moveDraggable);
-    document.removeEventListener('pointerup', this.releaseDraggable);
+    document.removeEventListener('mousemove', this.moveDraggable);
+    document.removeEventListener('mouseup', this.releaseDraggable);
 
     this.draggedObject = null;
     this.hoveredDroppable = null;

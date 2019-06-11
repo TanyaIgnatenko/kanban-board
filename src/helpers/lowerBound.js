@@ -1,7 +1,8 @@
 /**
- * Return index of first element of array, for which predicate returns false
+ * Return index of last element of array, for which predicate returns true
  */
-function lowerBound(array, predicate) {
+
+function binaryLastIndexOf(array, predicate) {
   let leftIdx = 0,
     rightIdx = array.length - 1;
 
@@ -9,13 +10,13 @@ function lowerBound(array, predicate) {
     const middleIdx = Math.floor((leftIdx + rightIdx) / 2);
 
     if (predicate(array[middleIdx])) {
-      rightIdx = middleIdx - 1;
-    } else {
       leftIdx = middleIdx + 1;
+    } else {
+      rightIdx = middleIdx - 1;
     }
   }
 
-  return leftIdx < array.length ? leftIdx : null;
+  return rightIdx !== -1 ? rightIdx : null;
 }
 
-export { lowerBound };
+export { binaryLastIndexOf };
