@@ -21,6 +21,7 @@ class DragDropManager extends React.Component {
 
     const onPointerDown = event => {
       const { clientX, clientY } = event;
+
       this.grabDraggable({
         grabPosition: {
           x: clientX,
