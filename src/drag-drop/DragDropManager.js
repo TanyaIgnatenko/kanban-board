@@ -103,10 +103,34 @@ class DragDropManager extends React.Component {
     };
     this.draggedObject.position = newPosition;
 
+    this.scrollIfOutOfClient({ x: clientX, y: clientY });
+
     this.manageDroppables();
 
     this.setState({ draggedObjectPosition: newPosition });
   };
+
+  scrollIfOutOfClient(position) {
+    const {
+      mainScrollbarContainer: { current: scrollbarContainer },
+    } = this.props;
+
+    if (position.x >= scrollbarContainer.clientWidth - 50) {
+      scrollbarContainer.scrollBy(10, 0);
+    }
+
+    if (position.y >= scrollbarContainer.innerHeight - 50) {
+      scrollbarContainer.scrollBy(0, 20);
+    }
+
+    if (position.x <= scrollbarContainer.clientLeft - 50) {
+      scrollbarContainer.scrollBy(-20, 0);
+    }
+
+    if (position.y <= scrollbarContainer.clientTop - 50) {
+      scrollbarContainer.scrollBy(0, -20);
+    }
+  }
 
   releaseDraggable = () => {
     const currentDraggedObject = this.draggedObject;

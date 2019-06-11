@@ -17,7 +17,7 @@ import {
 
 import './Board.scss';
 
-function Board({ id, background, lists, addList }) {
+function Board({ id, background, lists, addList, scrollbarContainer }) {
   const boardStyle = useBoardStyle(background);
 
   const {
@@ -34,13 +34,18 @@ function Board({ id, background, lists, addList }) {
     scrollStep: 50,
   });
 
+  const setRefs = node => {
+    scrollbarContainer.current = node;
+    listBodyRef.current = node;
+  };
+
   return (
     <div
       id={id}
       className={classNames('board', droppableClassName)}
       style={boardStyle}
     >
-      <ul ref={listBodyRef} className='board-lists'>
+      <ul ref={setRefs} className='board-lists'>
         {listItems.map(
           (item, idx) =>
             ({
@@ -78,12 +83,12 @@ function Board({ id, background, lists, addList }) {
   );
 }
 
-function BoardContainer({ id, board, fetchBoard, addList }) {
+function BoardContainer({ id, board, fetchBoard, addList, ...rest }) {
   useEffect(() => {
     fetchBoard(id);
   }, [fetchBoard, id]);
 
-  return board && <Board addList={addList} {...board} />;
+  return board && <Board addList={addList} {...board} {...rest} />;
 }
 
 const mapStateToProps = state => ({

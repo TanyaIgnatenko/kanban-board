@@ -42,13 +42,9 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
     setCardRef(node);
     cardRef.current = node;
   };
-  function log(msg) {
-    console.log(msg);
-  }
-
 
   return (
-    <li id={id} ref={setRefs} className={classNames('card', className)} onPointerMove={() => log('li-card')}>
+    <li id={id} ref={setRefs} className={classNames('card', className)}>
       <h4 className='card-content'>{content}</h4>
     </li>
   );
