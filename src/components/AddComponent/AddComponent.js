@@ -49,7 +49,7 @@ function AddComponent({
   const formRef = useRef(null);
   useEffect(() => {
     if (isCreationMode) {
-      formRef.current.scrollIntoView(false);
+      formRef.current.scrollIntoView();
     }
   }, [isCreationMode]);
 

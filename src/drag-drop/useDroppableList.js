@@ -47,19 +47,22 @@ function useDroppableList({
   const itemRefs = useRef([]);
   const listBodyRef = useRef(null);
 
+  const scrollToStartPosition = useRef(null);
+  const scrollToEndPosition = useRef(null);
+
   const scrollbarDirection =
     listType === LIST_TYPE.HORIZONTAL
       ? SCROLLBAR_DIRECTION.HORIZONTAL
       : SCROLLBAR_DIRECTION.VERTICAL;
 
-  const listHasScrollbar =
-    listBodyRef.current &&
-    hasScrollbar(listBodyRef.current, scrollbarDirection);
-  const scrollToStartPosition = useRef(null);
-  const scrollToEndPosition = useRef(null);
+  const listHasScrollbar = useRef(false);
 
   useEffect(() => {
-    if (!listHasScrollbar) return;
+    listHasScrollbar.current =
+      listBodyRef.current &&
+      hasScrollbar(listBodyRef.current, scrollbarDirection);
+
+    if (!listHasScrollbar.current) return;
 
     const isHorizontal = listType === LIST_TYPE.HORIZONTAL;
     const listBodyRect =
@@ -105,7 +108,7 @@ function useDroppableList({
           : draggableCenter.y <= itemCenter.y;
       });
 
-      if (listHasScrollbar) {
+      if (listHasScrollbar.current) {
         scrollListIfNeeded(draggableCenter);
       }
 
@@ -126,6 +129,11 @@ function useDroppableList({
 
   const scrollListIfNeeded = useCallback(
     draggableCenter => {
+      if (id === '1')
+        console.log(
+          'scrollToStartPosition.current in  in useDroppableList: ',
+          scrollToStartPosition.current,
+        );
       switch (listType) {
         case LIST_TYPE.HORIZONTAL: {
           if (draggableCenter.x <= scrollToStartPosition.current) {
@@ -149,8 +157,8 @@ function useDroppableList({
       listType,
       listBodyRef,
       scrollStep,
-      scrollToStartPosition.current,
-      scrollToEndPosition.current,
+      scrollToStartPosition,
+      scrollToEndPosition,
     ],
   );
 
