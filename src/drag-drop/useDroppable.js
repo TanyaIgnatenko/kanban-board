@@ -13,7 +13,7 @@ function useDroppable(droppable) {
     droppable.id,
     droppable.context,
     droppable.node,
-    droppable.acceptedType,
+    droppable.acceptedTypes,
     droppable.onDraggableEnter,
     droppable.onDraggableHover,
     droppable.onDraggableLeave,
@@ -21,7 +21,7 @@ function useDroppable(droppable) {
 
   return {
     draggableContext: draggedObject && draggedObject.context,
-    droppableClassName: `droppable-${droppable.acceptedType}`,
+    droppableClassName: 'droppable',
   };
 }
 

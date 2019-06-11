@@ -28,7 +28,7 @@ function Board({ id, background, lists, addList, scrollbarContainer }) {
   } = useDroppableList({
     id,
     listType: LIST_TYPE.HORIZONTAL,
-    acceptedType: DRAGGABLE_TYPE.LIST,
+    acceptedTypes: [DRAGGABLE_TYPE.LIST],
     items: lists,
     scrollOffset: 100,
     scrollStep: 50,

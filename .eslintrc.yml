@@ -31,6 +31,7 @@ settings:
 
 
 rules:
+  no-continue: off
   no-unused-expressions: off
   lines-between-class-members: off
   one-var: off

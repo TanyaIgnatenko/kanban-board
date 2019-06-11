@@ -35,7 +35,7 @@ function CardList({
   } = useDroppableList({
     id,
     listType: LIST_TYPE.VERTICAL,
-    acceptedType: DRAGGABLE_TYPE.CARD,
+    acceptedTypes: [DRAGGABLE_TYPE.CARD],
     items: cards,
     scrollStep: 20,
     scrollOffset: 30,

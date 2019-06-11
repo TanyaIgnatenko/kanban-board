@@ -185,16 +185,35 @@ class DragDropManager extends React.Component {
     if (draggedNode) {
       draggedNode.style.visibility = 'hidden';
     }
-    const element = document.elementFromPoint(position.x, position.y);
+    let element = document.elementFromPoint(position.x, position.y);
     if (draggedNode) {
       draggedNode.style.visibility = 'visible';
     }
 
-    if (element == null) {
-      return null;
+    while (element) {
+      const droppable = element.closest('.droppable');
+
+      if (!droppable) return null;
+
+      if (!this.droppables[droppable.id]) {
+        console.warn('Unregistered droppable with id:', droppable.id);
+
+        element = droppable.parentNode;
+        continue;
+      }
+
+      if (
+        this.droppables[droppable.id].acceptedTypes.includes(
+          this.draggedObject.type,
+        )
+      ) {
+        return this.droppables[droppable.id];
+      }
+
+      element = droppable.parentNode;
     }
 
-    return element.closest(`.droppable-${this.draggedObject.type}`);
+    return null;
   };
 
   setDraggedObjectRef = draggedObjectNode => {

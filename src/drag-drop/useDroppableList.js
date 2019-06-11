@@ -34,7 +34,7 @@ function enrichWithPlaceholder(items, placeholderIndex, placeholderGeometry) {
 
 function useDroppableList({
   id,
-  acceptedType,
+  acceptedTypes,
   listType,
   items,
   scrollStep,
@@ -129,11 +129,6 @@ function useDroppableList({
 
   const scrollListIfNeeded = useCallback(
     draggableCenter => {
-      if (id === '1')
-        console.log(
-          'scrollToStartPosition.current in  in useDroppableList: ',
-          scrollToStartPosition.current,
-        );
       switch (listType) {
         case LIST_TYPE.HORIZONTAL: {
           if (draggableCenter.x <= scrollToStartPosition.current) {
@@ -165,7 +160,7 @@ function useDroppableList({
   const { draggableContext, droppableClassName } = useDroppable({
     id,
     context: context.current,
-    acceptedType,
+    acceptedTypes,
     onDraggableEnter,
     onDraggableHover,
     onDraggableLeave,
