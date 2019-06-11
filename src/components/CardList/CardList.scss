@@ -28,6 +28,8 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   position: relative;
   width: $list-width;
 
+  touch-action: none;
+
   > * {
     padding: 0 $list-space;
 

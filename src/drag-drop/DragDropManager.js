@@ -17,24 +17,26 @@ class DragDropManager extends React.Component {
   };
 
   registerDraggable = ({ dragHandle, ...draggable }) => {
-    const onMouseDown = event => {
+    const handle = dragHandle.current;
+
+    const onPointerDown = event => {
       const { clientX, clientY } = event;
       this.grabDraggable({
         grabPosition: {
           x: clientX,
           y: clientY,
         },
+        handle,
         ...draggable,
       });
 
       event.stopPropagation();
     };
 
-    const handle = dragHandle.current;
-    handle.addEventListener('mousedown', onMouseDown);
+    handle.addEventListener('pointerdown', onPointerDown);
 
     return function unregisterDraggable() {
-      handle.removeEventListener('mousedown', onMouseDown);
+      handle.removeEventListener('pointerdown', onPointerDown);
     };
   };
 
@@ -43,6 +45,7 @@ class DragDropManager extends React.Component {
     context,
     type,
     node,
+    handle,
     renderElement,
     onRelease,
   }) => {
@@ -52,6 +55,7 @@ class DragDropManager extends React.Component {
       context,
       type,
       renderElement,
+      handle,
       onRelease,
       geometry: {
         width: draggedObjectRect.width,
@@ -76,8 +80,8 @@ class DragDropManager extends React.Component {
         draggedObjectPosition: this.draggedObject.position,
       },
       () => {
-        document.addEventListener('mousemove', this.moveDraggable);
-        document.addEventListener('mouseup', this.releaseDraggable);
+        document.addEventListener('pointermove', this.moveDraggable);
+        document.addEventListener('pointerup', this.releaseDraggable);
       },
     );
   };
@@ -107,8 +111,8 @@ class DragDropManager extends React.Component {
     const currentDraggedObject = this.draggedObject;
     const currentHoveredDroppable = this.hoveredDroppable;
 
-    document.removeEventListener('mousemove', this.moveDraggable);
-    document.removeEventListener('mouseup', this.releaseDraggable);
+    document.removeEventListener('pointermove', this.moveDraggable);
+    document.removeEventListener('pointerup', this.releaseDraggable);
 
     this.draggedObject = null;
     this.hoveredDroppable = null;

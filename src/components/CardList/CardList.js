@@ -44,6 +44,10 @@ function CardList({
   const dragHandleNode = useRef(null);
   const listNode = useRef(null);
 
+  function log(msg) {
+    console.log(msg);
+  }
+
   useDraggable({
     context: {
       id,
@@ -103,12 +107,13 @@ function CardList({
       id={id}
       ref={setRefs}
       className={classNames('card-list', droppableClassName, className)}
+      onPointerMove={() => log('li-card-list')}
     >
-      <header ref={dragHandleNode}>
+      <header ref={dragHandleNode} onPointerMove={() => log('header')}>
         <h2 className='list-title'>{name}</h2>
       </header>
       {Boolean(listItems.length) && (
-        <ul className='list-cards' ref={listBodyRef}>
+        <ul className='list-cards' ref={listBodyRef} onPointerMove={() => log('ul list-cards')}>
           {listItems.map(
             (item, idx) =>
               ({

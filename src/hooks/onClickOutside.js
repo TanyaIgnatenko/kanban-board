@@ -13,10 +13,10 @@ export function useOnClickOutside(elementId, onClickOutside) {
   );
 
   useEffect(() => {
-    document.addEventListener('mousedown', checkClick);
+    document.addEventListener('pointerdown', checkClick);
 
     return function cleanup() {
-      document.removeEventListener('mousedown', checkClick);
+      document.removeEventListener('pointerdown', checkClick);
     };
   }, [checkClick]);
 }
