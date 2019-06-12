@@ -1,7 +1,3 @@
-/**
- * Return index of last element of array, for which predicate returns true
- */
-
 function binaryLastIndexOf(array, predicate) {
   let leftIdx = 0,
     rightIdx = array.length - 1;

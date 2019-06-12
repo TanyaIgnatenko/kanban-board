@@ -1,8 +1,10 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 
 import { useDroppable } from './useDroppable';
-import { binaryLastIndexOf } from '../helpers/lowerBound';
+import { binaryLastIndexOf } from '../helpers/binaryLastIndexOf';
 import { hasScrollbar, SCROLLBAR_DIRECTION } from '../helpers/scrollbar';
+import { MOVEMENT } from '../helpers/movement';
+import { binaryIndexOf } from '../helpers/binaryIndexOf';
 
 const ITEM_TYPE = {
   PLACEHOLDER: 'PLACEHOLDER',
@@ -56,7 +58,7 @@ function useDroppableList({
   const [placeholderGeometry, setPlaceholderGeometry] = useState(null);
 
   const context = useRef({ id, index: null });
-  const itemRefs = useRef([]);
+  const itemsRefs = useRef([]);
   const listBodyRef = useRef(null);
 
   const scrollToStartPosition = useRef(null);
@@ -91,7 +93,7 @@ function useDroppableList({
   const setItemRefAt = useCallback((item, idx) => {
     if (!item) return;
 
-    itemRefs.current[idx] = item;
+    itemsRefs.current[idx] = item;
   }, []);
 
   const onDraggableEnter = useCallback(draggable => {
@@ -103,28 +105,57 @@ function useDroppableList({
 
   const onDraggableHover = useCallback(
     draggable => {
+      const { movement } = draggable;
+
       const draggableCenter = {
         x: draggable.position.x + draggable.geometry.width / 2,
         y: draggable.position.y + draggable.geometry.height / 2,
       };
 
-      let placeholderIndex = binaryLastIndexOf(itemRefs.current, item => {
+      const movementForward =
+        listType === LIST_TYPE.HORIZONTAL
+          ? movement.includes(MOVEMENT.RIGHT)
+          : movement.includes(MOVEMENT.BOTTOM);
+
+      const findPlaceholderIndex = movementForward
+        ? binaryLastIndexOf
+        : binaryIndexOf;
+
+      let placeholderIndex = findPlaceholderIndex(itemsRefs.current, item => {
         const itemRect = item.getBoundingClientRect();
 
         const itemCenter = {
           x: itemRect.left + itemRect.width / 2,
           y: itemRect.top + itemRect.height / 2,
         };
-        return listType === LIST_TYPE.HORIZONTAL
-          ? itemCenter.x <= draggableCenter.x
-          : itemCenter.y <= draggableCenter.y;
+
+        switch (listType) {
+          case LIST_TYPE.HORIZONTAL: {
+            return movementForward
+              ? draggableCenter.x >= itemCenter.x
+              : draggableCenter.x <= itemCenter.x;
+          }
+          case LIST_TYPE.VERTICAL: {
+            return movementForward
+              ? draggableCenter.y >= itemCenter.y
+              : draggableCenter.y <= itemCenter.y;
+          }
+          default: {
+            console.error('Unknown list type:', listType);
+          }
+        }
       });
 
       if (listHasScrollbar.current) {
         scrollListIfNeeded(draggableCenter);
       }
 
-      placeholderIndex = placeholderIndex !== null ? placeholderIndex : 0;
+      placeholderIndex =
+        placeholderIndex !== null
+          ? placeholderIndex
+          : movementForward
+          ? 0
+          : items.length - 1;
 
       context.current.index = placeholderIndex;
       setPlaceholderIndex(placeholderIndex);

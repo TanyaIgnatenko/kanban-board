@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DragDropContext from './internal/DragDropContext';
+import { MOVEMENT } from '../helpers/movement';
 
 class DragDropManager extends React.Component {
   state = {
@@ -70,6 +71,7 @@ class DragDropManager extends React.Component {
         x: draggedObjectRect.left,
         y: draggedObjectRect.top,
       },
+      movement: [],
     };
 
     this.dndContext.draggedObject = this.draggedObject;
@@ -95,6 +97,7 @@ class DragDropManager extends React.Component {
 
   moveDraggable = event => {
     const { clientX, clientY } = event;
+    const { movementX, movementY } = event;
     const { geometry } = this.draggedObject;
 
     const newPosition = {
@@ -103,14 +106,23 @@ class DragDropManager extends React.Component {
     };
     this.draggedObject.position = newPosition;
 
-    this.scrollIfOutOfClient({ x: clientX, y: clientY });
+    const movement = [];
+    if (movementX) {
+      movement.push(movementX > 0 ? MOVEMENT.RIGHT : MOVEMENT.LEFT);
+    }
+    if (movementY) {
+      movement.push(movementY > 0 ? MOVEMENT.BOTTOM : MOVEMENT.TOP);
+    }
+    this.draggedObject.movement = movement;
+
+    this.updateScrollIfNeeded({ x: clientX, y: clientY });
 
     this.manageDroppables();
 
     this.setState({ draggedObjectPosition: newPosition });
   };
 
-  scrollIfOutOfClient(position) {
+  updateScrollIfNeeded(position) {
     const {
       mainScrollbarContainer: { current: scrollbarContainer },
     } = this.props;
