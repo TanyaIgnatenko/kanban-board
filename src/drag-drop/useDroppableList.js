@@ -21,6 +21,9 @@ function formListItems(items, itemToIgnoreId, placeholder) {
     ? items.map(item => ({
         type: ITEM_TYPE.REGULAR_ITEM,
         data: item,
+        style: {
+          transition: 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)',
+        },
       }))
     : [];
 
@@ -136,6 +139,13 @@ function useDroppableList({
               : draggableCenter.x <= itemCenter.x;
           }
           case LIST_TYPE.VERTICAL: {
+            if (draggable.geometry.height < itemRect.height) {
+              // avoid placeholder movement back and forth
+              const extra = (itemRect.height - draggable.geometry.height) / 2;
+              return movementForward
+                ? draggableCenter.y >= itemCenter.y + extra
+                : draggableCenter.y <= itemCenter.y - extra;
+            }
             return movementForward
               ? draggableCenter.y >= itemCenter.y
               : draggableCenter.y <= itemCenter.y;
@@ -150,12 +160,9 @@ function useDroppableList({
         scrollListIfNeeded(draggableCenter);
       }
 
-      placeholderIndex =
-        placeholderIndex !== null
-          ? placeholderIndex
-          : movementForward
-          ? 0
-          : items.length - 1;
+      if (!placeholderIndex) {
+        placeholderIndex = movementForward ? 0 : itemsRefs.current.length - 1;
+      }
 
       context.current.index = placeholderIndex;
       setPlaceholderIndex(placeholderIndex);

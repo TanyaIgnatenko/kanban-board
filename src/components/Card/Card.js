@@ -11,7 +11,7 @@ import { moveTo } from '../../helpers/moveTo';
 
 import './Card.scss';
 
-function Card({ id, content, setCardRef, moveCardToList, className }) {
+function Card({ id, content, setCardRef, moveCardToList, className, style }) {
   const cardRef = useRef(null);
   useDraggable({
     context: {
@@ -44,7 +44,12 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
   };
 
   return (
-    <li id={id} ref={setRefs} className={classNames('card', className)}>
+    <li
+      id={id}
+      ref={setRefs}
+      className={classNames('card', className)}
+      style={style}
+    >
       <h4 className='card-content'>{content}</h4>
     </li>
   );
@@ -56,10 +61,12 @@ Card.propTypes = {
   setCardRef: PropTypes.func.isRequired,
   moveCardToList: PropTypes.func.isRequired,
   className: PropTypes.string,
+  style: PropTypes.object,
 };
 
 Card.defaultProps = {
   className: '',
+  style: {},
 };
 
 const mapDispatchToProps = {

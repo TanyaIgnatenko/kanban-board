@@ -26,6 +26,7 @@ function CardList({
   setListRef,
   moveList,
   className,
+  style,
 }) {
   const {
     listBodyRef,
@@ -103,6 +104,7 @@ function CardList({
       id={id}
       ref={setRefs}
       className={classNames('card-list', droppableClassName, className)}
+      style={style}
     >
       <header ref={dragHandleNode}>
         <h2 className='list-title'>{name}</h2>
@@ -115,6 +117,7 @@ function CardList({
                 [ITEM_TYPE.REGULAR_ITEM]: (
                   <Card
                     key={item.data && item.data.id}
+                    style={item.style}
                     {...item.data}
                     className='list-card'
                     setCardRef={node => setItemRefAt(node, idx)}
@@ -155,6 +158,7 @@ CardList.propTypes = {
   moveList: PropTypes.func.isRequired,
   setListRef: PropTypes.func.isRequired,
   className: PropTypes.string,
+  style: PropTypes.object,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -165,6 +169,7 @@ CardList.propTypes = {
 
 CardList.defaultProps = {
   className: '',
+  style: {},
 };
 
 const mapDispatchToProps = {

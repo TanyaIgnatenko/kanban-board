@@ -54,6 +54,7 @@ function Board({ id, background, lists, addList, scrollbarContainer }) {
                   key={item.data && item.data.id}
                   className='board-list'
                   setListRef={node => setItemRefAt(node, idx)}
+                  style={item.style}
                   {...item.data}
                 />
               ),
