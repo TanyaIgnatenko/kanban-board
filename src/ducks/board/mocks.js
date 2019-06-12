@@ -4,9 +4,10 @@ export const mockBoard = {
   id: (id++).toString(),
   name: 'Kanban-Board',
   background: {
-    type: 'img',
-    url:
-      'https://images.unsplash.com/photo-1508625935447-e0ebc2cdf6bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+    type: 'color',
+    color: 'grey',
+    // url:
+    //   'https://images.unsplash.com/photo-1508625935447-e0ebc2cdf6bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
   },
   lists: [
     {
