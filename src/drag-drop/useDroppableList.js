@@ -115,9 +115,16 @@ function useDroppableList({
           x: itemRect.left + itemRect.width / 2,
           y: itemRect.top + itemRect.height / 2,
         };
+
+        let extra = 0;
+        if (draggable.geometry.height < itemRect.height) {
+          // avoid placeholder movement back and forth
+          extra = (itemRect.height - draggable.geometry.height) / 2;
+        }
+
         return listType === LIST_TYPE.HORIZONTAL
-          ? itemCenter.x <= draggableCenter.x
-          : itemCenter.y <= draggableCenter.y;
+          ? itemCenter.x + extra <= draggableCenter.x
+          : itemCenter.y + extra <= draggableCenter.y;
       });
 
       if (listHasScrollbar.current) {
