@@ -110,13 +110,20 @@ function useDroppableList({
 
       let placeholderIdx = binaryLastIndexOf(itemsRefs.current, item => {
         const itemRect = item.getBoundingClientRect();
-
         switch (listType) {
           case LIST_TYPE.HORIZONTAL: {
-            return itemRect.left < draggableCenter.x;
+            let extra = 0;
+            if (itemRect.width > draggable.geometry.width) {
+              extra = itemRect.width - draggable.geometry.width;
+            }
+            return itemRect.left + extra < draggableCenter.x;
           }
           case LIST_TYPE.VERTICAL: {
-            return itemRect.top < draggableCenter.y;
+            let extra = 0;
+            if (itemRect.height > draggable.geometry.height) {
+              extra = itemRect.height - draggable.geometry.height;
+            }
+            return itemRect.top + extra < draggableCenter.y;
           }
           default: {
             console.error('Uknown list type:', listType);
@@ -133,7 +140,7 @@ function useDroppableList({
       context.current.index = placeholderIdx;
       setPlaceholderIndex(placeholderIdx);
     },
-    [placeholderIndex, listType, listHasScrollbar],
+    [placeholderIndex, placeholderGeometry, listType, listHasScrollbar],
   );
 
   const onDraggableLeave = useCallback(() => {
