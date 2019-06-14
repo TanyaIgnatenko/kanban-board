@@ -3,4 +3,11 @@ const DRAGGABLE_TYPE = {
   LIST: 'LIST',
 };
 
-export { DRAGGABLE_TYPE };
+const MOVEMENT = {
+  BOTTOM: 'BOTTOM',
+  TOP: 'TOP',
+  RIGHT: 'RIGHT',
+  LEFT: 'LEFT',
+};
+
+export { DRAGGABLE_TYPE, MOVEMENT };
