@@ -4,7 +4,7 @@ Simplified Trello clone [ VK internship test task ]
 
 **A running demo is available [here](https://tanyaignatenko.github.io/kanban-board/).**
 
-## Features
+## Features :boom:
  * Add new cards
  * Add new lists
  * Draggable cards
@@ -14,7 +14,7 @@ Simplified Trello clone [ VK internship test task ]
  * No back and forth swap of placeholder and bigger card
  * Minimum count of dependencies
 
-## Screenshots
+## Screenshots :camera:
 ![App screenshots](src/assets/images/app.png)
 
 ## Development
