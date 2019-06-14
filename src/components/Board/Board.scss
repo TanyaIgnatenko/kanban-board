@@ -1,14 +1,17 @@
 $board-padding-top: 21px;
-$board-padding-right: 8px;
+$board-padding-right: 0px;
 $board-padding-bottom: 20px;
 $board-padding-left: 8px;
+
+$board-title-padding-left: 12px;
+$board-title-padding-bottom: 16px;
 
 $list-gap: 12px;
 
 $add-list-form-top-margin: 12px;
 
 $scrollbar-thickness: 10px;
-$scrollbar-padding: 5px;
+$scrollbar-padding: 7px;
 $scrolbar-border-radius: 9px;
 $scrollbar-track-bg-color: rgba(9, 30, 66, .08);
 $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
@@ -16,15 +19,24 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
 .board {
   width: 100vw;
   height: 100vh;
-  padding-bottom: $scrollbar-padding;
+  padding: $board-padding-top $board-padding-right $scrollbar-padding $board-padding-left;
+
+  .board-title {
+    padding-left: $board-title-padding-left;
+    padding-bottom: $board-title-padding-bottom;
+
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1.5;
+  }
 
   .board-lists {
     display: flex;
     align-items: flex-start;
     overflow-x: auto;
     width: 100%;
-    height: 100%;
-    padding: $board-padding-top $board-padding-right $scrollbar-padding $board-padding-left;
+    height: calc(100% - #{$board-padding-top} - #{$board-title-padding-bottom} - 5px);
+    padding-bottom: $scrollbar-padding;
 
     user-select: none;
     scrollbar-width: thin; // for firefox

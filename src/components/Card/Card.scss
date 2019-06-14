@@ -1,6 +1,6 @@
 @import '../../assets/scss/variables';
 
-$card-width: 248px;
+$card-width: 246px;
 
 $card-top-space: 8px;
 $card-right-space: 8px;
@@ -42,5 +42,6 @@ $card-border-radius: 3px;
     font-weight: normal;
     line-height: 1.9rem;
     word-break: break-word;
+    white-space: pre-wrap;
   }
 }

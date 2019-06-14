@@ -129,7 +129,6 @@ function useDroppableList({
       }
 
       placeholderIdx = placeholderIdx !== null ? placeholderIdx : 0;
-      console.log('placeholderIdx in HOVER', placeholderIdx);
 
       context.current.index = placeholderIdx;
       setPlaceholderIndex(placeholderIdx);

@@ -17,7 +17,7 @@ import {
 
 import './Board.scss';
 
-function Board({ id, background, lists, addList, scrollbarContainer }) {
+function Board({ id, background, name, lists, addList, scrollbarContainer }) {
   const boardStyle = useBoardStyle(background);
 
   const {
@@ -38,7 +38,6 @@ function Board({ id, background, lists, addList, scrollbarContainer }) {
     scrollbarContainer.current = node;
     listBodyRef.current = node;
   };
-  console.log('lists in Board in Board: ', lists);
 
   return (
     <div
@@ -46,6 +45,9 @@ function Board({ id, background, lists, addList, scrollbarContainer }) {
       className={classNames('board', droppableClassName)}
       style={boardStyle}
     >
+      <h1 className='board-title' style={{ color: name.color }}>
+        {name.text}
+      </h1>
       <ul ref={setRefs} className='board-lists'>
         {listItems.map(
           (item, idx) =>

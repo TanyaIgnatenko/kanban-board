@@ -59,27 +59,28 @@ function AddComponent({
       className={classNames('add-component-wrapper', className)}
     >
       <button
-        className={classNames(
-          'open-component-composer-btn',
-          isCreationMode&& 'hidden',
-        )}
+        className={classNames('open-form-btn', isCreationMode && 'hidden')}
         onClick={handleOpen}
       >
         <h4>{openCreationFormBtnText}</h4>
       </button>
       <div
         ref={node => (formRef.current = node)}
-        className={classNames('form', formClassName, !isCreationMode&& 'hidden')}
+        className={classNames(
+          'form',
+          formClassName,
+          !isCreationMode && 'hidden',
+        )}
       >
         <textarea
           autoFocus
-          className='component-content'
+          className='content'
           value={content}
           placeholder={placeholderFormText}
           onChange={handleContentChange}
         />
         <div className='form-controls'>
-          <button className='add-component-btn' onClick={handleAdd}>
+          <button className='add-btn' onClick={handleAdd}>
             {submitFormBtnText}
           </button>
           <button className='close-btn' onClick={handleClose} />

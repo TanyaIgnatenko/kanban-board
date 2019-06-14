@@ -85,7 +85,6 @@ function CardList({
       </div>
     ),
     onRelease: ({ draggableContext, droppableContext }) => {
-      console.log('droppableContext in onRelease in CardList: ', droppableContext);
       moveList(
         draggableContext.id,
         droppableContext.id,

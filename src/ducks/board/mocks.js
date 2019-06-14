@@ -2,12 +2,15 @@ let id = 0;
 
 export const mockBoard = {
   id: (id++).toString(),
-  name: 'Kanban-Board',
+  name: {
+    text: 'Проект «Канбан Доска»',
+    color: 'white',
+  },
   background: {
-    type: 'color',
-    color: 'grey',
-    // url:
-    //   'https://images.unsplash.com/photo-1508625935447-e0ebc2cdf6bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+    type: 'img',
+    color: 'rgba(252,223,161,0.91)',
+    url:
+      'https://cdn.dribbble.com/users/58661/screenshots/1818073/csc_pattern.png',
   },
   lists: [
     {
@@ -16,47 +19,22 @@ export const mockBoard = {
       cards: [
         {
           id: (id++).toString(),
-          content: 'Пройти курс по React',
+          content:
+            'Сделать реалистичную анимацию захвата карточки\n' +
+            '( в зависимости от места захвата поворачивать карточку на разный угол, ' +
+            'при падении карточки плавно анимировать её разворот в исходное положение и изменение размера плейсхолдера :))\n',
         },
         {
           id: (id++).toString(),
-          content: 'Отметить день рождения',
+          content: 'Сделать бэкенд на node.js',
         },
         {
           id: (id++).toString(),
-          content: 'Сделать бэкенд своего сайта на node.js',
+          content: 'Добавить возможность редактировать карточки / колонки',
         },
         {
           id: (id++).toString(),
-          content: 'Собрать портфолио',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Написать первую статью в блог',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Выспаться',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Посмотреть игру престолов',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Научиться рисовать',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Сделать уборку',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Записаться в тренажерный зал',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Купить обогреватель',
+          content: 'Добавить возможность удалять карточки / колонки',
         },
       ],
     },
@@ -66,15 +44,20 @@ export const mockBoard = {
       cards: [
         {
           id: (id++).toString(),
-          content: 'Написать To-Do app',
+          content:
+            'Сделать функцию перемещения доступной и на мобильных устройствах',
         },
         {
           id: (id++).toString(),
-          content: 'Отложить 2000 рублей',
+          content: 'По правому клику не инициировать перемещение',
         },
         {
           id: (id++).toString(),
-          content: 'Нарисовать мотивационный плакат «Магии нет»',
+          content: 'После проста клика не инцииировать перемещение',
+        },
+        {
+          id: (id++).toString(),
+          content: 'Выделять плейсхолдер для перетаскиваемой колонки цветом',
         },
       ],
     },
@@ -84,15 +67,46 @@ export const mockBoard = {
       cards: [
         {
           id: (id++).toString(),
-          content: 'Записаться на курс по React',
+          content: 'Добавить возможность перетаскивать карточки',
         },
         {
           id: (id++).toString(),
-          content: 'Забронировать тир на субботу',
+          content: 'Добавить возможность перетаскивать колонки',
         },
         {
           id: (id++).toString(),
-          content: 'Накидать тем для статей в блог',
+          content: 'Добавить возможность создавать новые карточки',
+        },
+        {
+          id: (id++).toString(),
+          content: 'Добавить возможность создавать новые колонки',
+        },
+        {
+          id: (id++).toString(),
+          content: 'Гибкая drag drop system',
+        },
+        {
+          id: (id++).toString(),
+          content:
+            'Позволить droppable объекту иметь несколько accepted draggable types',
+        },
+        {
+          id: (id++).toString(),
+          content:
+            'Устранить мельтешение карточки с мешьшим по размеру плейсхолдером',
+        },
+        {
+          id: (id++).toString(),
+          content: 'Позволить перетаскиваемому объекту сдвигать скроллбар',
+        },
+        {
+          id: (id++).toString(),
+          content: 'Устранить text overflow проблему',
+        },
+        {
+          id: (id++).toString(),
+          content:
+            'При открытии формы создания новой карточки передвигать её в зону видимости',
         },
       ],
     },

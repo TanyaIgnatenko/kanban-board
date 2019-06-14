@@ -1,27 +1,27 @@
 @import '../../assets/scss/variables';
 
 $list-width: 272px;
-$list-bg-color: rgb(223, 227, 230);
+$list-bg-color: #e3e5ea;
 $list-border-radius: 3px;
-$list-space: 12px;
+$list-space: 14px;
 
 $list-header-line-height: 19px;
 $list-header-top-space: 8px;
+$list-header-bottom-space: 8px;
 $list-header-color: black;
 $list-header-font-size: 1.3rem;
 
-$list-card-top-space: 12px;
 $list-card-gap: 8px;
 
 $card-placeholder-bg-color: #C9D2D9;
-$card-placeholder-width: 248px;
+$card-placeholder-width: 246px;
 $card-placeholder-border-radius: 3px;
 
 $list-footer-height: 43px;
 
 $scrollbar-thickness: 9px;
-$scrollbar-padding-right: 2px;
-$scrollbar-border-radius: 5px;
+$scrollbar-padding-right: 3px;
+$scrollbar-border-radius: 3px;
 $scrollbar-thumb-bg-color: #c1c6c9;
 
 .card-list {
@@ -44,13 +44,14 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   }
 
   header {
+    padding-top: $list-header-top-space;
+    padding-bottom: $list-header-bottom-space;
+
     border-top-left-radius: $list-border-radius;
     border-top-right-radius: $list-border-radius;
     cursor: pointer;
 
     .list-title {
-      padding-top: $list-header-top-space;
-
       color: $list-header-color;
       font-family: $font-stack;
       font-size: $list-header-font-size;
@@ -63,7 +64,6 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   .list-cards {
     overflow-y: auto;
     max-height: calc(100% - #{$list-header-line-height} + #{$list-header-top-space} - #{$list-footer-height});
-    padding-top: $list-card-top-space;
 
     scrollbar-width: thin; // for firefox
 
@@ -83,7 +83,7 @@ $scrollbar-thumb-bg-color: #c1c6c9;
       border-radius: $scrollbar-border-radius;
     }
 
-    .list-card:not(:last-child) {
+    .list-card {
       margin-bottom: $list-card-gap;
     }
 
