@@ -9,6 +9,8 @@ Simplified Trello clone [ VK internship test task ]
  * Add new lists
  * Draggable cards
  * Draggable lists
+ * Flexible drag drop system
+ * Dragged object can move scrollbars
 
 ## Development
 ```
