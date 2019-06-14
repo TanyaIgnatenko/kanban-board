@@ -30,12 +30,12 @@ export const moveCard = (cardId, destinationListId, indexInList) => {
   };
 };
 
-export const moveList = (listId, destinationBoardId, indexInBoard) => {
+export const moveList = (listId, destinationBoardId, newListIdx) => {
   return {
     type: MOVE.LIST,
     listId,
     destinationBoardId,
-    indexInBoard,
+    newListIdx,
   };
 };
 

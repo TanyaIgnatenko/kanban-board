@@ -21,8 +21,8 @@ function Board({ id, background, lists, addList, scrollbarContainer }) {
   const boardStyle = useBoardStyle(background);
 
   const {
-    listBodyRef,
     setItemRefAt,
+    listBodyRef,
     listItems,
     droppableClassName,
   } = useDroppableList({
@@ -38,6 +38,7 @@ function Board({ id, background, lists, addList, scrollbarContainer }) {
     scrollbarContainer.current = node;
     listBodyRef.current = node;
   };
+  console.log('lists in Board in Board: ', lists);
 
   return (
     <div

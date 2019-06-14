@@ -55,23 +55,23 @@ export const board = (state = initialState, action) => {
       };
     }
     case MOVE.LIST: {
-      const { listId, destinationBoardId, indexInBoard } = action;
+      const { listId, destinationBoardId, newListIdx } = action;
       if (state.board.id !== destinationBoardId) {
         console.error('Board destination id does not match current board id');
       }
 
-      const lastIdx = state.board.lists.findIndex(list => list.id === listId);
-      if (indexInBoard === lastIdx) {
+      const lastListIdx = state.board.lists.findIndex(
+        list => list.id === listId,
+      );
+      if (newListIdx === lastListIdx) {
         return state;
       }
 
-      const movedList = state.board.lists[lastIdx];
-      const idxToRemoveAt = lastIdx + (indexInBoard < lastIdx ? 1 : 0);
-
+      const movedList = state.board.lists[lastListIdx];
       const modifiedLists = [...state.board.lists];
 
-      modifiedLists.splice(indexInBoard, 0, movedList);
-      modifiedLists.splice(idxToRemoveAt, 1);
+      modifiedLists.splice(lastListIdx, 1);
+      modifiedLists.splice(newListIdx, 0, movedList);
 
       return {
         ...state,
