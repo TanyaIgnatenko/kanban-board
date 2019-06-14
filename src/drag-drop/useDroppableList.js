@@ -54,6 +54,7 @@ function useDroppableList({
 }) {
   const [placeholderIndex, setPlaceholderIndex] = useState(null);
   const [placeholderGeometry, setPlaceholderGeometry] = useState(null);
+  const [isHoveredByDraggable, setIsHoveredByDraggable] = useState(false);
 
   const context = useRef({ id, index: null });
   const itemsRefs = useRef([]);
@@ -95,6 +96,7 @@ function useDroppableList({
   };
 
   const onDraggableEnter = useCallback(draggable => {
+    setIsHoveredByDraggable(true);
     setPlaceholderGeometry({
       width: draggable.geometry.width,
       height: draggable.geometry.height,
@@ -144,6 +146,7 @@ function useDroppableList({
   );
 
   const onDraggableLeave = useCallback(() => {
+    setIsHoveredByDraggable(false);
     setPlaceholderGeometry(null);
     setPlaceholderIndex(null);
     context.current.index = null;
@@ -200,6 +203,7 @@ function useDroppableList({
     setItemRefAt,
     listBodyRef,
     droppableClassName,
+    isHoveredByDraggable,
   };
 }
 

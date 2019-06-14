@@ -2,7 +2,8 @@
 
 $list-width: 272px;
 $list-bg-color: #e3e5ea;
-$list-border-radius: 3px;
+$list-hovered-bg-color: #E3FCEF;
+$list-border-radius: 2px;
 $list-space: 14px;
 
 $list-header-line-height: 19px;
@@ -15,13 +16,13 @@ $list-card-gap: 8px;
 
 $card-placeholder-bg-color: #C9D2D9;
 $card-placeholder-width: 246px;
-$card-placeholder-border-radius: 3px;
+$card-placeholder-border-radius: 2px;
 
 $list-footer-height: 43px;
 
 $scrollbar-thickness: 9px;
 $scrollbar-padding-right: 3px;
-$scrollbar-border-radius: 3px;
+$scrollbar-border-radius: 2px;
 $scrollbar-thumb-bg-color: #c1c6c9;
 
 .card-list {
@@ -35,6 +36,7 @@ $scrollbar-thumb-bg-color: #c1c6c9;
 
     background-color: $list-bg-color;
   }
+
 
   &.dragged {
     z-index: 1;

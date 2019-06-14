@@ -32,6 +32,7 @@ function CardList({
     setItemRefAt,
     listItems,
     droppableClassName,
+    isHoveredByDraggable,
   } = useDroppableList({
     id,
     listType: LIST_TYPE.VERTICAL,
@@ -102,7 +103,12 @@ function CardList({
     <li
       id={id}
       ref={setRefs}
-      className={classNames('card-list', droppableClassName, className)}
+      className={classNames(
+        'card-list',
+        droppableClassName,
+        isHoveredByDraggable && 'hovered',
+        className,
+      )}
     >
       <header ref={dragHandleNode}>
         <h2 className='list-title'>{name}</h2>
