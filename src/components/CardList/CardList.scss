@@ -30,6 +30,7 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   width: $list-width;
 
   background-color: $list-bg-color;
+  border-radius: $list-border-radius;
   touch-action: none;
 
   &:focus {
@@ -48,8 +49,6 @@ $scrollbar-thumb-bg-color: #c1c6c9;
     padding: $list-header-space $list-space;
 
     cursor: pointer;
-    border-top-left-radius: $list-border-radius;
-    border-top-right-radius: $list-border-radius;
 
     .list-title {
       color: $list-header-color;
@@ -94,10 +93,10 @@ $scrollbar-thumb-bg-color: #c1c6c9;
       border-radius: $card-placeholder-border-radius;
       background: $card-placeholder-bg-color;
     }
-  }
 
-  footer {
-    border-bottom-left-radius: $list-border-radius;
-    border-bottom-right-radius: $list-border-radius;
+    .card-form {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 }

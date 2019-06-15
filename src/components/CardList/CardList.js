@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -98,13 +98,38 @@ function CardList({
     listNode.current = node;
   };
 
+  const [isCardFormOpened, setIsCardFormOpened] = useState(false);
+  const openedAddCardComponent = (
+    <AddComponent
+      isFormOpened
+      formClassName='card-form'
+      openCreationFormBtnText='Добавить ещё одну карточку'
+      placeholderFormText='Введите название карточки'
+      submitFormBtnText='Добавить карточку'
+      onFormOpen={() => setIsCardFormOpened(true)}
+      onFormClose={() => setIsCardFormOpened(false)}
+      onAdd={addCard.bind(null, id)}
+    />
+  );
+  const closedAddCardComponent = (
+    <AddComponent
+      isFormOpened={false}
+      openCreationFormBtnText='Добавить ещё одну карточку'
+      placeholderFormText='Введите название карточки'
+      submitFormBtnText='Добавить карточку'
+      onFormOpen={() => setIsCardFormOpened(true)}
+      onFormClose={() => setIsCardFormOpened(false)}
+      onAdd={addCard.bind(null, id)}
+    />
+  );
+
   return (
     <li id={id} className={classNames(droppableClassName, className)}>
       <div ref={setRefs} className='card-list' tabIndex={0}>
         <header ref={dragHandleNode}>
           <h2 className='list-title'>{name}</h2>
         </header>
-        {Boolean(listItems.length) && (
+        {(Boolean(listItems.length) || isCardFormOpened) && (
           <ul className='list-cards' ref={listBodyRef}>
             {listItems.map(
               (item, idx) =>
@@ -130,17 +155,10 @@ function CardList({
                   ),
                 }[item.type]),
             )}
+            {isCardFormOpened && openedAddCardComponent}
           </ul>
         )}
-        <footer>
-          <AddComponent
-            className='add-card-btn'
-            openCreationFormBtnText='Добавить ещё одну карточку'
-            placeholderFormText='Введите название карточки'
-            submitFormBtnText='Добавить карточку'
-            onAdd={addCard.bind(null, id)}
-          />
-        </footer>
+        <footer>{!isCardFormOpened && closedAddCardComponent}</footer>
       </div>
     </li>
   );
