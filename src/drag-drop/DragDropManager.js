@@ -25,15 +25,26 @@ class DragDropManager extends React.Component {
       if (mouseButton !== MOUSE_BUTTON.LEFT) return;
 
       const { clientX, clientY } = event;
+      const grabPosition = {
+        x: clientX,
+        y: clientY,
+      };
+      const draggedObjectRect = draggable.node.current.getBoundingClientRect();
+      const grabShift = {
+        x: draggedObjectRect.left - grabPosition.x,
+        y: draggedObjectRect.top - grabPosition.y,
+      };
 
-      this.grabDraggable({
-        grabPosition: {
-          x: clientX,
-          y: clientY,
-        },
-        handle,
-        ...draggable,
-      });
+      this.bindedStartDragIfMove = event =>
+        this.startDragIfMove(
+          { handle, ...draggable },
+          grabPosition,
+          grabShift,
+          event,
+        );
+
+      document.addEventListener('mousemove', this.bindedStartDragIfMove);
+      document.addEventListener('mouseup', this.resetPreparationToDrag);
 
       event.stopPropagation();
     };
@@ -45,8 +56,30 @@ class DragDropManager extends React.Component {
     };
   };
 
+  startDragIfMove = (draggable, grabPosition, grabShift, event) => {
+    const { clientX: newX, clientY: newY } = event;
+
+    if (
+      Math.abs(newX - grabPosition.x) > 2 ||
+      Math.abs(newY - grabPosition.y) > 2
+    ) {
+      document.removeEventListener('mousemove', this.bindedStartDragIfMove);
+      document.removeEventListener('mouseup', this.resetPreparationToDrag);
+
+      this.grabDraggable({
+        grabShift,
+        ...draggable,
+      });
+    }
+  };
+
+  resetPreparationToDrag = () => {
+    document.removeEventListener('mousemove', this.bindedStartDragIfMove);
+    document.removeEventListener('mouseup', this.resetPreparationToDrag);
+  };
+
   grabDraggable = ({
-    grabPosition,
+    grabShift,
     context,
     type,
     node,
@@ -65,10 +98,7 @@ class DragDropManager extends React.Component {
       geometry: {
         width: draggedObjectRect.width,
         height: draggedObjectRect.height,
-        grabShift: {
-          x: draggedObjectRect.left - grabPosition.x,
-          y: draggedObjectRect.top - grabPosition.y,
-        },
+        grabShift,
       },
       position: {
         x: draggedObjectRect.left,
