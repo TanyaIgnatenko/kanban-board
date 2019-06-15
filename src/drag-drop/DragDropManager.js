@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DragDropContext from './internal/DragDropContext';
-import { MOVEMENT } from '../constants';
+import { MOUSE_BUTTON, MOVEMENT } from '../constants';
 
 class DragDropManager extends React.Component {
   state = {
@@ -21,6 +21,9 @@ class DragDropManager extends React.Component {
     const handle = dragHandle.current;
 
     const onPointerDown = event => {
+      const { which: mouseButton } = event;
+      if (mouseButton !== MOUSE_BUTTON.LEFT) return;
+
       const { clientX, clientY } = event;
 
       this.grabDraggable({

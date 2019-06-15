@@ -18,7 +18,7 @@ $scrolbar-border-radius: 9px;
 $scrollbar-track-bg-color: rgba(9, 30, 66, .08);
 $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
 
-$list-outline-width: 4px;
+$list-outline-width: 3px;
 $list-zone-height: calc(100vh - #{$board-padding-top} - #{$board-title-height} - #{$board-title-margin-bottom} - #{$scrollbar-padding-bottom} - #{$scrollbar-padding-top} - #{$scrollbar-thickness} - 2 * #{$list-outline-width});
 $list-gap: 12px;
 $lis-placeholder-bg-color: rgba(21, 21, 21, 0.1);

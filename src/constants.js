@@ -10,4 +10,10 @@ const MOVEMENT = {
   LEFT: 'LEFT',
 };
 
-export { DRAGGABLE_TYPE, MOVEMENT };
+const MOUSE_BUTTON = {
+  LEFT: 1,
+  MIDDLE: 2,
+  RIGHT: 3,
+};
+
+export { DRAGGABLE_TYPE, MOVEMENT, MOUSE_BUTTON };
