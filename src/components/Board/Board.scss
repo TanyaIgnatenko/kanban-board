@@ -66,13 +66,13 @@ $add-list-form-top-margin: 12px;
       border-radius: $scrolbar-border-radius;
     }
 
-    .board-list, .add-list-wrapper {
+    .board-list-zone, .add-list-wrapper {
       flex: 0 0 auto;
       margin-left: $list-margin-left;
       margin-top: $list-outline-width;
     }
 
-    .board-list {
+    .board-list-zone {
       height: $list-zone-height;
     }
 

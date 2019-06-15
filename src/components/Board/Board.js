@@ -41,23 +41,25 @@ function Board({ id, background, name, lists, addList }) {
           (item, idx) =>
             ({
               [ITEM_TYPE.REGULAR_ITEM]: (
-                <CardList
-                  key={item.data && item.data.id}
-                  className='board-list'
-                  setListRef={node => setItemRefAt(node, idx)}
-                  {...item.data}
-                />
+                <li key={item.data && item.data.id}>
+                  <CardList
+                    className='board-list-zone'
+                    setListRef={node => setItemRefAt(node, idx)}
+                    {...item.data}
+                  />
+                </li>
               ),
               [ITEM_TYPE.PLACEHOLDER]: (
-                <div
-                  key='placeholder'
-                  ref={node => setItemRefAt(node, idx)}
-                  className='placeholder board-list'
-                  style={{
-                    width: item.geometry && item.geometry.width,
-                    height: item.geometry && item.geometry.height,
-                  }}
-                />
+                <li key='placeholder'>
+                  <div
+                    ref={node => setItemRefAt(node, idx)}
+                    className='placeholder board-list-zone'
+                    style={{
+                      width: item.geometry && item.geometry.width,
+                      height: item.geometry && item.geometry.height,
+                    }}
+                  />
+                </li>
               ),
             }[item.type]),
         )}

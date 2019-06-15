@@ -12,9 +12,9 @@ function useDraggable(draggable) {
   }, [
     draggable.context,
     draggable.type,
-    draggable.node,
-    draggable.dragHandle,
-    draggable.renderElement,
+    draggable.ref,
+    draggable.dragHandleRef,
+    draggable.renderAvatar,
     draggable.onRelease,
   ]);
 }

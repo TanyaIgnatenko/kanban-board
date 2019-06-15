@@ -9,19 +9,14 @@ export const board = (state = initialState, action) => {
     case FETCH_BOARD.SUCCESS: {
       return {
         ...state,
-        board: {
-          id: action.board.id,
-          name: action.board.name,
-          lists: action.board.lists,
-          background: action.board.background,
-        },
+        board: action.board,
       };
     }
     case MOVE.CARD: {
       const { cardId, destinationListId, indexInList } = action;
 
       let cardToMove = null;
-      const modifiedLists = state.board.lists.map(list => {
+      const updatedLists = state.board.lists.map(list => {
         const found = list.cards.find(item => item.id === cardId);
         if (found) {
           cardToMove = found;
@@ -34,7 +29,7 @@ export const board = (state = initialState, action) => {
       });
 
       if (cardToMove) {
-        const dstList = modifiedLists.find(
+        const dstList = updatedLists.find(
           list => list.id === destinationListId,
         );
         if (dstList) {
@@ -50,14 +45,15 @@ export const board = (state = initialState, action) => {
         ...state,
         board: {
           ...state.board,
-          lists: modifiedLists,
+          lists: updatedLists,
         },
       };
     }
     case MOVE.LIST: {
       const { listId, destinationBoardId, newListIdx } = action;
+
       if (state.board.id !== destinationBoardId) {
-        console.error('Board destination id does not match current board id');
+        console.error('Destination board id does not match current board id');
       }
 
       const lastListIdx = state.board.lists.findIndex(
@@ -67,26 +63,28 @@ export const board = (state = initialState, action) => {
         return state;
       }
 
-      const movedList = state.board.lists[lastListIdx];
-      const modifiedLists = [...state.board.lists];
+      const listToMove = state.board.lists[lastListIdx];
+      const updatedLists = [...state.board.lists];
 
-      modifiedLists.splice(lastListIdx, 1);
-      modifiedLists.splice(newListIdx, 0, movedList);
+      updatedLists.splice(lastListIdx, 1);
+      updatedLists.splice(newListIdx, 0, listToMove);
 
       return {
         ...state,
         board: {
           ...state.board,
-          lists: modifiedLists,
+          lists: updatedLists,
         },
       };
     }
     case ADD_CARD.SUCCESS: {
+      const { listId, card } = action;
+
       const updatedLists = state.board.lists.map(list =>
-        list.id === action.listId
+        list.id === listId
           ? {
               ...list,
-              cards: [...list.cards, action.card],
+              cards: list.cards.push(card),
             }
           : list,
       );
@@ -101,11 +99,17 @@ export const board = (state = initialState, action) => {
     }
 
     case ADD_LIST.SUCCESS: {
+      const { boardId, list } = action;
+
+      if (state.board.id !== boardId) {
+        console.error('Board id does not match current board id');
+      }
+
       return {
         ...state,
         board: {
           ...state.board,
-          lists: [...state.board.lists, action.list],
+          lists: state.board.lists.push(list),
         },
       };
     }

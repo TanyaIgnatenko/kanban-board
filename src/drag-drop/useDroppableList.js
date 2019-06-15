@@ -26,7 +26,7 @@ function formListItems(items, itemToIgnoreId, placeholder) {
     listItems = listItems.filter(item => item.data.id !== itemToIgnoreId);
   }
 
-  const shouldShowPlaceholder = placeholder.index !== null;
+  const shouldShowPlaceholder = placeholder.placeholderIndex !== null;
   if (shouldShowPlaceholder) {
     listItems = enrichWithPlaceholder(listItems, placeholder);
   }
@@ -35,9 +35,9 @@ function formListItems(items, itemToIgnoreId, placeholder) {
 }
 
 function enrichWithPlaceholder(listItems, placeholder) {
-  listItems.splice(placeholder.index, 0, {
+  listItems.splice(placeholder.placeholderIndex, 0, {
     type: ITEM_TYPE.PLACEHOLDER,
-    index: placeholder.index,
+    placeholderIndex: placeholder.placeholderIndex,
     geometry: placeholder.geometry,
   });
   return listItems;
@@ -48,13 +48,13 @@ function useDroppableList({ id, acceptedTypes, listType, items }) {
   const [placeholderGeometry, setPlaceholderGeometry] = useState(null);
   const [isHoveredByDraggable, setIsHoveredByDraggable] = useState(false);
 
-  const context = useRef({ id, index: null });
-  const itemsRefs = useRef([]);
+  const contextRef = useRef({ id, placeholderIndex: null });
+  const itemsRef = useRef([]);
 
   const setItemRefAt = (item, idx) => {
     if (!item) return;
 
-    itemsRefs.current[idx] = item;
+    itemsRef.current[idx] = item;
   };
 
   const onDraggableEnter = useCallback(draggable => {
@@ -72,12 +72,14 @@ function useDroppableList({ id, acceptedTypes, listType, items }) {
         y: draggable.position.y + draggable.geometry.height / 2,
       };
 
-      let placeholderIdx = binaryLastIndexOf(itemsRefs.current, item => {
+      let placeholderIdx = binaryLastIndexOf(itemsRef.current, item => {
         const itemRect = item.getBoundingClientRect();
+
         switch (listType) {
           case LIST_TYPE.HORIZONTAL: {
             let extra = 0;
             if (itemRect.width > draggable.geometry.width) {
+              // to avoid placeholder and bigger than it card swap back and forth
               extra = itemRect.width - draggable.geometry.width;
             }
             return itemRect.left + extra < draggableCenter.x;
@@ -85,6 +87,7 @@ function useDroppableList({ id, acceptedTypes, listType, items }) {
           case LIST_TYPE.VERTICAL: {
             let extra = 0;
             if (itemRect.height > draggable.geometry.height) {
+              // to avoid placeholder and bigger than it card swap back and forth
               extra = itemRect.height - draggable.geometry.height;
             }
             return itemRect.top + extra < draggableCenter.y;
@@ -97,22 +100,22 @@ function useDroppableList({ id, acceptedTypes, listType, items }) {
 
       placeholderIdx = placeholderIdx !== null ? placeholderIdx : 0;
 
-      context.current.index = placeholderIdx;
+      contextRef.current.placeholderIndex = placeholderIdx;
       setPlaceholderIndex(placeholderIdx);
     },
-    [placeholderIndex, placeholderGeometry, listType],
+    [placeholderIndex, listType],
   );
 
   const onDraggableLeave = useCallback(() => {
     setIsHoveredByDraggable(false);
     setPlaceholderGeometry(null);
     setPlaceholderIndex(null);
-    context.current.index = null;
+    contextRef.current.placeholderIndex = null;
   }, []);
 
   const { draggableContext, droppableClassName } = useDroppable({
     id,
-    context: context.current,
+    context: contextRef.current,
     acceptedTypes,
     onDraggableEnter,
     onDraggableHover,
@@ -120,7 +123,7 @@ function useDroppableList({ id, acceptedTypes, listType, items }) {
   });
 
   const placeholder = {
-    index: placeholderIndex,
+    placeholderIndex,
     geometry: placeholderGeometry,
   };
   const itemToIgnoreId = draggableContext && draggableContext.id;

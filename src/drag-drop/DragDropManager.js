@@ -23,8 +23,8 @@ class DragDropManager extends React.Component {
     return () => {};
   };
 
-  registerDraggable = ({ dragHandle, ...draggable }) => {
-    const handle = dragHandle.current;
+  registerDraggable = ({ dragHandleRef, ...draggable }) => {
+    const handle = dragHandleRef.current;
 
     const onPointerDown = event => {
       const { which: mouseButton } = event;
@@ -35,7 +35,7 @@ class DragDropManager extends React.Component {
         x: clientX,
         y: clientY,
       };
-      const draggedObjectRect = draggable.node.current.getBoundingClientRect();
+      const draggedObjectRect = draggable.ref.current.getBoundingClientRect();
       const grabShift = {
         x: draggedObjectRect.left - grabPosition.x,
         y: draggedObjectRect.top - grabPosition.y,
@@ -88,17 +88,17 @@ class DragDropManager extends React.Component {
     grabShift,
     context,
     type,
-    node,
+    ref,
     handle,
-    renderElement,
+    renderAvatar,
     onRelease,
   }) => {
-    const draggedObjectRect = node.current.getBoundingClientRect();
+    const draggedObjectRect = ref.current.getBoundingClientRect();
 
     this.draggedObject = {
       context,
       type,
-      renderElement,
+      renderAvatar,
       handle,
       onRelease,
       geometry: {
@@ -289,7 +289,7 @@ class DragDropManager extends React.Component {
     return (
       <>
         {draggedObject &&
-          draggedObject.renderElement({
+          draggedObject.renderAvatar({
             clientPosition: draggedObjectPosition,
             draggedObjectRef: this.setDraggedObjectRef,
           })}

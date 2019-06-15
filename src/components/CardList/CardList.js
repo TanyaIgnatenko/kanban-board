@@ -34,67 +34,14 @@ function CardList({
     items: cards,
   });
 
-  const dragHandleNode = useRef(null);
-  const listNode = useRef(null);
-
-  useDraggable({
-    context: {
-      id,
-    },
-    type: DRAGGABLE_TYPE.LIST,
-    node: listNode,
-    dragHandle: dragHandleNode,
-    renderElement: ({ clientPosition, draggedObjectRef }) => (
-      <div
-        id={id}
-        ref={draggedObjectRef}
-        className={classNames('card-list', 'dragged', className)}
-        style={moveTo(clientPosition)}
-      >
-        <header>
-          <h2 className='list-title'>{name}</h2>
-        </header>
-        {Boolean(listItems.length) && (
-          <ul className='list-cards'>
-            {listItems.map((item, idx) => (
-              <Card
-                key={item.data.id}
-                {...item.data}
-                className='list-card'
-                setCardRef={node => setItemRefAt(node, idx)}
-              />
-            ))}
-          </ul>
-        )}
-        <footer>
-          <AddComponent
-            className='add-card-btn'
-            openCreationFormBtnText='Добавить ещё одну карточку'
-            placeholderFormText='Введите название карточки'
-            submitFormBtnText='Добавить карточку'
-            onAdd={addCard.bind(null, id)}
-          />
-        </footer>
-      </div>
-    ),
-    onRelease: ({ draggableContext, droppableContext }) => {
-      moveList(
-        draggableContext.id,
-        droppableContext.id,
-        droppableContext.index,
-      );
-    },
-  });
-
-  const setRefs = node => {
-    setListRef(node);
-    listNode.current = node;
-  };
+  const dragHandleRef = useRef(null);
+  const listRef = useRef(null);
 
   const [isCardFormOpened, setIsCardFormOpened] = useState(false);
-  const openedAddCardComponent = (
+
+  const renderAddCardComponent = () => (
     <AddComponent
-      isFormOpened
+      isFormOpened={isCardFormOpened}
       formClassName='card-form'
       openCreationFormBtnText='Добавить ещё одну карточку'
       placeholderFormText='Введите название карточки'
@@ -104,40 +51,29 @@ function CardList({
       onAdd={addCard.bind(null, id)}
     />
   );
-  const closedAddCardComponent = (
-    <AddComponent
-      isFormOpened={false}
-      openCreationFormBtnText='Добавить ещё одну карточку'
-      placeholderFormText='Введите название карточки'
-      submitFormBtnText='Добавить карточку'
-      onFormOpen={() => setIsCardFormOpened(true)}
-      onFormClose={() => setIsCardFormOpened(false)}
-      onAdd={addCard.bind(null, id)}
-    />
-  );
 
-  return (
-    <li id={id} className={classNames(droppableClassName, className)}>
-      <div ref={setRefs} className='card-list' tabIndex={0}>
-        <header ref={dragHandleNode}>
-          <h2 className='list-title'>{name}</h2>
-        </header>
-        {(Boolean(listItems.length) || isCardFormOpened) && (
-          <ul className='list-cards'>
-            {listItems.map(
-              (item, idx) =>
-                ({
-                  [ITEM_TYPE.REGULAR_ITEM]: (
+  const renderCardListContent = () => (
+    <>
+      <header ref={dragHandleRef}>
+        <h2 className='list-title'>{name}</h2>
+      </header>
+      {(Boolean(listItems.length) || isCardFormOpened) && (
+        <ul className='list-cards'>
+          {listItems.map(
+            (item, idx) =>
+              ({
+                [ITEM_TYPE.REGULAR_ITEM]: (
+                  <li key={item.data && item.data.id}>
                     <Card
-                      key={item.data && item.data.id}
                       {...item.data}
                       className='list-card'
                       setCardRef={node => setItemRefAt(node, idx)}
                     />
-                  ),
-                  [ITEM_TYPE.PLACEHOLDER]: (
-                    <li
-                      key='placeholder'
+                  </li>
+                ),
+                [ITEM_TYPE.PLACEHOLDER]: (
+                  <li key='placeholder'>
+                    <div
                       ref={node => setItemRefAt(node, idx)}
                       className='placeholder list-card'
                       style={{
@@ -145,15 +81,54 @@ function CardList({
                         height: item.geometry && item.geometry.height,
                       }}
                     />
-                  ),
-                }[item.type]),
-            )}
-            {isCardFormOpened && openedAddCardComponent}
-          </ul>
-        )}
-        <footer>{!isCardFormOpened && closedAddCardComponent}</footer>
+                  </li>
+                ),
+              }[item.type]),
+          )}
+          {isCardFormOpened && renderAddCardComponent()}
+        </ul>
+      )}
+      <footer>{!isCardFormOpened && renderAddCardComponent()}</footer>
+    </>
+  );
+
+  useDraggable({
+    context: {
+      id,
+    },
+    type: DRAGGABLE_TYPE.LIST,
+    ref: listRef,
+    dragHandleRef,
+    renderAvatar: ({ clientPosition, draggedObjectRef }) => (
+      <div
+        id={id}
+        ref={draggedObjectRef}
+        className={classNames('card-list', 'dragged', className)}
+        style={moveTo(clientPosition)}
+      >
+        {renderCardListContent()}
       </div>
-    </li>
+    ),
+    onRelease: ({ draggableContext, droppableContext }) => {
+      moveList(
+        draggableContext.id,
+        droppableContext.id,
+        droppableContext.placeholderIndex,
+      );
+    },
+  });
+
+  const setRefs = node => {
+    setListRef(node);
+    listRef.current = node;
+  };
+
+  return (
+    <div id={id} className={classNames(droppableClassName, className)}>
+      <div id={id} ref={setRefs} className='card-list' tabIndex={0}>
+        {renderCardListContent()}
+      </div>
+    </div>
   );
 }
 

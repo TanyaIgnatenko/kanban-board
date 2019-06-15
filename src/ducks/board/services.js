@@ -10,18 +10,18 @@ export function fetchBoardRequest(id) {
 }
 
 export function addCardRequest(listId, content) {
-  const card = {
+  const newCard = {
     id: _.uniqueId('card'),
     content,
   };
-  return { listId, card };
+  return { listId, card: newCard };
 }
 
 export function addListRequest(boardId, content) {
-  const list = {
+  const newList = {
     id: _.uniqueId('list'),
     name: content,
     cards: [],
   };
-  return { boardId, list };
+  return { boardId, list: newList };
 }

@@ -3,37 +3,41 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import { moveTo } from '../../helpers/moveTo';
+import { moveCard } from '../../ducks/board/actions';
 import { useDraggable } from '../../drag-drop/useDraggable';
 import { DRAGGABLE_TYPE } from '../../constants';
-
-import { moveCard } from '../../ducks/board/actions';
-import { moveTo } from '../../helpers/moveTo';
 
 import './Card.scss';
 
 function Card({ id, content, setCardRef, moveCardToList, className }) {
+  const renderCard = (isDragged, clientPosition, ref) => (
+    <div
+      id={id}
+      ref={ref}
+      className={classNames('card', isDragged && 'dragged', className)}
+      style={isDragged ? moveTo(clientPosition) : {}}
+      tabIndex={0}
+    >
+      <h4 className='card-content'>{content}</h4>
+    </div>
+  );
+
   const cardRef = useRef(null);
   useDraggable({
     context: {
       id,
     },
     type: DRAGGABLE_TYPE.CARD,
-    node: cardRef,
-    dragHandle: cardRef,
-    renderElement: ({ clientPosition, draggedObjectRef }) => (
-      <div
-        ref={draggedObjectRef}
-        className={classNames('card', 'dragged', className)}
-        style={moveTo(clientPosition)}
-      >
-        <h4 className='card-content'>{content}</h4>
-      </div>
-    ),
+    ref: cardRef,
+    dragHandleRef: cardRef,
+    renderAvatar: ({ clientPosition, draggedObjectRef }) =>
+      renderCard(true, clientPosition, draggedObjectRef),
     onRelease: ({ draggableContext, droppableContext }) => {
       moveCardToList(
         draggableContext.id,
         droppableContext.id,
-        droppableContext.index,
+        droppableContext.placeholderIndex,
       );
     },
   });
@@ -43,16 +47,7 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
     cardRef.current = node;
   };
 
-  return (
-    <li
-      id={id}
-      ref={setRefs}
-      className={classNames('card', className)}
-      tabIndex={0}
-    >
-      <h4 className='card-content'>{content}</h4>
-    </li>
-  );
+  return renderCard(false, null, setRefs);
 }
 
 Card.propTypes = {
