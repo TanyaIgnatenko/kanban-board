@@ -41,6 +41,7 @@ $lis-placeholder-bg-color: rgba(21, 21, 21, 0.1);
     display: flex;
     align-items: flex-start;
     overflow-x: auto;
+    overflow-y: hidden;
     width: 100%;
     height: calc(#{$list-zone-height} + #{$scrollbar-padding-top} + 2 * #{$list-outline-width} + #{$scrollbar-thickness});
     padding-bottom: $scrollbar-thickness;
