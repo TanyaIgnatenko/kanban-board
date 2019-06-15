@@ -21,6 +21,7 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
 $list-outline-width: 4px;
 $list-zone-height: calc(100vh - #{$board-padding-top} - #{$board-title-height} - #{$board-title-margin-bottom} - #{$scrollbar-padding-bottom} - #{$scrollbar-padding-top} - #{$scrollbar-thickness} - 2 * #{$list-outline-width});
 $list-gap: 12px;
+$lis-placeholder-bg-color: rgba(21, 21, 21, 0.1);
 
 .board {
   width: 100vw;
@@ -70,6 +71,10 @@ $list-gap: 12px;
 
     .board-list {
       height: $list-zone-height;
+    }
+
+    .placeholder {
+      background-color: $lis-placeholder-bg-color;
     }
 
     .add-list-form {
