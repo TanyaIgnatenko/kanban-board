@@ -83,7 +83,11 @@ function AddComponent({
           <button className='add-btn' onClick={handleAdd}>
             {submitFormBtnText}
           </button>
-          <button className='close-btn' onClick={handleClose} />
+          <button
+            aria-label='close'
+            className='close-btn'
+            onClick={handleClose}
+          />
         </div>
       </div>
     </div>
