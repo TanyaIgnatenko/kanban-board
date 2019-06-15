@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/kanban-board/static/css/main.779db631.chunk.css",
-    "main.js": "/kanban-board/static/js/main.d57f568e.chunk.js",
-    "main.js.map": "/kanban-board/static/js/main.d57f568e.chunk.js.map",
+    "main.css": "/kanban-board/static/css/main.cc709408.chunk.css",
+    "main.js": "/kanban-board/static/js/main.39363fbc.chunk.js",
+    "main.js.map": "/kanban-board/static/js/main.39363fbc.chunk.js.map",
     "runtime~main.js": "/kanban-board/static/js/runtime~main.8507f43b.js",
     "runtime~main.js.map": "/kanban-board/static/js/runtime~main.8507f43b.js.map",
-    "static/js/2.696cbdc3.chunk.js": "/kanban-board/static/js/2.696cbdc3.chunk.js",
-    "static/js/2.696cbdc3.chunk.js.map": "/kanban-board/static/js/2.696cbdc3.chunk.js.map",
+    "static/js/2.57c627dc.chunk.js": "/kanban-board/static/js/2.57c627dc.chunk.js",
+    "static/js/2.57c627dc.chunk.js.map": "/kanban-board/static/js/2.57c627dc.chunk.js.map",
     "index.html": "/kanban-board/index.html",
-    "precache-manifest.b48c926a03d8556b93fee10b73b277d1.js": "/kanban-board/precache-manifest.b48c926a03d8556b93fee10b73b277d1.js",
+    "precache-manifest.f6c2c55a1281701bdb8c87f97c17fcec.js": "/kanban-board/precache-manifest.f6c2c55a1281701bdb8c87f97c17fcec.js",
     "service-worker.js": "/kanban-board/service-worker.js",
-    "static/css/main.779db631.chunk.css.map": "/kanban-board/static/css/main.779db631.chunk.css.map",
+    "static/css/main.cc709408.chunk.css.map": "/kanban-board/static/css/main.cc709408.chunk.css.map",
     "static/media/AddComponent.scss": "/kanban-board/static/media/plus-icon.7cad1f85.svg"
   }
 }
