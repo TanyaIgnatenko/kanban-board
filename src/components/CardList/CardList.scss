@@ -1,15 +1,16 @@
 @import '../../assets/scss/variables';
+@import '../Board/Board';
 
 $list-width: 272px;
 $list-bg-color: #e3e5ea;
 $list-border-radius: 2px;
 $list-space: 14px;
 
-$list-header-line-height: 19px;
-$list-header-top-space: 8px;
-$list-header-bottom-space: 8px;
+$list-header-space: 8px;
 $list-header-color: black;
+$list-header-line-height: 1.5;
 $list-header-font-size: 1.3rem;
+$list-header-height: calc(#{$list-header-font-size} * #{$list-header-line-height} + 2 * #{$list-header-space});
 
 $list-card-gap: 8px;
 
@@ -28,12 +29,11 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   position: relative;
   width: $list-width;
 
+  background-color: $list-bg-color;
   touch-action: none;
 
-  > * {
-    padding: 0 $list-space;
-
-    background-color: $list-bg-color;
+  &:focus {
+    outline: $list-outline-width solid #87ACE7;
   }
 
 
@@ -45,12 +45,11 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   }
 
   header {
-    padding-top: $list-header-top-space;
-    padding-bottom: $list-header-bottom-space;
+    padding: $list-header-space $list-space;
 
+    cursor: pointer;
     border-top-left-radius: $list-border-radius;
     border-top-right-radius: $list-border-radius;
-    cursor: pointer;
 
     .list-title {
       color: $list-header-color;
@@ -63,8 +62,10 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   }
 
   .list-cards {
+    padding: 0 $list-space;
     overflow-y: auto;
-    max-height: calc(100% - #{$list-header-line-height} + #{$list-header-top-space} - #{$list-footer-height});
+    overflow-x: hidden;
+    max-height: calc(#{$list-zone-height} - #{$list-header-height} - #{$list-footer-height});
 
     scrollbar-width: thin; // for firefox
 
@@ -78,8 +79,8 @@ $scrollbar-thumb-bg-color: #c1c6c9;
       border-radius: $scrollbar-border-radius;
     }
 
-    &::-webkit-scrollbar-track{
-      background: rgba(9,30,66,.08);
+    &::-webkit-scrollbar-track {
+      background: rgba(9, 30, 66, .08);
       border-right: $scrollbar-padding-right solid $list-bg-color;
       border-radius: $scrollbar-border-radius;
     }
@@ -96,8 +97,6 @@ $scrollbar-thumb-bg-color: #c1c6c9;
   }
 
   footer {
-    padding: 0;
-
     border-bottom-left-radius: $list-border-radius;
     border-bottom-right-radius: $list-border-radius;
   }

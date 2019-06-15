@@ -99,51 +99,49 @@ function CardList({
   };
 
   return (
-    <li
-      id={id}
-      ref={setRefs}
-      className={classNames('card-list', droppableClassName, className)}
-    >
-      <header ref={dragHandleNode}>
-        <h2 className='list-title'>{name}</h2>
-      </header>
-      {Boolean(listItems.length) && (
-        <ul className='list-cards' ref={listBodyRef}>
-          {listItems.map(
-            (item, idx) =>
-              ({
-                [ITEM_TYPE.REGULAR_ITEM]: (
-                  <Card
-                    key={item.data && item.data.id}
-                    {...item.data}
-                    className='list-card'
-                    setCardRef={node => setItemRefAt(node, idx)}
-                  />
-                ),
-                [ITEM_TYPE.PLACEHOLDER]: (
-                  <li
-                    key='placeholder'
-                    ref={node => setItemRefAt(node, idx)}
-                    className='placeholder list-card'
-                    style={{
-                      width: item.geometry && item.geometry.width,
-                      height: item.geometry && item.geometry.height,
-                    }}
-                  />
-                ),
-              }[item.type]),
-          )}
-        </ul>
-      )}
-      <footer>
-        <AddComponent
-          className='add-card-btn'
-          openCreationFormBtnText='Добавить ещё одну карточку'
-          placeholderFormText='Введите название карточки'
-          submitFormBtnText='Добавить карточку'
-          onAdd={addCard.bind(null, id)}
-        />
-      </footer>
+    <li id={id} className={classNames(droppableClassName, className)}>
+      <div ref={setRefs} className='card-list' tabIndex={0}>
+        <header ref={dragHandleNode}>
+          <h2 className='list-title'>{name}</h2>
+        </header>
+        {Boolean(listItems.length) && (
+          <ul className='list-cards' ref={listBodyRef}>
+            {listItems.map(
+              (item, idx) =>
+                ({
+                  [ITEM_TYPE.REGULAR_ITEM]: (
+                    <Card
+                      key={item.data && item.data.id}
+                      {...item.data}
+                      className='list-card'
+                      setCardRef={node => setItemRefAt(node, idx)}
+                    />
+                  ),
+                  [ITEM_TYPE.PLACEHOLDER]: (
+                    <li
+                      key='placeholder'
+                      ref={node => setItemRefAt(node, idx)}
+                      className='placeholder list-card'
+                      style={{
+                        width: item.geometry && item.geometry.width,
+                        height: item.geometry && item.geometry.height,
+                      }}
+                    />
+                  ),
+                }[item.type]),
+            )}
+          </ul>
+        )}
+        <footer>
+          <AddComponent
+            className='add-card-btn'
+            openCreationFormBtnText='Добавить ещё одну карточку'
+            placeholderFormText='Введите название карточки'
+            submitFormBtnText='Добавить карточку'
+            onAdd={addCard.bind(null, id)}
+          />
+        </footer>
+      </div>
     </li>
   );
 }

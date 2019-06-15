@@ -44,7 +44,12 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
   };
 
   return (
-    <li id={id} ref={setRefs} className={classNames('card', className)}>
+    <li
+      id={id}
+      ref={setRefs}
+      className={classNames('card', className)}
+      tabIndex={0}
+    >
       <h4 className='card-content'>{content}</h4>
     </li>
   );

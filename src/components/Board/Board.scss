@@ -3,31 +3,37 @@ $board-padding-right: 0px;
 $board-padding-bottom: 20px;
 $board-padding-left: 8px;
 
-$board-title-padding-left: 12px;
-$board-title-padding-bottom: 16px;
-
-$list-gap: 12px;
+$board-title-font-size: 1.8rem;
+$board-title-line-height: 1.5;
+$board-title-height: $board-title-font-size * $board-title-line-height;
+$board-title-margin-left: 12px;
+$board-title-margin-bottom: 16px;
 
 $add-list-form-top-margin: 12px;
 
 $scrollbar-thickness: 10px;
-$scrollbar-padding: 7px;
+$scrollbar-padding-top: 12px;
+$scrollbar-padding-bottom: 7px;
 $scrolbar-border-radius: 9px;
 $scrollbar-track-bg-color: rgba(9, 30, 66, .08);
 $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
 
+$list-outline-width: 4px;
+$list-zone-height: calc(100vh - #{$board-padding-top} - #{$board-title-height} - #{$board-title-margin-bottom} - #{$scrollbar-padding-bottom} - #{$scrollbar-padding-top} - #{$scrollbar-thickness} - 2 * #{$list-outline-width});
+$list-gap: 12px;
+
 .board {
   width: 100vw;
   height: 100vh;
-  padding: $board-padding-top $board-padding-right $scrollbar-padding $board-padding-left;
+  padding: $board-padding-top $board-padding-right $scrollbar-padding-bottom $board-padding-left;
 
   .board-title {
-    padding-left: $board-title-padding-left;
-    padding-bottom: $board-title-padding-bottom;
+    margin-left: $board-title-margin-left;
+    margin-bottom: $board-title-margin-bottom;
 
-    font-size: 1.8rem;
+    font-size: $board-title-font-size;
     font-weight: bold;
-    line-height: 1.5;
+    line-height: $board-title-line-height;
   }
 
   .board-lists {
@@ -35,8 +41,9 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
     align-items: flex-start;
     overflow-x: auto;
     width: 100%;
-    height: calc(100% - #{$board-padding-top} - #{$board-title-padding-bottom} - 5px);
-    padding-bottom: $scrollbar-padding;
+    height: calc(#{$list-zone-height} + #{$scrollbar-padding-top} + 2 * #{$list-outline-width} + #{$scrollbar-thickness});
+    padding-bottom: $scrollbar-thickness;
+    box-sizing: border-box;
 
     user-select: none;
     scrollbar-width: thin; // for firefox
@@ -58,10 +65,11 @@ $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
     .board-list, .add-list-wrapper {
       flex: 0 0 auto;
       margin-left: $list-gap;
+      margin-top: $list-outline-width;
     }
 
     .board-list {
-      height: calc(100% - 2 * #{$scrollbar-padding} - #{$scrollbar-thickness});
+      height: $list-zone-height;
     }
 
     .add-list-form {

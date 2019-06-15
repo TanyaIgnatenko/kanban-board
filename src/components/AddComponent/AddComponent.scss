@@ -2,7 +2,7 @@
 @import '../../assets/scss/mixins';
 
 $add-component-wrapper-bg-color: #DFE3E6;
-$add-component-wrapper-border-radius: 3px;
+$add-component-wrapper-border-radius: 2px;
 
 $open-form-width: 272px;
 $open-form-height: 43px;
@@ -14,11 +14,11 @@ $open-form-btn-hover-bg-color: rgba(9, 30, 66, .13);
 $open-form-btn-active-bg-color: rgba(11, 45, 103, 0.17);
 $open-form-btn-hover-color: rgb(23, 43, 77);
 $open-form-btn-font-size: 1.3rem;
-$open-form-btn-border-radius: 3px;
+$open-form-btn-border-radius: 2px;
 
 $text-area-width: 248px;
 $text-area-bg-color: white;
-$text-area-border-radius: 3px;
+$text-area-border-radius: 2px;
 
 $form-padding-top: 0;
 $form-padding-right: 12px;
@@ -40,15 +40,15 @@ $add-btn-width: 152px;
 $add-btn-height: 30px;
 $add-btn-bg-color: #39C071;
 $add-btn-color: white;
-$add-btn-border-radius: 3px;
+$add-btn-border-radius: 2px;
 $add-btn-padding-top: 7px;
 $add-btn-padding-right: 8px;
 $add-btn-padding-bottom: 4px;
 $add-btn-padding-left: 8px;
 
 .add-component-wrapper {
-  background: $add-component-wrapper-bg-color;
-  border-radius: $add-btn-border-radius;
+  border-radius: $add-component-wrapper-border-radius;
+  background-color: $add-component-wrapper-bg-color;
 
   .open-form-btn {
     display: flex;
