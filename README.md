@@ -2,7 +2,7 @@
 
 Simplified Trello clone [ VK internship test task ]
 
-**A running demo is available [here](https://tanyaignatenko.github.io/kanban-board/).**
+**[DEMO](https://tanyaignatenko.github.io/kanban-board/)**
 
 ## Features :boom:
  * Add new cards
