@@ -38,7 +38,7 @@ function AddComponent({
   }, []);
 
   const handleAdd = useCallback(() => {
-    if (!content) return;
+    if (!content.trim()) return;
 
     onAdd(content);
     handleClose();
