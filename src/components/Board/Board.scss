@@ -1,15 +1,13 @@
 $board-padding-top: 21px;
 $board-padding-right: 0px;
 $board-padding-bottom: 20px;
-$board-padding-left: 8px;
+$board-padding-left: 0;
 
 $board-title-font-size: 1.8rem;
 $board-title-line-height: 1.5;
 $board-title-height: $board-title-font-size * $board-title-line-height;
 $board-title-margin-left: 12px;
-$board-title-margin-bottom: 16px;
-
-$add-list-form-top-margin: 12px;
+$board-title-margin-bottom: 14px;
 
 $scrollbar-thickness: 10px;
 $scrollbar-padding-top: 12px;
@@ -18,10 +16,13 @@ $scrolbar-border-radius: 9px;
 $scrollbar-track-bg-color: rgba(9, 30, 66, .08);
 $scrollbar-thumb-bg-color: rgba(193, 198, 201, 0.5);
 
+$board-lists-padding-left: 8px;
 $list-outline-width: 3px;
 $list-zone-height: calc(100vh - #{$board-padding-top} - #{$board-title-height} - #{$board-title-margin-bottom} - #{$scrollbar-padding-bottom} - #{$scrollbar-padding-top} - #{$scrollbar-thickness} - 2 * #{$list-outline-width});
-$list-gap: 12px;
+$list-margin-left: 12px;
 $lis-placeholder-bg-color: rgba(21, 21, 21, 0.1);
+
+$add-list-form-top-margin: 12px;
 
 .board {
   width: 100vw;
@@ -45,6 +46,7 @@ $lis-placeholder-bg-color: rgba(21, 21, 21, 0.1);
     width: 100%;
     height: calc(#{$list-zone-height} + #{$scrollbar-padding-top} + 2 * #{$list-outline-width} + #{$scrollbar-thickness});
     padding-bottom: $scrollbar-thickness;
+    padding-left: $board-lists-padding-left;
     box-sizing: border-box;
 
     user-select: none;
@@ -66,7 +68,7 @@ $lis-placeholder-bg-color: rgba(21, 21, 21, 0.1);
 
     .board-list, .add-list-wrapper {
       flex: 0 0 auto;
-      margin-left: $list-gap;
+      margin-left: $list-margin-left;
       margin-top: $list-outline-width;
     }
 
@@ -84,7 +86,7 @@ $lis-placeholder-bg-color: rgba(21, 21, 21, 0.1);
 
     &::after {
       content: '';
-      flex: 0 0 $list-gap;
+      flex: 0 0 $list-margin-left;
       height: 100%;
     }
   }

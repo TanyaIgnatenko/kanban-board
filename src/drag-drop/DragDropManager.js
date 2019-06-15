@@ -1,4 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import {
+  findNearestHorizontalScrollbar,
+  findNearestVerticalScrollbar,
+} from '../helpers/scrollbar';
 
 import DragDropContext from './internal/DragDropContext';
 import { MOUSE_BUTTON, MOVEMENT } from '../constants';
@@ -148,32 +154,40 @@ class DragDropManager extends React.Component {
     }
     this.draggedObject.movement = movement;
 
-    this.scrollIfOutOfClient({ x: clientX, y: clientY });
+    this.scrollIfNedeed({ x: clientX, y: clientY });
 
     this.manageDroppables();
 
     this.setState({ draggedObjectPosition: newPosition });
   };
 
-  scrollIfOutOfClient(position) {
-    const {
-      mainScrollbarContainer: { current: scrollbarContainer },
-    } = this.props;
-
-    if (position.x >= scrollbarContainer.clientWidth - 50) {
-      scrollbarContainer.scrollBy(10, 0);
+  scrollIfNedeed(position) {
+    const draggedNode = this.draggedObject.node;
+    if (draggedNode) {
+      draggedNode.style.visibility = 'hidden';
     }
 
-    if (position.y >= scrollbarContainer.innerHeight - 50) {
-      scrollbarContainer.scrollBy(0, 20);
+    const nearestHorizontalScrollbar = findNearestHorizontalScrollbar(position);
+
+    if (nearestHorizontalScrollbar) {
+      if (position.x >= nearestHorizontalScrollbar.clientWidth - 60) {
+        nearestHorizontalScrollbar.scrollBy(20, 0);
+      } else if (position.x <= nearestHorizontalScrollbar.clientLeft + 60) {
+        nearestHorizontalScrollbar.scrollBy(-20, 0);
+      }
     }
 
-    if (position.x <= scrollbarContainer.clientLeft - 50) {
-      scrollbarContainer.scrollBy(-20, 0);
-    }
+    const nearestVerticalScrollbar = findNearestVerticalScrollbar(position);
 
-    if (position.y <= scrollbarContainer.clientTop - 50) {
-      scrollbarContainer.scrollBy(0, -20);
+    if (nearestVerticalScrollbar) {
+      if (position.y >= nearestVerticalScrollbar.clientHeight - 60) {
+        nearestVerticalScrollbar.scrollBy(0, 20);
+      } else if (position.y <= nearestVerticalScrollbar.clientTop + 60) {
+        nearestVerticalScrollbar.scrollBy(0, -20);
+      }
+    }
+    if (draggedNode) {
+      draggedNode.style.visibility = 'visible';
     }
   }
 
@@ -286,5 +300,9 @@ class DragDropManager extends React.Component {
     );
   }
 }
+
+DragDropManager.propTypes = {
+  children: PropTypes.any.isRequired,
+};
 
 export default DragDropManager;

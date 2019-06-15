@@ -17,27 +17,15 @@ import {
 
 import './Board.scss';
 
-function Board({ id, background, name, lists, addList, scrollbarContainer }) {
+function Board({ id, background, name, lists, addList }) {
   const boardStyle = useBoardStyle(background);
 
-  const {
-    setItemRefAt,
-    listBodyRef,
-    listItems,
-    droppableClassName,
-  } = useDroppableList({
+  const { setItemRefAt, listItems, droppableClassName } = useDroppableList({
     id,
     listType: LIST_TYPE.HORIZONTAL,
     acceptedTypes: [DRAGGABLE_TYPE.LIST],
     items: lists,
-    scrollOffset: 100,
-    scrollStep: 50,
   });
-
-  const setRefs = node => {
-    scrollbarContainer.current = node;
-    listBodyRef.current = node;
-  };
 
   return (
     <div
@@ -48,7 +36,7 @@ function Board({ id, background, name, lists, addList, scrollbarContainer }) {
       <h1 className='board-title' style={{ color: name.color }}>
         {name.text}
       </h1>
-      <ul ref={setRefs} className='board-lists'>
+      <ul className='board-lists'>
         {listItems.map(
           (item, idx) =>
             ({

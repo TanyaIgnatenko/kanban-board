@@ -27,18 +27,11 @@ function CardList({
   moveList,
   className,
 }) {
-  const {
-    listBodyRef,
-    setItemRefAt,
-    listItems,
-    droppableClassName,
-  } = useDroppableList({
+  const { setItemRefAt, listItems, droppableClassName } = useDroppableList({
     id,
     listType: LIST_TYPE.VERTICAL,
     acceptedTypes: [DRAGGABLE_TYPE.CARD],
     items: cards,
-    scrollStep: 20,
-    scrollOffset: 30,
   });
 
   const dragHandleNode = useRef(null);
@@ -130,7 +123,7 @@ function CardList({
           <h2 className='list-title'>{name}</h2>
         </header>
         {(Boolean(listItems.length) || isCardFormOpened) && (
-          <ul className='list-cards' ref={listBodyRef}>
+          <ul className='list-cards'>
             {listItems.map(
               (item, idx) =>
                 ({
