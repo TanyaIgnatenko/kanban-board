@@ -8,6 +8,7 @@ import {
 
 import DragDropContext from './internal/DragDropContext';
 import { MOUSE_BUTTON, MOVEMENT } from '../constants';
+import { hideElement, showElement } from '../helpers/visibility';
 
 class DragDropManager extends React.Component {
   state = {
@@ -163,11 +164,10 @@ class DragDropManager extends React.Component {
 
   scrollIfNedeed(position) {
     const draggedNode = this.draggedObject.node;
-    if (draggedNode) {
-      draggedNode.style.visibility = 'hidden';
-    }
 
+    hideElement(draggedNode);
     const nearestHorizontalScrollbar = findNearestHorizontalScrollbar(position);
+    showElement(draggedNode);
 
     if (nearestHorizontalScrollbar) {
       if (position.x >= nearestHorizontalScrollbar.clientWidth - 60) {
@@ -185,9 +185,6 @@ class DragDropManager extends React.Component {
       } else if (position.y <= nearestVerticalScrollbar.clientTop + 60) {
         nearestVerticalScrollbar.scrollBy(0, -20);
       }
-    }
-    if (draggedNode) {
-      draggedNode.style.visibility = 'visible';
     }
   }
 
@@ -241,13 +238,9 @@ class DragDropManager extends React.Component {
   findDroppable = position => {
     const draggedNode = this.draggedObject.node;
 
-    if (draggedNode) {
-      draggedNode.style.visibility = 'hidden';
-    }
+    hideElement(draggedNode);
     let element = document.elementFromPoint(position.x, position.y);
-    if (draggedNode) {
-      draggedNode.style.visibility = 'visible';
-    }
+    showElement(draggedNode);
 
     while (element) {
       const droppable = element.closest('.droppable');
