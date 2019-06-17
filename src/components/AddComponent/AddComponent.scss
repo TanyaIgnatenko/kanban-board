@@ -4,8 +4,8 @@
 $add-component-wrapper-bg-color: #DFE3E6;
 $add-component-wrapper-border-radius: 2px;
 
-$open-form-width: 272px;
-$open-form-height: 43px;
+$open-form-btn-width: 272px;
+$open-form-btn-height: 43px;
 $open-form-btn-space: 12px;
 $plus-icon-gap: 8px;
 $open-form-btn-color: rgb(107, 119, 140);
@@ -25,6 +25,7 @@ $form-padding-right: 12px;
 $form-padding-bottom: 16px;
 $form-padding-left: 12px;
 
+$content-height: 54px;
 $content-color: black;
 $content-padding-top: 8px;
 $content-padding-right: 6px;
@@ -53,8 +54,8 @@ $add-btn-padding-left: 8px;
   .open-form-btn {
     display: flex;
     align-items: center;
-    width: $open-form-width;
-    height: $open-form-height;
+    width: $open-form-btn-width;
+    height: $open-form-btn-height;
     padding: $open-form-btn-space;
 
     cursor: pointer;
@@ -91,7 +92,7 @@ $add-btn-padding-left: 8px;
 
     .content {
       width: $text-area-width;
-      height: 54px;
+      height: $content-height;
       padding: $content-padding-top
                $content-padding-right
                $content-padding-bottom
