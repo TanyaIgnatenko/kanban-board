@@ -14,6 +14,7 @@ Simplified Trello clone [ VK internship test task ]
  * No back and forth swap of placeholder and bigger card
  * Minimum count of dependencies
  * Accessibility
+ * Mobile and tablet-friendly :)
 
 ## Screenshots :camera:
 ![App screenshots](src/assets/images/app.png)
