@@ -62,16 +62,16 @@ class DragDropManager extends React.Component {
           event,
         );
 
-      document.addEventListener('mousemove', this.bindedStartDragIfMove);
-      document.addEventListener('mouseup', this.resetPreparationToDrag);
+      document.addEventListener('pointermove', this.bindedStartDragIfMove);
+      document.addEventListener('pointerup', this.resetPreparationToDrag);
 
       event.stopPropagation();
     };
 
-    handle.addEventListener('mousedown', onPointerDown);
+    handle.addEventListener('pointerdown', onPointerDown);
 
     return function unregisterDraggable() {
-      handle.removeEventListener('mousedown', onPointerDown);
+      handle.removeEventListener('pointerdown', onPointerDown);
     };
   };
 
@@ -82,8 +82,8 @@ class DragDropManager extends React.Component {
       Math.abs(newX - grabPosition.x) > 2 ||
       Math.abs(newY - grabPosition.y) > 2
     ) {
-      document.removeEventListener('mousemove', this.bindedStartDragIfMove);
-      document.removeEventListener('mouseup', this.resetPreparationToDrag);
+      document.removeEventListener('pointermove', this.bindedStartDragIfMove);
+      document.removeEventListener('pointerup', this.resetPreparationToDrag);
 
       this.grabDraggable({
         grabShift,
@@ -93,8 +93,8 @@ class DragDropManager extends React.Component {
   };
 
   resetPreparationToDrag = () => {
-    document.removeEventListener('mousemove', this.bindedStartDragIfMove);
-    document.removeEventListener('mouseup', this.resetPreparationToDrag);
+    document.removeEventListener('pointermove', this.bindedStartDragIfMove);
+    document.removeEventListener('pointerup', this.resetPreparationToDrag);
   };
 
   grabDraggable = ({
@@ -135,8 +135,8 @@ class DragDropManager extends React.Component {
         draggedObjectPosition: this.draggedObject.position,
       },
       () => {
-        document.addEventListener('mousemove', this.moveDraggable);
-        document.addEventListener('mouseup', this.releaseDraggable);
+        document.addEventListener('pointermove', this.moveDraggable);
+        document.addEventListener('pointerup', this.releaseDraggable);
       },
     );
   };
@@ -217,8 +217,8 @@ class DragDropManager extends React.Component {
     const currentDraggedObject = this.draggedObject;
     const currentHoveredDroppable = this.hoveredDroppable;
 
-    document.removeEventListener('mousemove', this.moveDraggable);
-    document.removeEventListener('mouseup', this.releaseDraggable);
+    document.removeEventListener('pointermove', this.moveDraggable);
+    document.removeEventListener('pointerup', this.releaseDraggable);
 
     this.draggedObject = null;
     this.hoveredDroppable = null;
