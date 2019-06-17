@@ -29,6 +29,8 @@ $add-list-form-top-margin: 12px;
   height: 100vh;
   padding: $board-padding-top $board-padding-right $scrollbar-padding-bottom $board-padding-left;
 
+  touch-action: none;
+
   .board-title {
     margin-left: $board-title-margin-left;
     margin-bottom: $board-title-margin-bottom;

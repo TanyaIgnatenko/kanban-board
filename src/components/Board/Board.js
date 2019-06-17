@@ -7,6 +7,9 @@ import { AddComponent } from '../AddComponent';
 import { useBoardStyle } from './hooks/useBoardStyle';
 import { selectBoard } from '../../ducks/board/selectors';
 import { addListRequest, fetchBoardRequest } from '../../ducks/board/actions';
+import { useUncontrollableProps } from '../../hooks/uncontrollable';
+import { useScrollByShift } from '../../hooks/scrollByShift';
+import { useScrollable } from '../../drag-drop/useScrollable';
 import { DRAGGABLE_TYPE } from '../../constants';
 
 import {
@@ -16,8 +19,6 @@ import {
 } from '../../drag-drop/useDroppableList';
 
 import './Board.scss';
-import { useScrollable } from '../../drag-drop/useScrollable';
-import { useUncontrollableProps } from '../../hooks/uncontrollable';
 
 function Board({ id, background, name, lists, addList }) {
   const boardStyle = useBoardStyle(background);
@@ -49,11 +50,14 @@ function Board({ id, background, name, lists, addList }) {
     },
   ]);
 
+  const onScrollablePointerDown = useScrollByShift(scrollableRef);
+
   return (
     <div
       id={id}
       className={classNames('board', droppableClassName)}
       style={boardStyle}
+      onPointerDown={onScrollablePointerDown}
     >
       <h1 className='board-title' style={{ color: name.color }}>
         {name.text}

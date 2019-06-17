@@ -103,6 +103,10 @@ export const mockBoard = {
         },
         {
           id: (id++).toString(),
+          content: 'При нажатии на доску и попытки сдвига её - скроллить доску',
+        },
+        {
+          id: (id++).toString(),
           content: 'Устранить text overflow проблему',
         },
         {
