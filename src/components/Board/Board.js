@@ -17,6 +17,7 @@ import {
 
 import './Board.scss';
 import { useScrollable } from '../../drag-drop/useScrollable';
+import { useUncontrollableProps } from '../../hooks/uncontrollable';
 
 function Board({ id, background, name, lists, addList }) {
   const boardStyle = useBoardStyle(background);
@@ -39,6 +40,14 @@ function Board({ id, background, name, lists, addList }) {
     scrollPointOffset: 60,
     scrollStep: 20,
   });
+
+  const addComponentUncontrollableProps = useUncontrollableProps([
+    {
+      propName: 'isFormOpened',
+      changeHandlerName: 'onFormOpenedChange',
+      defaultValue: false,
+    },
+  ]);
 
   return (
     <div
@@ -83,6 +92,7 @@ function Board({ id, background, name, lists, addList }) {
           placeholderFormText='Введите название колонки'
           submitFormBtnText='Добавить колонку'
           onAdd={addList.bind(null, id)}
+          {...addComponentUncontrollableProps}
         />
       </ul>
     </div>

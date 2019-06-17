@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 
 export function useUniqueId(seed) {
-  const [uniqueId, setUniqueId] = useState(null);
+  const [id, setUniqueId] = useState(null);
   useEffect(() => {
-    setUniqueId(_.uniqueId(seed));
+    setUniqueId(uniqueId(seed));
   }, [seed]);
-  return uniqueId;
+  return id;
 }

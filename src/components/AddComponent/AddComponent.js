@@ -6,23 +6,18 @@ import { useUniqueId } from '../../hooks/uniqueId';
 import { useOnClickOutside } from '../../hooks/onClickOutside';
 
 import './AddComponent.scss';
-import _ from 'lodash';
 
 function AddComponent({
+  isFormOpened,
+  onFormOpenedChange,
   openCreationFormBtnText,
   placeholderFormText,
   submitFormBtnText,
   onAdd,
-  isFormOpened,
-  onFormOpen,
-  onFormClose,
   className,
   formClassName,
   style,
 }) {
-  const isUncontrolled = useRef(isFormOpened === null);
-  const [isCreationMode, setCreationMode] = useState(false);
-
   const [content, setContent] = useState('');
   const handleContentChange = useCallback(event => {
     const content = event.target.value;
@@ -31,10 +26,7 @@ function AddComponent({
 
   const handleClose = useCallback(() => {
     setContent('');
-    if (isUncontrolled) {
-      setCreationMode(false);
-    }
-    onFormClose();
+    onFormOpenedChange(false);
   }, []);
 
   const handleAdd = useCallback(() => {
@@ -45,27 +37,21 @@ function AddComponent({
   }, [content, handleClose, onAdd]);
 
   const handleOpen = useCallback(() => {
-    if (isUncontrolled) {
-      setCreationMode(true);
-    }
-    onFormOpen();
+    onFormOpenedChange(true);
   }, []);
 
   const addComponentId = useUniqueId('add-component');
   const handleWasClickOutside = useCallback(() => {
-    if (isUncontrolled) {
-      setCreationMode(false);
-    }
-    onFormClose();
+    onFormOpenedChange(false);
   }, []);
   useOnClickOutside(addComponentId, handleWasClickOutside);
 
   const formRef = useRef(null);
   useEffect(() => {
-    if (isCreationMode) {
+    if (isFormOpened) {
       formRef.current.scrollIntoView(false);
     }
-  }, [isCreationMode]);
+  }, [isFormOpened]);
 
   return (
     <div
@@ -75,9 +61,7 @@ function AddComponent({
     >
       <button
         className={classNames('open-form-btn', {
-          hidden:
-            (isUncontrolled.current && isCreationMode) ||
-            (!isUncontrolled.current && isFormOpened),
+          hidden: isFormOpened,
         })}
         onClick={handleOpen}
       >
@@ -86,9 +70,7 @@ function AddComponent({
       <div
         ref={node => (formRef.current = node)}
         className={classNames('form', formClassName, {
-          hidden:
-            (isUncontrolled.current && !isCreationMode) ||
-            (!isUncontrolled.current && !isFormOpened),
+          hidden: !isFormOpened,
         })}
       >
         <textarea
@@ -119,8 +101,7 @@ AddComponent.propTypes = {
   placeholderFormText: PropTypes.string.isRequired,
   submitFormBtnText: PropTypes.string.isRequired,
   onAdd: PropTypes.func.isRequired,
-  onFormOpen: PropTypes.func,
-  onFormClose: PropTypes.func,
+  onFormOpenedChange: PropTypes.func.isRequired,
   formClassName: PropTypes.string,
   className: PropTypes.string,
 };
@@ -129,8 +110,6 @@ AddComponent.defaultProps = {
   isFormOpened: null,
   className: '',
   formClassName: '',
-  onFormOpen: () => {},
-  onFormClose: () => {},
 };
 
 export default AddComponent;

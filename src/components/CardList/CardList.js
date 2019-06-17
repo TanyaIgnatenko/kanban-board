@@ -56,8 +56,7 @@ function CardList({
       openCreationFormBtnText='Добавить ещё одну карточку'
       placeholderFormText='Введите название карточки'
       submitFormBtnText='Добавить карточку'
-      onFormOpen={() => setIsCardFormOpened(true)}
-      onFormClose={() => setIsCardFormOpened(false)}
+      onFormOpenedChange={value => setIsCardFormOpened(value)}
       onAdd={addCard.bind(null, id)}
     />
   );

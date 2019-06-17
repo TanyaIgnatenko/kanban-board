@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 
 import { mockBoard } from './mocks';
 
@@ -11,7 +11,7 @@ export function fetchBoardRequest(id) {
 
 export function addCardRequest(listId, content) {
   const newCard = {
-    id: _.uniqueId('card'),
+    id: uniqueId('card'),
     content,
   };
   return { listId, card: newCard };
@@ -19,7 +19,7 @@ export function addCardRequest(listId, content) {
 
 export function addListRequest(boardId, content) {
   const newList = {
-    id: _.uniqueId('list'),
+    id: uniqueId('list'),
     name: content,
     cards: [],
   };

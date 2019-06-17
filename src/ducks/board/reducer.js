@@ -84,7 +84,7 @@ export const board = (state = initialState, action) => {
         list.id === listId
           ? {
               ...list,
-              cards: list.cards.push(card),
+              cards: list.cards.concat(card),
             }
           : list,
       );
@@ -109,7 +109,7 @@ export const board = (state = initialState, action) => {
         ...state,
         board: {
           ...state.board,
-          lists: state.board.lists.push(list),
+          lists: state.board.lists.concat(list),
         },
       };
     }
