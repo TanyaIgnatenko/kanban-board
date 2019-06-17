@@ -13,8 +13,8 @@ Simplified Trello clone [ VK internship test task ]
  * Dragged object can move scrollbars
  * No back and forth swap of placeholder and bigger card
  * Minimum count of dependencies
- * Accessibility
  * Mobile and tablet-friendly :)
+ * Accessibility
 
 ## Screenshots :camera:
 ![App screenshots](src/assets/images/app.png)
