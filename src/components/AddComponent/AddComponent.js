@@ -9,11 +9,11 @@ import './AddComponent.scss';
 import _ from 'lodash';
 
 function AddComponent({
-  isFormOpened,
   openCreationFormBtnText,
   placeholderFormText,
   submitFormBtnText,
   onAdd,
+  isFormOpened,
   onFormOpen,
   onFormClose,
   className,
@@ -63,7 +63,7 @@ function AddComponent({
   const formRef = useRef(null);
   useEffect(() => {
     if (isCreationMode) {
-      formRef.current.scrollIntoView(true);
+      formRef.current.scrollIntoView(false);
     }
   }, [isCreationMode]);
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -17,6 +17,7 @@ import {
 } from '../../drag-drop/useDroppableList';
 
 import './CardList.scss';
+import { useScrollable } from '../../drag-drop/useScrollable';
 
 function CardList({
   id,
@@ -27,11 +28,20 @@ function CardList({
   moveList,
   className,
 }) {
+  const acceptedTypes = useMemo(() => [DRAGGABLE_TYPE.CARD], []);
   const { setItemRefAt, listItems, droppableClassName } = useDroppableList({
     id,
     listType: LIST_TYPE.VERTICAL,
-    acceptedTypes: [DRAGGABLE_TYPE.CARD],
+    acceptedTypes,
     items: cards,
+  });
+
+  const scrolledByTypes = useMemo(() => [DRAGGABLE_TYPE.CARD]);
+  const scrollableRef = useScrollable({
+    id,
+    scrolledByTypes,
+    scrollPointOffset: 60,
+    scrollStep: 20,
   });
 
   const dragHandleRef = useRef(null);
@@ -39,7 +49,7 @@ function CardList({
 
   const [isCardFormOpened, setIsCardFormOpened] = useState(false);
 
-  const renderAddCardComponent = () => (
+  const addCardComponent = (
     <AddComponent
       isFormOpened={isCardFormOpened}
       formClassName='card-form'
@@ -52,13 +62,13 @@ function CardList({
     />
   );
 
-  const renderCardListContent = () => (
+  const cardListContent = (
     <>
       <header ref={dragHandleRef}>
         <h2 className='list-title'>{name}</h2>
       </header>
       {(Boolean(listItems.length) || isCardFormOpened) && (
-        <ul className='list-cards'>
+        <ul ref={scrollableRef} className='list-cards'>
           {listItems.map(
             (item, idx) =>
               ({
@@ -85,10 +95,10 @@ function CardList({
                 ),
               }[item.type]),
           )}
-          {isCardFormOpened && renderAddCardComponent()}
+          {isCardFormOpened && addCardComponent}
         </ul>
       )}
-      <footer>{!isCardFormOpened && renderAddCardComponent()}</footer>
+      <footer>{!isCardFormOpened && addCardComponent}</footer>
     </>
   );
 
@@ -106,7 +116,7 @@ function CardList({
         className={classNames('card-list', 'dragged', className)}
         style={moveTo(clientPosition)}
       >
-        {renderCardListContent()}
+        {cardListContent}
       </div>
     ),
     onRelease: ({ draggableContext, droppableContext }) => {
@@ -126,7 +136,7 @@ function CardList({
   return (
     <div id={id} className={classNames(droppableClassName, className)}>
       <div id={id} ref={setRefs} className='card-list' tabIndex={0}>
-        {renderCardListContent()}
+        {cardListContent}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
@@ -16,15 +16,28 @@ import {
 } from '../../drag-drop/useDroppableList';
 
 import './Board.scss';
+import { useScrollable } from '../../drag-drop/useScrollable';
 
 function Board({ id, background, name, lists, addList }) {
   const boardStyle = useBoardStyle(background);
 
+  const acceptedTypes = useMemo(() => [DRAGGABLE_TYPE.LIST], []);
   const { setItemRefAt, listItems, droppableClassName } = useDroppableList({
     id,
     listType: LIST_TYPE.HORIZONTAL,
-    acceptedTypes: [DRAGGABLE_TYPE.LIST],
+    acceptedTypes,
     items: lists,
+  });
+
+  const scrolledByTypes = useMemo(
+    () => [DRAGGABLE_TYPE.LIST, DRAGGABLE_TYPE.CARD],
+    [],
+  );
+  const scrollableRef = useScrollable({
+    id,
+    scrolledByTypes,
+    scrollPointOffset: 60,
+    scrollStep: 20,
   });
 
   return (
@@ -36,7 +49,7 @@ function Board({ id, background, name, lists, addList }) {
       <h1 className='board-title' style={{ color: name.color }}>
         {name.text}
       </h1>
-      <ul className='board-lists'>
+      <ul ref={scrollableRef} className='board-lists'>
         {listItems.map(
           (item, idx) =>
             ({

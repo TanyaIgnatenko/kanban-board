@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import DragDropContext from './internal/DragDropContext';
+
 import {
-  findNearestHorizontalScrollbar,
-  findNearestVerticalScrollbar,
+  hasHorizontalScrollbar,
+  hasVerticalScrollbar,
 } from '../helpers/scrollbar';
 
-import DragDropContext from './internal/DragDropContext';
-import { MOUSE_BUTTON, MOVEMENT } from '../constants';
 import { hideElement, showElement } from '../helpers/visibility';
+import { MOUSE_BUTTON, MOVEMENT } from '../constants';
+import { inside } from '../helpers/inside';
 
 class DragDropManager extends React.Component {
   state = {
@@ -18,10 +20,20 @@ class DragDropManager extends React.Component {
   draggedObject = null;
   hoveredDroppable = null;
   droppables = {};
+  scrollables = {};
+
+  registerScrollable = scrollable => {
+    this.scrollables[scrollable.id] = scrollable;
+    return () => {
+      delete this.scrollables[scrollable.id];
+    };
+  };
 
   registerDroppable = droppable => {
     this.droppables[droppable.id] = droppable;
-    return () => {};
+    return () => {
+      delete this.droppables[droppable.id];
+    };
   };
 
   registerDraggable = ({ dragHandleRef, ...draggable }) => {
@@ -133,6 +145,7 @@ class DragDropManager extends React.Component {
     draggedObject: null,
     registerDraggable: this.registerDraggable,
     registerDroppable: this.registerDroppable,
+    registerScrollable: this.registerScrollable,
   };
 
   moveDraggable = event => {
@@ -162,30 +175,42 @@ class DragDropManager extends React.Component {
     this.setState({ draggedObjectPosition: newPosition });
   };
 
-  scrollIfNedeed(position) {
-    const draggedNode = this.draggedObject.node;
+  scrollIfNedeed(cursorPosition) {
+    Object.values(this.scrollables).forEach(scrollable => {
+      const {
+        scrollStep,
+        scrollPointOffset,
+        scrolledByTypes,
+        ref: { current: scrollableNode },
+      } = scrollable;
 
-    hideElement(draggedNode);
-    const nearestHorizontalScrollbar = findNearestHorizontalScrollbar(position);
-    showElement(draggedNode);
+      if (!scrollableNode) return;
 
-    if (nearestHorizontalScrollbar) {
-      if (position.x >= nearestHorizontalScrollbar.clientWidth - 60) {
-        nearestHorizontalScrollbar.scrollBy(20, 0);
-      } else if (position.x <= nearestHorizontalScrollbar.clientLeft + 60) {
-        nearestHorizontalScrollbar.scrollBy(-20, 0);
+      if (!scrolledByTypes.includes(this.draggedObject.type)) return;
+
+      if (!inside(cursorPosition, scrollableNode)) return;
+
+      if (hasHorizontalScrollbar(scrollableNode)) {
+        if (cursorPosition.x <= scrollableNode.clientLeft + scrollPointOffset) {
+          scrollableNode.scrollLeft -= scrollStep;
+        } else if (
+          cursorPosition.x >=
+          scrollableNode.clientWidth - scrollPointOffset
+        ) {
+          scrollableNode.scrollLeft += scrollStep;
+        }
       }
-    }
-
-    const nearestVerticalScrollbar = findNearestVerticalScrollbar(position);
-
-    if (nearestVerticalScrollbar) {
-      if (position.y >= nearestVerticalScrollbar.clientHeight - 60) {
-        nearestVerticalScrollbar.scrollBy(0, 20);
-      } else if (position.y <= nearestVerticalScrollbar.clientTop + 60) {
-        nearestVerticalScrollbar.scrollBy(0, -20);
+      if (hasVerticalScrollbar(scrollableNode)) {
+        if (cursorPosition.y <= scrollableNode.clientTop + scrollPointOffset) {
+          scrollableNode.scrollTop -= scrollStep;
+        } else if (
+          cursorPosition.y >=
+          scrollableNode.clientWidth - scrollPointOffset
+        ) {
+          scrollableNode.scrollTop += scrollStep;
+        }
       }
-    }
+    });
   }
 
   releaseDraggable = () => {
@@ -220,6 +245,8 @@ class DragDropManager extends React.Component {
 
     if (!currentDroppable) return;
 
+    this.hoveredDroppable = this.droppables[currentDroppable.id];
+
     const droppableChanged =
       !lastDroppable || currentDroppable.id !== lastDroppable.id;
 
@@ -227,8 +254,6 @@ class DragDropManager extends React.Component {
       if (lastDroppable) {
         lastDroppable.onDraggableLeave();
       }
-
-      this.hoveredDroppable = this.droppables[currentDroppable.id];
 
       this.hoveredDroppable.onDraggableEnter(this.draggedObject);
     }

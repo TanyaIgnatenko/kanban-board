@@ -13,7 +13,7 @@ const LIST_TYPE = {
   VERTICAL: 'VERTICAL',
 };
 
-function formListItems(items, itemToIgnoreId, placeholder) {
+function makeListItems(items, itemToIgnoreId, placeholder) {
   let listItems = items
     ? items.map(item => ({
         type: ITEM_TYPE.REGULAR_ITEM,
@@ -79,7 +79,7 @@ function useDroppableList({ id, acceptedTypes, listType, items }) {
           case LIST_TYPE.HORIZONTAL: {
             let extra = 0;
             if (itemRect.width > draggable.geometry.width) {
-              // to avoid placeholder and bigger than it card swap back and forth
+              // to avoid swap of placeholder and bigger card back and forth
               extra = itemRect.width - draggable.geometry.width;
             }
             return itemRect.left + extra < draggableCenter.x;
@@ -87,13 +87,13 @@ function useDroppableList({ id, acceptedTypes, listType, items }) {
           case LIST_TYPE.VERTICAL: {
             let extra = 0;
             if (itemRect.height > draggable.geometry.height) {
-              // to avoid placeholder and bigger than it card swap back and forth
+              // to avoid swap of placeholder and bigger card back and forth
               extra = itemRect.height - draggable.geometry.height;
             }
             return itemRect.top + extra < draggableCenter.y;
           }
           default: {
-            console.error('Uknown list type:', listType);
+            console.error('Unknown list type:', listType);
           }
         }
       });
@@ -127,7 +127,7 @@ function useDroppableList({ id, acceptedTypes, listType, items }) {
     geometry: placeholderGeometry,
   };
   const itemToIgnoreId = draggableContext && draggableContext.id;
-  const listItems = formListItems(items, itemToIgnoreId, placeholder);
+  const listItems = makeListItems(items, itemToIgnoreId, placeholder);
 
   return {
     listItems,
