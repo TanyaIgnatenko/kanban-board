@@ -104,6 +104,8 @@ class DragDropManager extends React.Component {
     ref,
     handle,
     renderAvatar,
+    onGrab,
+    onMove,
     onRelease,
   }) => {
     const draggedObjectRect = ref.current.getBoundingClientRect();
@@ -113,6 +115,8 @@ class DragDropManager extends React.Component {
       type,
       renderAvatar,
       handle,
+      onGrab,
+      onMove,
       onRelease,
       geometry: {
         width: draggedObjectRect.width,
@@ -139,6 +143,8 @@ class DragDropManager extends React.Component {
         document.addEventListener('pointerup', this.releaseDraggable);
       },
     );
+
+    this.draggedObject.onGrab();
   };
 
   dndContext = {
@@ -152,12 +158,14 @@ class DragDropManager extends React.Component {
     const { clientX, clientY } = event;
     const { movementX, movementY } = event;
     const { geometry } = this.draggedObject;
+    const currentDraggedObject = this.draggedObject;
+    const currentHoveredDroppable = this.hoveredDroppable;
 
     const newPosition = {
       x: clientX + geometry.grabShift.x,
       y: clientY + geometry.grabShift.y,
     };
-    this.draggedObject.position = newPosition;
+    currentDraggedObject.position = newPosition;
 
     const movement = [];
     if (movementX) {
@@ -166,13 +174,18 @@ class DragDropManager extends React.Component {
     if (movementY) {
       movement.push(movementY > 0 ? MOVEMENT.BOTTOM : MOVEMENT.TOP);
     }
-    this.draggedObject.movement = movement;
+    currentDraggedObject.movement = movement;
 
     this.scrollIfNedeed({ x: clientX, y: clientY });
 
     this.manageDroppables();
 
     this.setState({ draggedObjectPosition: newPosition });
+
+    currentDraggedObject.onMove({
+      draggableContext: currentDraggedObject.context,
+      droppableContext: currentHoveredDroppable.context,
+    });
   };
 
   scrollIfNedeed(cursorPosition) {
@@ -284,7 +297,7 @@ class DragDropManager extends React.Component {
           this.draggedObject.type,
         )
       ) {
-        return this.droppables[droppable.id];
+        return droppable;
       }
 
       element = droppable.parentNode;

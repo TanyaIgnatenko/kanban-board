@@ -2,20 +2,40 @@ import { useContext, useEffect } from 'react';
 
 import DragDropContext from './internal/DragDropContext';
 
-function useDraggable(draggable) {
+function useDraggable({
+  ref,
+  type,
+  context,
+  dragHandleRef,
+  renderAvatar,
+  onGrab = () => {},
+  onMove = () => {},
+  onRelease = () => {},
+}) {
   const { registerDraggable } = useContext(DragDropContext);
 
   useEffect(() => {
-    const unregisterDraggable = registerDraggable(draggable);
+    const unregisterDraggable = registerDraggable({
+      ref,
+      type,
+      context,
+      dragHandleRef,
+      renderAvatar,
+      onGrab,
+      onMove,
+      onRelease,
+    });
 
     return unregisterDraggable;
   }, [
-    draggable.context,
-    draggable.type,
-    draggable.ref,
-    draggable.dragHandleRef,
-    draggable.renderAvatar,
-    draggable.onRelease,
+    ref,
+    type,
+    context,
+    dragHandleRef,
+    renderAvatar,
+    onGrab,
+    onMove,
+    onRelease,
   ]);
 }
 
