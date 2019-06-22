@@ -1,4 +1,4 @@
-# Kanban board 
+# Kanban board [Frontend]
 
 Simplified Trello clone [ VK internship test task ]
 
