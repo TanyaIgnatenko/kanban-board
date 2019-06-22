@@ -16,6 +16,7 @@ Simplified Trello clone [ VK internship test task ]
  * Minimum count of dependencies
  * Mobile and tablet-friendly :)
  * Accessibility
+* **EXTRA: REALISTIC GRAB ANIMATION!**
 
 ## Screenshots :camera:
 ![App screenshots](src/assets/images/app.png)
