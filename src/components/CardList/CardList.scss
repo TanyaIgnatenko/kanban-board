@@ -40,9 +40,6 @@ $scrollbar-thumb-bg-color: #c1c6c9;
 
   &.dragged {
     z-index: 1;
-
-    transform: rotate(5deg);
-    cursor: pointer;
   }
 
   header {

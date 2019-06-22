@@ -81,8 +81,8 @@ function Board({ id, background, name, lists, addList }) {
                     ref={node => setItemRefAt(node, idx)}
                     className='placeholder board-list-zone'
                     style={{
-                      width: item.geometry && item.geometry.width,
-                      height: item.geometry && item.geometry.height,
+                      width: item.dimensions && item.dimensions.width,
+                      height: item.dimensions && item.dimensions.height,
                     }}
                   />
                 </li>

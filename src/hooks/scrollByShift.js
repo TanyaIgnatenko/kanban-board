@@ -8,13 +8,11 @@ function useScrollByShift(scrollableRef) {
   }, []);
 
   const finishScroll = useCallback(() => {
-    console.log('FINISH');
     document.removeEventListener('pointermove', scroll);
     document.removeEventListener('pointerup', finishScroll);
   }, []);
 
   const prepareToScroll = useCallback(() => {
-    console.log('START');
     document.addEventListener('pointermove', scroll);
     document.addEventListener('pointerup', finishScroll);
   }, []);

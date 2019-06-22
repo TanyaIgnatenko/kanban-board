@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import memoize from 'memoize-one';
 import PropTypes from 'prop-types';
 
 import DragDropContext from './internal/DragDropContext';
@@ -11,6 +12,7 @@ import {
 import { hideElement, showElement } from '../helpers/visibility';
 import { MOUSE_BUTTON, MOVEMENT } from '../constants';
 import { inside } from '../helpers/inside';
+import { grabAt } from '../helpers/grabAt';
 
 class DragDropManager extends React.Component {
   state = {
@@ -50,8 +52,8 @@ class DragDropManager extends React.Component {
       };
       const draggedObjectRect = draggable.ref.current.getBoundingClientRect();
       const grabShift = {
-        x: draggedObjectRect.left - grabPosition.x,
-        y: draggedObjectRect.top - grabPosition.y,
+        x: grabPosition.x - draggedObjectRect.left,
+        y: grabPosition.y - draggedObjectRect.top,
       };
 
       this.bindedStartDragIfMove = event =>
@@ -118,10 +120,10 @@ class DragDropManager extends React.Component {
       onGrab,
       onMove,
       onRelease,
-      geometry: {
+      grabShift,
+      dimensions: {
         width: draggedObjectRect.width,
         height: draggedObjectRect.height,
-        grabShift,
       },
       position: {
         x: draggedObjectRect.left,
@@ -157,13 +159,13 @@ class DragDropManager extends React.Component {
   moveDraggable = event => {
     const { clientX, clientY } = event;
     const { movementX, movementY } = event;
-    const { geometry } = this.draggedObject;
+    const { grabShift } = this.draggedObject;
     const currentDraggedObject = this.draggedObject;
     const currentHoveredDroppable = this.hoveredDroppable;
 
     const newPosition = {
-      x: clientX + geometry.grabShift.x,
-      y: clientY + geometry.grabShift.y,
+      x: clientX - grabShift.x,
+      y: clientY - grabShift.y,
     };
     currentDraggedObject.position = newPosition;
 
@@ -248,12 +250,12 @@ class DragDropManager extends React.Component {
   };
 
   manageDroppables() {
-    const { position, geometry } = this.draggedObject;
+    const { position, dimensions } = this.draggedObject;
 
     const lastDroppable = this.hoveredDroppable;
     const currentDroppable = this.findDroppable({
-      x: position.x + geometry.width / 2,
-      y: position.y + geometry.height / 2,
+      x: position.x + dimensions.width / 2,
+      y: position.y + dimensions.height / 2,
     });
 
     if (!currentDroppable) return;
@@ -322,7 +324,9 @@ class DragDropManager extends React.Component {
         {draggedObject &&
           draggedObject.renderAvatar({
             clientPosition: draggedObjectPosition,
-            draggedObjectRef: this.setDraggedObjectRef,
+            grabPoint: draggedObject.grabShift,
+            dimensions: draggedObject.dimensions,
+            ref: this.setDraggedObjectRef,
           })}
         <DragDropContext.Provider value={dndContext}>
           {children}

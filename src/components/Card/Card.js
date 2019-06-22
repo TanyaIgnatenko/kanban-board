@@ -3,27 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { moveTo } from '../../helpers/moveTo';
-import { moveCard } from '../../ducks/board/actions';
+import CardAvatar from './CardAvatar';
 import { useDraggable } from '../../drag-drop/useDraggable';
+import { moveCard } from '../../ducks/board/actions';
 import { DRAGGABLE_TYPE } from '../../constants';
 
 import './Card.scss';
 
 function Card({ id, content, setCardRef, moveCardToList, className }) {
-  const renderCard = (isDragged, clientPosition, ref) => (
-    <div
-      id={id}
-      ref={ref}
-      className={classNames('card', isDragged && 'dragged', className)}
-      style={isDragged ? moveTo(clientPosition) : {}}
-      tabIndex={0}
-    >
-      <h4 className='card-content'>{content}</h4>
-    </div>
-  );
-
   const cardRef = useRef(null);
+
   useDraggable({
     context: {
       id,
@@ -31,8 +20,17 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
     type: DRAGGABLE_TYPE.CARD,
     ref: cardRef,
     dragHandleRef: cardRef,
-    renderAvatar: ({ clientPosition, draggedObjectRef }) =>
-      renderCard(true, clientPosition, draggedObjectRef),
+    renderAvatar: ({ clientPosition, grabPoint, dimensions, ref }) => (
+      <CardAvatar
+        id={id}
+        cardAvatarRef={ref}
+        content={content}
+        className={className}
+        grabPoint={grabPoint}
+        dimensions={dimensions}
+        clientPosition={clientPosition}
+      />
+    ),
     onRelease: ({ draggableContext, droppableContext }) => {
       moveCardToList(
         draggableContext.id,
@@ -47,7 +45,16 @@ function Card({ id, content, setCardRef, moveCardToList, className }) {
     cardRef.current = node;
   };
 
-  return renderCard(false, null, setRefs);
+  return (
+    <div
+      id={id}
+      ref={setRefs}
+      className={classNames('card', className)}
+      tabIndex={0}
+    >
+      <h4 className='card-content'>{content}</h4>
+    </div>
+  );
 }
 
 Card.propTypes = {

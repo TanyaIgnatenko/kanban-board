@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import CardListAvatar from './CardListAvatar';
 import { Card } from '../Card';
 import { AddComponent } from '../AddComponent';
 import { addCardRequest, moveList } from '../../ducks/board/actions';
+import { useScrollable } from '../../drag-drop/useScrollable';
 import { useDraggable } from '../../drag-drop/useDraggable';
 import { DRAGGABLE_TYPE } from '../../constants';
-import { moveTo } from '../../helpers/moveTo';
 
 import {
   ITEM_TYPE,
@@ -17,7 +18,6 @@ import {
 } from '../../drag-drop/useDroppableList';
 
 import './CardList.scss';
-import { useScrollable } from '../../drag-drop/useScrollable';
 
 function CardList({
   id,
@@ -61,46 +61,6 @@ function CardList({
     />
   );
 
-  const cardListContent = (
-    <>
-      <header ref={dragHandleRef}>
-        <h2 className='list-title'>{name}</h2>
-      </header>
-      {(Boolean(listItems.length) || isCardFormOpened) && (
-        <ul ref={scrollableRef} className='list-cards'>
-          {listItems.map(
-            (item, idx) =>
-              ({
-                [ITEM_TYPE.REGULAR_ITEM]: (
-                  <li key={item.data && item.data.id}>
-                    <Card
-                      {...item.data}
-                      className='list-card'
-                      setCardRef={node => setItemRefAt(node, idx)}
-                    />
-                  </li>
-                ),
-                [ITEM_TYPE.PLACEHOLDER]: (
-                  <li key='placeholder'>
-                    <div
-                      ref={node => setItemRefAt(node, idx)}
-                      className='placeholder list-card'
-                      style={{
-                        width: item.geometry && item.geometry.width,
-                        height: item.geometry && item.geometry.height,
-                      }}
-                    />
-                  </li>
-                ),
-              }[item.type]),
-          )}
-          {isCardFormOpened && addCardComponent}
-        </ul>
-      )}
-      <footer>{!isCardFormOpened && addCardComponent}</footer>
-    </>
-  );
-
   useDraggable({
     context: {
       id,
@@ -108,15 +68,22 @@ function CardList({
     type: DRAGGABLE_TYPE.LIST,
     ref: listRef,
     dragHandleRef,
-    renderAvatar: ({ clientPosition, draggedObjectRef }) => (
-      <div
+    renderAvatar: ({ clientPosition, grabPoint, dimensions, ref }) => (
+      <CardListAvatar
         id={id}
-        ref={draggedObjectRef}
-        className={classNames('card-list', 'dragged', className)}
-        style={moveTo(clientPosition)}
-      >
-        {cardListContent}
-      </div>
+        name={name}
+        cardListAvatarRef={ref}
+        dragHandleRef={dragHandleRef}
+        scrollableRef={scrollableRef}
+        listItems={listItems}
+        setItemRefAt={setItemRefAt}
+        addCardComponent={addCardComponent}
+        isCardFormOpened={isCardFormOpened}
+        grabPoint={grabPoint}
+        dimensions={dimensions}
+        clientPosition={clientPosition}
+        className={className}
+      />
     ),
     onRelease: ({ draggableContext, droppableContext }) => {
       moveList(
@@ -135,7 +102,41 @@ function CardList({
   return (
     <div id={id} className={classNames(droppableClassName, className)}>
       <div id={id} ref={setRefs} className='card-list' tabIndex={0}>
-        {cardListContent}
+        <header ref={dragHandleRef}>
+          <h2 className='list-title'>{name}</h2>
+        </header>
+        {(Boolean(listItems.length) || isCardFormOpened) && (
+          <ul ref={scrollableRef} className='list-cards'>
+            {listItems.map(
+              (item, idx) =>
+                ({
+                  [ITEM_TYPE.REGULAR_ITEM]: (
+                    <li key={item.data && item.data.id}>
+                      <Card
+                        {...item.data}
+                        className='list-card'
+                        setCardRef={node => setItemRefAt(node, idx)}
+                      />
+                    </li>
+                  ),
+                  [ITEM_TYPE.PLACEHOLDER]: (
+                    <li key='placeholder'>
+                      <div
+                        ref={node => setItemRefAt(node, idx)}
+                        className='placeholder list-card'
+                        style={{
+                          width: item.dimensions && item.dimensions.width,
+                          height: item.dimensions && item.dimensions.height,
+                        }}
+                      />
+                    </li>
+                  ),
+                }[item.type]),
+            )}
+            {isCardFormOpened && addCardComponent}
+          </ul>
+        )}
+        <footer>{!isCardFormOpened && addCardComponent}</footer>
       </div>
     </div>
   );
@@ -150,7 +151,7 @@ CardList.propTypes = {
   className: PropTypes.string,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
       content: PropTypes.string.isRequired,
     }),
   ).isRequired,
