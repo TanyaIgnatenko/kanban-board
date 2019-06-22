@@ -8,9 +8,8 @@ export const mockBoard = {
   },
   background: {
     type: 'img',
-    color: 'rgba(252,223,161,0.91)',
     url:
-      'https://cdn.dribbble.com/users/58661/screenshots/1818073/csc_pattern.png',
+      'https://cdn.dribbble.com/users/81061/screenshots/1845123/untitled-1.png',
   },
   lists: [
     {
