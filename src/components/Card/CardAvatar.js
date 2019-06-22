@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
-import { moveTo } from '../../helpers/moveTo';
 import PropTypes from 'prop-types';
+
+import { moveTo } from '../../helpers/moveTo';
 import { grabAt } from '../../helpers/grabAt';
 
 function CardAvatar({
@@ -15,11 +16,19 @@ function CardAvatar({
 }) {
   const [rotationStyle, setRotationStyle] = useState({});
 
-  useEffect(() => {
+  const applyGrabAnimation = useCallback(() => {
     const rotationStyle = grabAt(grabPoint, dimensions);
-    setTimeout(() => {
-      setRotationStyle(rotationStyle);
-    }, 2);
+    setRotationStyle(rotationStyle);
+  }, []);
+
+  const removeGrabAnimation = useCallback(() => {
+    setRotationStyle({});
+  }, []);
+
+  useEffect(() => {
+    setTimeout(applyGrabAnimation, 5);
+
+    return removeGrabAnimation;
   }, []);
 
   return (

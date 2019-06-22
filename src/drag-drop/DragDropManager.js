@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import memoize from 'memoize-one';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import DragDropContext from './internal/DragDropContext';
@@ -12,7 +11,6 @@ import {
 import { hideElement, showElement } from '../helpers/visibility';
 import { MOUSE_BUTTON, MOVEMENT } from '../constants';
 import { inside } from '../helpers/inside';
-import { grabAt } from '../helpers/grabAt';
 
 class DragDropManager extends React.Component {
   state = {
