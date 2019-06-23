@@ -28,9 +28,10 @@ $scrollbar-thumb-bg-color: #c1c6c9;
 .card-list {
   position: relative;
   width: $list-width;
+  border-radius: $list-border-radius;
 
   background-color: $list-bg-color;
-  border-radius: $list-border-radius;
+  transition: transform .4s cubic-bezier(.48,.01,.36,1.26);
   touch-action: none;
 
   &:focus {
