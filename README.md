@@ -14,7 +14,7 @@ Simplified Trello clone [ VK internship test task ]
  * Board can be scrolled by touch and shift
  * No back and forth swap of placeholder and bigger card
  * Minimum count of dependencies
- * Mobile and tablet-friendly :)
+ * Support of mobile and tablet devices
  * Accessibility
 * **EXTRA: REALISTIC GRAB ANIMATION!**
 
