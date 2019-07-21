@@ -218,7 +218,7 @@ class DragDropManager extends React.Component {
           scrollableNode.scrollTop -= scrollStep;
         } else if (
           cursorPosition.y >=
-          scrollableNode.clientWidth - scrollPointOffset
+          scrollableNode.clientHeight - scrollPointOffset
         ) {
           scrollableNode.scrollTop += scrollStep;
         }

@@ -40,8 +40,8 @@ function CardList({
   const scrollableRef = useScrollable({
     id,
     scrolledByTypes,
-    scrollPointOffset: 60,
-    scrollStep: 20,
+    scrollPointOffset: 10,
+    scrollStep: 15,
   });
 
   const dragHandleRef = useRef(null);
