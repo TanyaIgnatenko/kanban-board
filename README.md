@@ -1,6 +1,6 @@
 # Kanban board [Frontend]
 
-Simplified Trello clone [ VK internship test task ]
+Simplified Trello clone
 
 **[DEMO](https://tanyaignatenko.github.io/kanban-board/)**
 
