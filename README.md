@@ -1,22 +1,14 @@
 # Kanban board [Frontend]
 
-Simplified Trello clone
-
 **[DEMO](https://tanyaignatenko.github.io/kanban-board/)**
 
-## Features :boom:
- * Add new cards
- * Add new lists
- * Draggable cards
- * Draggable lists
- * Flexible drag drop system
- * Minimum count of dependencies
- * Dragged object can move scrollbars
- * Board can be scrolled by touch and shift
- * No back and forth swap of placeholder and bigger card
- * Support of mobile and tablet devices
- * Accessibility
-* **EXTRA: REALISTIC GRAB ANIMATION!**
+* Designed an architecture that lets components reuse common logic.
+* Implemented Drag'n'Drop manager without using side dependencies.
+* Designed a convenient architecture of Drag'n'Drop logic by providing `useDraggable`, `useDroppable`, `useDroppableList`, `useScrollable` hooks for draggable/droppable components.
+* Optimized a solution for a problem of a search for a placeholder place by using a binary search.
+* Made an application accessible.
+* Supported mobile and tablet devices.
+* Added a realistic grab animation.
 
 ## Screenshots :camera:
 ![App screenshots](src/assets/images/app.png)
