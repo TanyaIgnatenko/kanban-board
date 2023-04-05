@@ -1,6 +1,6 @@
 # Kanban board [Frontend]
 
-**[DEMO](https://tanyaignatenko.github.io/kanban-board/)**
+**Demo: https://tanyaignatenko.github.io/kanban-board/**
 
 - Built a Kanban board with the ability to move cards and lists within a board using drag and drop
 - Implemented a convenient and flexible architecture
