@@ -3,13 +3,13 @@ let id = 0;
 export const mockBoard = {
   id: (id++).toString(),
   name: {
-    text: 'Проект «Канбан Доска»',
+    text: 'Project "Kanban board"',
     color: 'white',
   },
   background: {
     type: 'img',
     url:
-      'https://cdn.dribbble.com/users/81061/screenshots/1845123/untitled-1.png',
+      'https://images.unsplash.com/photo-1508625935447-e0ebc2cdf6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2835&q=80',
   },
   lists: [
     {
@@ -18,15 +18,11 @@ export const mockBoard = {
       cards: [
         {
           id: (id++).toString(),
-          content: 'Сделать бэкенд на node.js',
+          content: 'Add an opportunity to edit cards / columns',
         },
         {
           id: (id++).toString(),
-          content: 'Добавить возможность редактировать карточки / колонки',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Добавить возможность удалять карточки / колонки',
+          content: 'Add an opportunity to delete cards / columns',
         },
       ],
     },
@@ -41,82 +37,82 @@ export const mockBoard = {
       cards: [
         {
           id: (id++).toString(),
-          content: 'Добавить возможность перетаскивать карточки',
+          content: 'Add an opportunity to move cards',
         },
         {
           id: (id++).toString(),
-          content: 'Добавить возможность перетаскивать колонки',
+          content: 'Add an opportunity to move columns',
         },
         {
           id: (id++).toString(),
-          content: 'Добавить возможность создавать новые карточки',
+          content: 'Add an opportunity to create new cards',
         },
         {
           id: (id++).toString(),
-          content: 'Добавить возможность создавать новые колонки',
+          content: 'Add an opportunity to create new columns',
         },
         {
           id: (id++).toString(),
-          content: 'Гибкая drag drop system',
-        },
-        {
-          id: (id++).toString(),
-          content:
-            'Позволить droppable объекту иметь несколько accepted draggable types',
+          content: 'A flexible drag drop system',
         },
         {
           id: (id++).toString(),
           content:
-            'Устранить мельтешение карточки с мешьшим по размеру плейсхолдером',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Позволить перетаскиваемому объекту сдвигать скроллбар',
-        },
-        {
-          id: (id++).toString(),
-          content: 'При нажатии на доску и попытки сдвига её, скроллить доску',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Устранить text overflow проблему',
+            'Add an ability to have several accepted draggable types for a droppable object',
         },
         {
           id: (id++).toString(),
           content:
-            'При открытии формы создания новой карточки передвигать её в зону видимости',
+            'Get rid of placeholder movement back and forth',
         },
         {
           id: (id++).toString(),
-          content: 'Сделать карточки и листы доступными для клавиатуры',
+          content: 'Add an ability to move scrollbar for a draggable object',
         },
         {
           id: (id++).toString(),
-          content:
-            'Запретить создание пустых или наполненных только пробелами и переносами строк карточек/колонок',
+          content: 'Add an ability to scroll a board by clicking it and by an attempt to shift it',
         },
         {
           id: (id++).toString(),
-          content: 'После проста клика не инцииировать перемещение',
-        },
-        {
-          id: (id++).toString(),
-          content:
-            'По правому и среднему клику мыши не инициировать перемещение',
-        },
-        {
-          id: (id++).toString(),
-          content: 'Выделять плейсхолдер для перетаскиваемой колонки цветом',
+          content: 'Solve a text overflow problem',
         },
         {
           id: (id++).toString(),
           content:
-            'Сделать функцию перемещения доступной и на мобильных устройствах',
+            'Make a form of creating new card visible at the opening',
+        },
+        {
+          id: (id++).toString(),
+          content: 'Make cards and columns accessible from a keyboard',
         },
         {
           id: (id++).toString(),
           content:
-            'Сделать реалистичную анимацию захвата карточки\n( в зависимости от места захвата поворачивать карточку на разный угол :))\n',
+            'Forbid of creation of empty cards',
+        },
+        {
+          id: (id++).toString(),
+          content: 'Don\'t start dragging after a short click',
+        },
+        {
+          id: (id++).toString(),
+          content:
+            'Don\'t start dragging by a right / middle mouse click',
+        },
+        {
+          id: (id++).toString(),
+          content: 'Highlight a placeholder for a dragging column with a color',
+        },
+        {
+          id: (id++).toString(),
+          content:
+            'Add support of a drag n drop feature for mobile devices',
+        },
+        {
+          id: (id++).toString(),
+          content:
+            'Add a realistic animation for a dragging card',
         },
       ],
     },

@@ -53,9 +53,9 @@ function CardList({
     <AddComponent
       isFormOpened={isCardFormOpened}
       formClassName='card-form'
-      openCreationFormBtnText='Добавить ещё одну карточку'
-      placeholderFormText='Введите название карточки'
-      submitFormBtnText='Добавить карточку'
+      openCreationFormBtnText='Add a card'
+      placeholderFormText='Enter a title for this card...'
+      submitFormBtnText='Add card'
       onFormOpenedChange={value => setIsCardFormOpened(value)}
       onAdd={addCard.bind(null, id)}
     />

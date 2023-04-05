@@ -92,9 +92,9 @@ function Board({ id, background, name, lists, addList }) {
         <AddComponent
           className='add-list-wrapper'
           formClassName='add-list-form'
-          openCreationFormBtnText='Добавить ещё одну колонку'
-          placeholderFormText='Введите название колонки'
-          submitFormBtnText='Добавить колонку'
+          openCreationFormBtnText='Add a list'
+          placeholderFormText='Enter a list title...'
+          submitFormBtnText='Add list'
           onAdd={addList.bind(null, id)}
           {...addComponentUncontrollableProps}
         />
