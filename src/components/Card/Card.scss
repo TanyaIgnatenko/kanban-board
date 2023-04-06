@@ -23,7 +23,7 @@ $card-border-radius: 2px;
   user-select: none;
   touch-action: none;
   cursor: pointer;
-  transition: transform .4s cubic-bezier(.48,.01,.36,1.26);
+  transition: transform .05s cubic-bezier(.48,.01,.36,1.26);
 ;
 
   &:hover {
