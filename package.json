@@ -11,8 +11,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext .js",
     "prettier": "prettier **/*.js",
-    "format": "npm run prettier -- --write",
-
+    "format": "npm run prettier -- --write"
   },
   "husky": {
     "hooks": {
