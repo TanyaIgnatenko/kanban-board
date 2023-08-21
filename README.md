@@ -8,3 +8,5 @@ Technologies used: React, React hooks, Redux, JavaScript, HTML, SCSS
 - Implemented a convenient and flexible architecture
 - Added ability to a draggable object to scroll a scrollable droppable container while being dragged
 - Added support for mobile devices and tablets
+
+![App demo](src/assets/images/demo.png)
