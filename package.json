@@ -12,17 +12,22 @@
     "lint": "eslint ./src --ext .js",
     "prettier": "prettier **/*.js",
     "format": "npm run prettier -- --write",
-    "precommit": "lint-staged"
+
+  },
+  "husky": {
+    "hooks": {
+      "precommit": "lint-staged"
+    }
   },
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash": "^4.17.21",
-    "node-sass": "4.12.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
     "react-scripts": "^2.1.3",
-    "redux-saga": "^1.0.2"
+    "redux-saga": "^1.0.2",
+    "sass": "^1.66.1"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^17.1.0",

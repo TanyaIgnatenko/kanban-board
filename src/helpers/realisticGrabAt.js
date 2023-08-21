@@ -22,4 +22,4 @@ function realisticGrabAt(grabPoint, dimensions) {
   };
 }
 
-export { realisticGrabAt };
+export default realisticGrabAt;

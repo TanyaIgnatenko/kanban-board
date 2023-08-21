@@ -7,4 +7,4 @@ function grabAt() {
   };
 }
 
-export { grabAt };
+export default grabAt;
