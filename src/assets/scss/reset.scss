@@ -19,7 +19,6 @@ time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
-  font: inherit;
   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -31,7 +30,7 @@ body {
   line-height: 1;
 }
 ol, ul {
-  list-style: none;
+  list-style-type: none;
 }
 blockquote, q {
   quotes: none;
