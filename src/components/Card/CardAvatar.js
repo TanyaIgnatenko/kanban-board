@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { moveTo } from '../../helpers/moveTo';
-import grabAt from '../../helpers/realisticGrabAt';
+import grabAt from '../../helpers/grabAt';
 
 function CardAvatar({
   id,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Card } from '../Card';
 import { moveTo } from '../../helpers/moveTo';
-import grabAt from '../../helpers/realisticGrabAt';
+import grabAt from '../../helpers/grabAt';
 
 function CardListAvatar({
   id,
