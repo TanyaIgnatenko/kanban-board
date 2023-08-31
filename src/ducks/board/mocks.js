@@ -6,11 +6,6 @@ export const mockBoard = {
     text: 'Project "Kanban board"',
     color: 'white',
   },
-  background: {
-    type: 'img',
-    url:
-      'https://images.unsplash.com/photo-1508625935447-e0ebc2cdf6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2835&q=80',
-  },
   lists: [
     {
       id: (id++).toString(),

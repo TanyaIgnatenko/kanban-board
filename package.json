@@ -28,6 +28,8 @@
     "redux-saga": "^1.0.2"
   },
   "devDependencies": {
+    "node-sass": "^6.0.0",
+    "sass-loader": "^11.1.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.1.0",
@@ -50,9 +52,6 @@
     "sass-loader": "^10.2.0",
     "webpack": "^4.46.0"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -64,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   }
 }

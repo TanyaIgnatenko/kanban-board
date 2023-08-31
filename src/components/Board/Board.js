@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import { CardList } from '../CardList';
 import { AddComponent } from '../AddComponent';
-import { useBoardStyle } from './hooks/useBoardStyle';
 import { selectBoard } from '../../ducks/board/selectors';
 import { addListRequest, fetchBoardRequest } from '../../ducks/board/actions';
 import { useUncontrollableProps } from '../../hooks/uncontrollable';
@@ -20,9 +19,7 @@ import {
 
 import './Board.scss';
 
-function Board({ id, background, name, lists, addList }) {
-  const boardStyle = useBoardStyle(background);
-
+function Board({ id, name, lists, addList }) {
   const acceptedTypes = useMemo(() => [DRAGGABLE_TYPE.LIST], []);
   const { setItemRefAt, listItems, droppableClassName } = useDroppableList({
     id,
@@ -56,7 +53,6 @@ function Board({ id, background, name, lists, addList }) {
     <div
       id={id}
       className={classNames('board', droppableClassName)}
-      style={boardStyle}
       onPointerDown={onScrollablePointerDown}
     >
       <h1 className='board-title' style={{ color: name.color }}>

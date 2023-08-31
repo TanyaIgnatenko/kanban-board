@@ -29,6 +29,9 @@ $add-list-form-top-margin: 12px;
   height: 100vh;
   padding: $board-padding-top $board-padding-right $scrollbar-padding-bottom $board-padding-left;
 
+  background: url('https://images.unsplash.com/photo-1508625935447-e0ebc2cdf6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2835&q=80') no-repeat;
+  background-size: cover;
+
   touch-action: none;
 
   .board-title {
