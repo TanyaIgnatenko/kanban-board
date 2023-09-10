@@ -4,9 +4,6 @@
 
 Technologies used: React, React hooks, Redux, JavaScript, HTML, SCSS
 
-- Built a Kanban board with the ability to move cards and lists within a board using drag and drop
-- Implemented a convenient and flexible architecture
-- Added ability to a draggable object to scroll a scrollable droppable container while being dragged
-- Added support for mobile devices and tablets
+Developed a Kanban board with the ability to create lists and list cards, move cards and lists within a board using drag and drop. Drag and drop logic was implemented without using external dependencies.
 
 ![App demo](src/assets/images/demo.png)
