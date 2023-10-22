@@ -9,7 +9,7 @@ Developed a Kanban board with the ability to create lists and list cards, move c
 
 ## Features
  * Implementation of Drag n Drop logic (convinient Hooks API for React components)
- * Minimum dependencies
+ * Minimum number of dependencies
  * Efficient algorithm for finding the placeholder location of a draggable item
  * Droppable containers can be scrolled by draggable items
  * Support for mobile devices and tablets
