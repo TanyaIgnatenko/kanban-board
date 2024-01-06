@@ -1,7 +1,7 @@
 {
   "name": "kanban-board",
   "version": "0.1.0",
-  "homepage": "https://tanyaignatenko.github.io/kanban-board/",
+  "homepage": "https://tanyaignatenko.github.io/Kanban-Board/",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
