@@ -1,7 +1,7 @@
 # Kanban board [Frontend]
 This was a project in which there was a limitation to implement the Kanban Board without using external dependencies.
 
-**Demo: https://tanyaignatenko.github.io/kanban-board/**
+**Demo: https://tanyaignatenko.github.io/Kanban-Board/**
 
 Technologies used: React, React hooks, Redux, JavaScript, HTML, SCSS
 
