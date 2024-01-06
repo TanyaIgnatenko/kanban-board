@@ -1,12 +1,13 @@
 {
   "name": "kanban-board",
   "version": "0.1.0",
-  "homepage": "https://tanyaignatenko.github.io/Kanban-Board/",
+  "homepage": "https://tanyaignatenko.github.io/kanban-board/",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
+    "predeploy": "npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext .js",
