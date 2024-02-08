@@ -1,6 +1,6 @@
 # Kanban board
 
-The goal of the project was to create a Kanban board with a clean maintainable architecture and with a custom Drag'n'Drop system without using external dependencies.
+The goal of the project was to create a Kanban board with a clean maintainable architecture and with a Drag'n'Drop system without using external dependencies.
 
 **Demo: https://tanyaignatenko.github.io/kanban-board/**
 
